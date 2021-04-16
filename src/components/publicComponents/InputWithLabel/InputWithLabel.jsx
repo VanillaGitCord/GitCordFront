@@ -27,7 +27,13 @@ const InputWithLabelStyle = styled.div`
   }
 `;
 
-function InputWithLabel({ width = "100%", height = "100%", labelContent, placeholder, onChange }) {
+function InputWithLabel({
+  width = "100%",
+  height = "100%",
+  labelContent,
+  placeholder,
+  onChange
+}) {
   return (
     <InputWithLabelStyle width={width} height={height}>
       <label className="inputLabel">{labelContent}</label>
