@@ -6,7 +6,6 @@ import mainImage from "../../../assets/images/mainIcon.png";
 const MainIconWrapper = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  opacity: 1;
 
   img {
     width: 100%;
