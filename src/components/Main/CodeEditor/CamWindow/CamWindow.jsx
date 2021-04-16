@@ -22,9 +22,9 @@ const CamWindowContainer = styled.div`
 function CamWindow() {
   return (
     <CamWindowContainer>
-      <div className="CamWindow">
+      <div>
         <MainIcon width="80%" height="80%" />
-        <MdVideocam className="cam-image" />
+        <MdVideocam className="camwindow-image" />
       </div>
     </CamWindowContainer>
   );

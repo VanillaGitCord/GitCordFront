@@ -12,13 +12,13 @@ const UserListContainer = styled.div`
   border-radius: 10px;
   text-align: center;
 
-  .user-list-title {
+  .userlist-title {
     width: 100%;
     height: 10%;
     border-bottom: 1px solid #C9D3DD;
   }
 
-  .user-list {
+  .userlist-participants {
     width: 100%;
     height: 80%;
   }
@@ -27,10 +27,10 @@ const UserListContainer = styled.div`
 function UserList() {
   return (
     <UserListContainer>
-      <article className="user-list-title">
+      <article className="userlist-title">
         Users
       </article>
-      <article className="user-list">
+      <article className="userlist-participants">
         User List
       </article>
       <UserToolbar />
