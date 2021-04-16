@@ -1,10 +1,17 @@
-import "./App.css";
+import { Route, Switch } from "react-router";
+
+import Login from "./Login/Login";
 
 function App() {
   return (
-    <div className="App">
-      GitCordfront
-    </div>
+    <Switch>
+      <Route exact path="/" />
+      <Route path="/login" component={Login} />
+      <Route path="/signUp" />
+      <Route path="/main" />
+      <Route path="/error" />
+      <Route path="*" />
+    </Switch>
   );
 }
 
