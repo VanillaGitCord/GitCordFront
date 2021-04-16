@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ChatInputContainer = styled.div`
   width: 100%;
   height: 10%;
-  padding-top: 10px;
+  padding-top: 1em;
   border-top: 1px solid #FFEEF4;
 `;
 

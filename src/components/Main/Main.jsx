@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
-import MainSidebar from "./UserList/UserList";
+import UserList from "./UserList/UserList";
+import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
 
 const MainOuter = styled.div`
@@ -22,7 +23,8 @@ function Main() {
     <MainOuter>
       <MainNavbar />
       <MainContainer>
-        <MainSidebar />
+        <UserList />
+        <CodeEditor />
         <Chat />
       </MainContainer>
     </MainOuter>

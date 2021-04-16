@@ -6,7 +6,7 @@ import ChatInput from "./ChatInput/ChatInput";
 const ChatContainer = styled.div`
   width: 18%;
   height: 80%;
-  margin: 2%;
+  margin: 1em;
   background-color: #ffffff;
   border: 2px solid #C9D3DD;
   border-radius: 10px;
