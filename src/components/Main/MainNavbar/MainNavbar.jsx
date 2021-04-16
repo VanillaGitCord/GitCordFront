@@ -4,7 +4,7 @@ import { GiExitDoor } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
 
-import MainIcon from "../../publicComponents/MainImage/MainImage";
+import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 
 const MainNavbarContainer = styled.div`
   display: flex;

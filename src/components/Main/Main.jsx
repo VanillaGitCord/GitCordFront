@@ -1,6 +1,8 @@
 import React from "react";
-import MainNavbar from "./MainNavbar/MainNavbar";
 import styled from "styled-components";
+
+import MainNavbar from "./MainNavbar/MainNavbar";
+import MainSidebar from "./UserList/UserList";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -12,6 +14,7 @@ function Main() {
   return (
     <MainContainer>
       <MainNavbar />
+      <MainSidebar />
     </MainContainer>
   );
 }
