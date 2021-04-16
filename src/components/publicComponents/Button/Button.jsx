@@ -20,6 +20,10 @@ const ButtonStyle = styled.div`
     font-weight: bold;
     box-shadow: 0px 0px 1px gray;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 `;
 

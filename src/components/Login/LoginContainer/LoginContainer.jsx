@@ -36,6 +36,10 @@ const LoginContainerStyle = styled.div`
     color: white;
     font-weight: bold;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 `;
 
