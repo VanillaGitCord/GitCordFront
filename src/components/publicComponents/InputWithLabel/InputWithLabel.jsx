@@ -21,17 +21,22 @@ const InputWithLabelStyle = styled.div`
 
   .textInput {
     width: 97%;
-    height: 90%;
+    height: 35px;
     border: 3px solid #C9D3DD;
     border-radius: 5px;
   }
 `;
 
-function InputWithLabel({ width = "100%", height = "100%", labelContent, placeholder }) {
+function InputWithLabel({ width = "100%", height = "100%", labelContent, placeholder, onChange }) {
   return (
     <InputWithLabelStyle width={width} height={height}>
       <label className="inputLabel">{labelContent}</label>
-      <input type="text" className="textInput" placeholder={placeholder}/>
+      <input
+        type="text"
+        className="textInput"
+        placeholder={placeholder}
+        onChange={onChange}
+      />
     </InputWithLabelStyle>
   );
 }

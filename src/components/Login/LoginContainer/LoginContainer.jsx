@@ -7,7 +7,7 @@ import Button from "../../publicComponents/Button/Button";
 const LoginContainerStyle = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   width: 40vw;
   height: 60vh;
@@ -23,13 +23,19 @@ const LoginContainerStyle = styled.div`
     font-weight: bold;
   }
 
-  .login-inputs {
+  .login-contents {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     width: 60%;
-    height: 30%;
+    height: 70%;
+  }
+
+  .login-signup {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
   }
 `;
 
@@ -37,23 +43,31 @@ function LoginContainer() {
   return (
     <LoginContainerStyle>
       <div className="login-title">Login</div>
-      <div className="login-inputs">
+      <div className="login-contents">
         <InputWithLabel
           labelContent={"Email"}
           placeholder={"Type email here"}
-          height="45%"
+          height="20%"
         />
         <InputWithLabel
           labelContent={"Password"}
           placeholder={"Type password"}
-          height="45%"
+          height="20%"
         />
+        <Button
+          content="LOGIN"
+          width="40%"
+          height="10%"
+        />
+        <Button
+          content="GOOGLE LOGIN"
+          width="40%"
+          height="10%"
+          backgroundColor="#0C59CF"
+          color="white"
+        />
+        <a className="login-signup">Sign up</a>
       </div>
-      <div className="login-buttons">
-        <Button />
-        <Button />
-      </div>
-      <a className="login-signup">Sign up</a>
     </LoginContainerStyle>
   );
 }
