@@ -18,10 +18,8 @@ function Login() {
   return (
     <Background>
       <LoginOutter>
-        <WelcomeHeader>
-        </WelcomeHeader>
-        <LoginContainer>
-        </LoginContainer>
+        <WelcomeHeader />
+        <LoginContainer />
       </LoginOutter>
     </Background>
   );
