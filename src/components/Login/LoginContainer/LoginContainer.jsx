@@ -49,13 +49,13 @@ function LoginContainer() {
       <div className="login-title">Login</div>
       <div className="login-contents">
         <InputWithLabel
-          labelContent={"Email"}
-          placeholder={"Type email here"}
+          labelContent="Email"
+          placeholder="Type email here"
           height="20%"
         />
         <InputWithLabel
-          labelContent={"Password"}
-          placeholder={"Type password"}
+          labelContent="Password"
+          placeholder="Type password"
           height="20%"
         />
         <Button

@@ -24,7 +24,7 @@ function ChannelListContainer() {
       <Channel />
       <Channel />
     </ChannelListContainerStyle>
-  )
+  );
 }
 
 export default ChannelListContainer;

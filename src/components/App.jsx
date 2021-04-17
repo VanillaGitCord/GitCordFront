@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 
-import ChannelList from "./ChannelList/ChannelList"
+import ChannelList from "./ChannelList/ChannelList";
 import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Main from "../components/Main/Main";
