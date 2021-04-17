@@ -39,18 +39,18 @@ function SignUpContainer() {
       <div className="signup-title">Sign Up</div>
       <div className="signup-inputs">
         <InputWithLabel
-          labelContent={"Email"}
-          placeholder={"Type email here"}
+          labelContent="Email"
+          placeholder="Type email here"
           height="20%"
         />
         <InputWithLabel
-          labelContent={"Email"}
-          placeholder={"Type email here"}
+          labelContent="Email"
+          placeholder="Type email here"
           height="20%"
         />
         <InputWithLabel
-          labelContent={"Email"}
-          placeholder={"Type email here"}
+          labelContent="Email"
+          placeholder="Type email here"
           height="20%"
         />
         <Button
