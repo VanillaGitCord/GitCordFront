@@ -8,10 +8,15 @@ import LoginContainer from "./LoginContainer/LoginContainer";
 const LoginOutter = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   width: 100vw;
   height: 100vh;
+
+  .login-buffer {
+    width: 100%;
+    height: 15%;
+  }
 `;
 
 function Login() {
@@ -19,6 +24,7 @@ function Login() {
     <Background>
       <LoginOutter>
         <WelcomeHeader />
+        <div className="login-buffer" />
         <LoginContainer />
       </LoginOutter>
     </Background>
