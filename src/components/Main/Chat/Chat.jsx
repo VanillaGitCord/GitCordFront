@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import ChatInput from "./ChatInput/ChatInput";
@@ -25,6 +25,14 @@ const ChatContainer = styled.div`
 `;
 
 function Chat() {
+  const [chat, setChat] = useState("");
+
+  function handleChangeChat(event) {
+    const { value } = event.target;
+
+    setChat(value);
+  }
+
   return (
     <ChatContainer>
       <article className="chat-title">
@@ -33,7 +41,10 @@ function Chat() {
       <article className="chat-log">
         Chat log
       </article>
-      <ChatInput />
+      <ChatInput
+        chat={chat}
+        handleChangeChat={handleChangeChat}
+      />
     </ChatContainer>
   );
 }
