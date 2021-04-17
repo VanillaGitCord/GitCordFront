@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import io from "socket.io-client";
 
 import ChatInput from "./ChatInput/ChatInput";
 
@@ -24,13 +25,36 @@ const ChatContainer = styled.div`
   }
 `;
 
+const socket = io.connect(process.env.REACT_APP_SERVER_URL);
+
 function Chat() {
   const [chat, setChat] = useState("");
+  const [chatLogs, setChatLogs] = useState([]);
+
+  useEffect(() => {
+    socket.on("receive chat", (chatLog) => {
+      setChatLogs(chatLog);
+    });
+  });
 
   function handleChangeChat(event) {
     const { value } = event.target;
 
     setChat(value);
+  }
+
+  function handleSubmitChat(event) {
+    event.preventDefault();
+
+    socket.emit("send chat", chat);
+  }
+
+  function renderChatLogs() {
+    return chatLogs.map((chatLog, index) => (
+      <div key={index}>
+        {chatLog}
+      </div>
+    ));
   }
 
   return (
@@ -39,11 +63,12 @@ function Chat() {
         Chat
       </article>
       <article className="chat-log">
-        Chat log
+        {renderChatLogs()}
       </article>
       <ChatInput
         chat={chat}
         handleChangeChat={handleChangeChat}
+        handleSubmitChat={handleSubmitChat}
       />
     </ChatContainer>
   );

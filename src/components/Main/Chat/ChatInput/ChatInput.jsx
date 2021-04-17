@@ -8,16 +8,22 @@ const ChatInputContainer = styled.div`
   border-top: 1px solid #FFEEF4;
 `;
 
-function ChatInput({ chat, handleChangeChat }) {
+function ChatInput({
+  chat,
+  handleChangeChat,
+  handleSubmitChat
+}) {
   return (
     <ChatInputContainer>
-      <input
-        type="text"
-        placeholder="chat.."
-        value={chat}
-        onChange={handleChangeChat}
-      />
-      <button>채팅 입력</button>
+      <form onSubmit={handleSubmitChat}>
+        <input
+          type="text"
+          placeholder="chat.."
+          value={chat}
+          onChange={handleChangeChat}
+        />
+        <button>채팅 입력</button>
+      </form>
     </ChatInputContainer>
   );
 }
