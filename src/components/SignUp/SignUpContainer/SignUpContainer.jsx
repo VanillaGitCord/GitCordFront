@@ -57,6 +57,14 @@ const SignUpContainerStyle = styled.div`
   }
 `;
 
+function isEmailValidate(email) {
+  return email.match(/\w+@\w+.\w+/g);
+}
+
+function isPasswordValidate(password) {
+  password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g)
+}
+
 function SignUpContainer() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -81,11 +89,11 @@ function SignUpContainer() {
   async function handleButtonClick() {
     if (!email) return setEmailError("E-mail을 입력해주세요!");
 
-    if (!email.match(/\w+@\w+.\w+/g)) return setEmailError("E-mail 형식을 맞춰주세요! ex) 123@asd.com");
+    if (!isEmailValidate(email)) return setEmailError("E-mail 형식을 맞춰주세요! ex) 123@asd.com");
 
     if (!password) return setPasswordError("Password를 입력해주세요!");
 
-    if (!password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g)) return setPasswordError("4~16자 영소문자, 숫자, 특수문자 필수!");
+    if (!isPasswordValidate(password)) return setPasswordError("4~16자 영소문자, 숫자, 특수문자 필수!");
 
     if (!name) return setNameError("Name을 입력해주세요!");
 
