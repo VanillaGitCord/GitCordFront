@@ -124,6 +124,7 @@ function SignUpContainer() {
             placeholder="Type email here"
             height="90%"
             onChange={handleEmailChange}
+            value={email}
           />
           <div className="error">
             {emailError}
@@ -136,6 +137,7 @@ function SignUpContainer() {
             height="90%"
             onChange={handlePasswordChange}
             type="password"
+            value={password}
           />
           <div className="error">
             {passwordError}
@@ -147,6 +149,7 @@ function SignUpContainer() {
             placeholder="Type Name here"
             height="90%"
             onChange={handleNameChange}
+            value={name}
           />
           <div className="error">
             {nameError}

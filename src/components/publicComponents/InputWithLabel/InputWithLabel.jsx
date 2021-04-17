@@ -33,7 +33,8 @@ function InputWithLabel({
   labelContent,
   placeholder,
   onChange,
-  type
+  type,
+  value
 }) {
   return (
     <InputWithLabelStyle width={width} height={height}>
@@ -43,6 +44,7 @@ function InputWithLabel({
         className="textInput"
         placeholder={placeholder}
         onChange={onChange}
+        value={value}
       />
     </InputWithLabelStyle>
   );
