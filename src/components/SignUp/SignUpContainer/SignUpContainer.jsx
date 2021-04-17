@@ -57,11 +57,11 @@ const SignUpContainerStyle = styled.div`
 
 function SignUpContainer() {
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("email");
+  const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("asadf");
+  const [passwordError, setPasswordError] = useState("");
   const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("asdf");
+  const [nameError, setNameError] = useState("");
   const [isError, setIsError] = useState(false);
 
   function handleEmailChange(event) {
@@ -83,7 +83,9 @@ function SignUpContainer() {
 
     if (!password) return setPasswordError("Password를 입력해주세요!");
 
-    if (!password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g)) return setPassword("비밀번호는 4~16자로 영소문자, 숫자, 특수문자를 포함해주세요!");
+    console.log(!password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g));
+
+    if (!password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g)) return setPasswordError("4~16자 영소문자, 숫자, 특수문자 필수!");
 
     if (!name) return setNameError("Name을 입력해주세요!");
 
@@ -93,6 +95,8 @@ function SignUpContainer() {
       name
     };
 
+    console.log(newUser);
+
     try {
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user`, {
         method: "POST",
@@ -101,6 +105,8 @@ function SignUpContainer() {
         },
         body: JSON.stringify(newUser)
       });
+
+      console.log(response);
 
       if (response.message) throw new Error(response.message);
     } catch (err) {
@@ -129,6 +135,7 @@ function SignUpContainer() {
             placeholder="Type Password here"
             height="90%"
             onChange={handlePasswordChange}
+            type="password"
           />
           <div className="error">
             {passwordError}

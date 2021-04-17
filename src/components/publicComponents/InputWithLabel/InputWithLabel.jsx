@@ -32,13 +32,14 @@ function InputWithLabel({
   height = "100%",
   labelContent,
   placeholder,
-  onChange
+  onChange,
+  type
 }) {
   return (
     <InputWithLabelStyle width={width} height={height}>
       <label className="inputLabel">{labelContent}</label>
       <input
-        type="text"
+        type={type}
         className="textInput"
         placeholder={placeholder}
         onChange={onChange}
