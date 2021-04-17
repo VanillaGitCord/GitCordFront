@@ -62,7 +62,7 @@ function isEmailValidate(email) {
 }
 
 function isPasswordValidate(password) {
-  password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g)
+  return password.match(/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,16}$/g);
 }
 
 function SignUpContainer() {
