@@ -10,17 +10,17 @@ const ChatInputContainer = styled.div`
 
 function ChatInput({
   chat,
-  handleChangeChat,
-  handleSubmitChat
+  handleChatChange,
+  handleChatSubmit
 }) {
   return (
     <ChatInputContainer>
-      <form onSubmit={handleSubmitChat}>
+      <form onSubmit={handleChatSubmit}>
         <input
           type="text"
           placeholder="chat.."
           value={chat}
-          onChange={handleChangeChat}
+          onChange={handleChatChange}
         />
         <button>채팅 입력</button>
       </form>
