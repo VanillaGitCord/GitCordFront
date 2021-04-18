@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
@@ -19,6 +21,11 @@ const MainContainer = styled.div`
 `;
 
 function Main() {
+  const roomId = useSelector((state) => state.roomReducer.roomId);
+  const currentUser = useSelector((state) => state.userReducer.user);
+
+  if (!currentUser.email) return <Redirect to="/login" />
+  if (!roomId) return <Redirect to="/" />
   return (
     <MainOuter>
       <MainNavbar />

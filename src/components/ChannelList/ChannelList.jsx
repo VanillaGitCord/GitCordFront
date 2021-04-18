@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
@@ -39,7 +40,12 @@ function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
   const dispatch = useDispatch();
-  const roomId = useSelector((state) => state.roomReducer.roomId);
+  const { roomId, isError } = useSelector((state) => state.roomReducer);
+  const currentUser = useSelector((state) => state.userReducer.user);
+
+  if (isError) return <Redirect to="/error" />
+  if (!currentUser.email) return <Redirect to="/login" />
+  if (roomId) return <Redirect to="/main" />
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -50,12 +56,13 @@ function ChannelList() {
   }
 
   async function handleCreateRoomClick() {
-    const newRoomInfo = {
-      roomTitle: createRoomTitle,
-      userEmail: "takhyun@naver.com"
+    const payload = {
+      accessToken: localStorage.getItem("access"),
+      refreshToken: localStorage.getItem("refresh"),
+      roomTitle: createRoomTitle
     };
 
-    dispatch(createRoom(newRoomInfo));
+    dispatch(createRoom(payload));
   }
 
   return (
