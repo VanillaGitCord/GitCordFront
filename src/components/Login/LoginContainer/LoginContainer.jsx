@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { putLogin } from "../../../api/userApi";
+import { addUser } from "../../../actions/userActions";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -73,6 +75,7 @@ function LoginContainer() {
   const [passwordError, setPasswordError] = useState("");
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -109,6 +112,11 @@ function LoginContainer() {
 
       localStorage.setItem("access", response.accessToken);
       localStorage.setItem("refresh", response.refreshToken);
+
+      dispatch(addUser({
+        email: response.email,
+        name: response.name
+      }));
 
       setIsLoginSuccess(true);
     } catch (err) {

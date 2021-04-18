@@ -1,4 +1,4 @@
-import { CREATE_ROOM } from "../constants/roomActionTypes";
+import { CREATE_ROOM } from "../constants/actionTypes";
 
 const initialState = {
   roomId: ""

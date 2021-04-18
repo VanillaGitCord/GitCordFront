@@ -1,15 +1,17 @@
 import produce from "immer";
 
-import { ADD_USER } from "../constants/userActionTypes";
+import { ADD_USER } from "../constants/actionTypes";
 
 const initialState = {
-  roomId: ""
+  user: ""
 };
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_USER:
-      return;
+      return produce(state, draft => {
+        draft.user = action.payload;
+      });
     default:
       return state;
   }
