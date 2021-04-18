@@ -18,11 +18,20 @@ function createRoomFailure() {
   };
 }
 
-export function createRoom(roomInfo) {
+export function createRoom(payload) {
   return async (dispatch) => {
     try {
-      const response = await getNewRoomId(roomInfo);
-      const { roomId, message } = response;
+      const response = await getNewRoomId(payload);
+      const {
+        roomId,
+        message,
+        accessToken
+      } = response;
+
+      if (accessToken) {
+        localStorage.removeItem("access");
+        localStorage.setItem("access", accessToken);
+      }
 
       if (message) return dispatch(createRoomFailure());
 
