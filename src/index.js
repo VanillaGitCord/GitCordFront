@@ -11,14 +11,14 @@ import {
 } from "react-router-dom";
 import "./index.css";
 
-import reducer from "./reducers";
+import rootReducer from "./reducers";
 
 import App from "./components/App";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(
       sagaMiddleware,

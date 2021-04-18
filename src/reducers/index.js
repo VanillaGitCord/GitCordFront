@@ -1,15 +1,11 @@
-import produce from "immer";
+import { combineReducers } from "redux";
 
-const initialState = {
-  user: "",
-  counter: 0
-};
+import roomReducer from "./roomReducer";
+import userReducer from "./userReducer";
 
-function reducer(state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
+const rootReducer = combineReducers({
+  roomReducer,
+  userReducer
+});
 
-export default reducer;
+export default rootReducer;
