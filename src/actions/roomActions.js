@@ -1,6 +1,7 @@
 import {
   CREATE_ROOM_SUCCESS,
-  CREATE_ROOM_FAILURE
+  CREATE_ROOM_FAILURE,
+  DELETE_ROOM
 } from "../constants/actionTypes";
 
 import { getNewRoomId } from "../api/roomApi";
@@ -40,5 +41,11 @@ export function createRoom(payload) {
       console.error(err);
       dispatch(createRoomFailure());
     }
+  };
+}
+
+export function deleteRoom() {
+  return {
+    type: DELETE_ROOM
   };
 }
