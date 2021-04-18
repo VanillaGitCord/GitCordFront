@@ -38,7 +38,6 @@ const ChannelListOutter = styled.div`
 function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-
   const dispatch = useDispatch();
   const roomId = useSelector((state) => state.roomReducer.roomId);
 

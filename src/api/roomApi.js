@@ -1,5 +1,5 @@
 export async function getNewRoomId(newRoomInfo) {
-  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/room/newRoom`, {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/room`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
