@@ -16,26 +16,35 @@ const ChatContainer = styled.div`
   border-radius: 10px;
   text-align: center;
 
-  .chat-title {
-    width: 100%;
-    height: 10%;
-    border-bottom: 1px solid #C9D3DD;
-  }
-
   .chat-log {
-    width: 100%;
-    height: 80%;
-  }
-
-  .main-icon {
-    margin: 5px;
-  }
-
-  .chatlog {
     display: flex;
     justify-content: center;
     margin: 10px;
     font-size: 13px;
+  }
+
+  .chat-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 10%;
+    line-height: 10%;
+    margin: 0.5em;
+    margin-left: 0.6em;
+    border-bottom: 2px solid #C9D3DD;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .chat-area {
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+  }
+
+  .main-icon {
+    margin: 0.5em;
   }
 `;
 
@@ -85,7 +94,7 @@ function Chat() {
       const { chatTime, username, userChat } = chatLog;
 
       return (
-        <article className="chatlog" key={chatTime}>
+        <article className="chat-log" key={chatTime}>
           <div className="main-icon">
             <MainIcon width="20px" height="20px" />
           </div>
@@ -104,7 +113,7 @@ function Chat() {
       <article className="chat-title">
         Chat
       </article>
-      <article className="chat-log">
+      <article className="chat-area">
         {renderChatLogs()}
       </article>
       <ChatInput
