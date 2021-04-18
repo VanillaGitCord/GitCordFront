@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { GoogleLogin } from "react-google-login";
 
-import { putLogin } from "../../../api/userApi";
+import { postGoogleLogin, putLogin } from "../../../api/userApi";
+import { addUser } from "../../../actions/userActions";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -73,6 +76,7 @@ function LoginContainer() {
   const [passwordError, setPasswordError] = useState("");
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const dispatch = useDispatch();
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -109,6 +113,28 @@ function LoginContainer() {
 
       localStorage.setItem("access", response.accessToken);
       localStorage.setItem("refresh", response.refreshToken);
+
+      dispatch(addUser({
+        email: response.email,
+        name: response.name
+      }));
+
+      setIsLoginSuccess(true);
+    } catch (err) {
+      setIsError(true);
+    }
+  }
+
+  async function handleGoogleLoginClick(googleUserInfo) {
+    const { profileObj } = googleUserInfo;
+
+    try {
+      const response = await postGoogleLogin(profileObj);
+
+      dispatch(addUser({
+        email: response.email,
+        name: response.name
+      }));
 
       setIsLoginSuccess(true);
     } catch (err) {
@@ -149,13 +175,13 @@ function LoginContainer() {
           height="10%"
           onClick={handleLoginClick}
         />
-        <Button
-          content="GOOGLE LOGIN"
-          width="40%"
-          height="10%"
-          backgroundColor="#0C59CF"
-          color="white"
-        />
+        <div>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="GOOGLE LOGIN"
+            onSuccess={handleGoogleLoginClick}
+          />
+        </div>
         <a className="login-signup" href="/signup">Sign up</a>
       </section>
       { isLoginSuccess && <Redirect to="/" /> }
