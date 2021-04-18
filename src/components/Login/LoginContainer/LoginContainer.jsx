@@ -131,8 +131,6 @@ function LoginContainer() {
     try {
       const response = await postGoogleLogin(profileObj);
 
-      console.log(response);
-
       dispatch(addUser({
         email: response.email,
         name: response.name
