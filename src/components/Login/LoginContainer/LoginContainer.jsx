@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
 
+import { putLogin } from "../../../api/userApi";
+
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
 
@@ -69,6 +71,7 @@ function LoginContainer() {
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   function handleEmailChange(event) {
@@ -92,16 +95,22 @@ function LoginContainer() {
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        mode: "cors",
-        body: JSON.stringify(loginInfo)
-      });
+      const response = await putLogin(loginInfo);
 
-      if (response.message) throw new Error(response.message);
+      if (response.caused) {
+        if (response.caused === "email") return setEmailError(response.message);
+        if (response.caused === "password") return setPasswordError(response.message);
+      }
+
+      if (response.status >= 400) throw new Error(response.message);
+
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
+
+      localStorage.setItem("access", response.accessToken);
+      localStorage.setItem("refresh", response.refreshToken);
+
+      setIsLoginSuccess(true);
     } catch (err) {
       setIsError(true);
     }
@@ -149,6 +158,7 @@ function LoginContainer() {
         />
         <a className="login-signup" href="/signup">Sign up</a>
       </section>
+      { isLoginSuccess && <Redirect to="/" /> }
       { isError && <Redirect to="/error" /> }
     </LoginContainerStyle>
   );
