@@ -1,4 +1,6 @@
 export const CREATE_ROOM_SUCCESS = "CREATE_ROOM_SUCCESS";
 export const CREATE_ROOM_FAILURE = "CREATE_ROOM_FAILURE";
+export const DELETE_ROOM = "DELETE_ROOM";
 
 export const ADD_USER = "ADD_USER";
+export const DELETE_USER = "DELETE_USER";
