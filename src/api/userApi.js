@@ -22,3 +22,16 @@ export async function putLogin(loginInfo) {
 
   return await response.json();
 }
+
+export async function postGoogleLogin(profileObj) {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/google`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    mode: "cors",
+    body: JSON.stringify(profileObj)
+  });
+
+  return await response.json();
+}

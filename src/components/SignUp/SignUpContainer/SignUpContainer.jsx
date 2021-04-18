@@ -72,6 +72,7 @@ function SignUpContainer() {
   const [passwordError, setPasswordError] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
+  const [isJoinSuccess, setIsJoinSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   function handleEmailChange(event) {
@@ -106,7 +107,11 @@ function SignUpContainer() {
     try {
       const response = await sendNewUser(newUser);
 
-      if (response.message) throw new Error(response.message);
+      if (response.staus >= 400) throw new Error(response.message);
+
+      if (response.message) return setEmailError(response.message);
+
+      setIsJoinSuccess(true);
     } catch (err) {
       setIsError(true);
     }
@@ -160,6 +165,7 @@ function SignUpContainer() {
           onClick={handleButtonClick}
         />
       </section>
+      { isJoinSuccess && <Redirect to="/login" /> }
       { isError && <Redirect to="/error" /> }
     </SignUpContainerStyle>
   );

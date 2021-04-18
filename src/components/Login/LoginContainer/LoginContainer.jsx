@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { GoogleLogin } from "react-google-login";
 
-import { putLogin } from "../../../api/userApi";
+import { postGoogleLogin, putLogin } from "../../../api/userApi";
 import { addUser } from "../../../actions/userActions";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
@@ -124,6 +125,25 @@ function LoginContainer() {
     }
   }
 
+  async function handleGoogleLoginClick(googleUserInfo) {
+    const { profileObj } = googleUserInfo;
+
+    try {
+      const response = await postGoogleLogin(profileObj);
+
+      console.log(response);
+
+      dispatch(addUser({
+        email: response.email,
+        name: response.name
+      }));
+
+      setIsLoginSuccess(true);
+    } catch (err) {
+      setIsError(true);
+    }
+  }
+
   return (
     <LoginContainerStyle>
       <div className="login-title">Login</div>
@@ -157,13 +177,13 @@ function LoginContainer() {
           height="10%"
           onClick={handleLoginClick}
         />
-        <Button
-          content="GOOGLE LOGIN"
-          width="40%"
-          height="10%"
-          backgroundColor="#0C59CF"
-          color="white"
-        />
+        <div>
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="GOOGLE LOGIN"
+            onSuccess={handleGoogleLoginClick}
+          />
+        </div>
         <a className="login-signup" href="/signup">Sign up</a>
       </section>
       { isLoginSuccess && <Redirect to="/" /> }
