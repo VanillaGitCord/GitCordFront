@@ -43,9 +43,9 @@ function ChannelList() {
   const { roomId, isError } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
 
-  if (isError) return <Redirect to="/error" />
-  if (!currentUser.email) return <Redirect to="/login" />
-  if (roomId) return <Redirect to="/main" />
+  if (isError) return <Redirect to="/error" />;
+  if (!currentUser.email) return <Redirect to="/login" />;
+  if (roomId) return <Redirect to="/main" />;
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
