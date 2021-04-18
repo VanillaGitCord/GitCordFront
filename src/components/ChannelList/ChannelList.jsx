@@ -40,12 +40,21 @@ function ChannelList() {
         <div className="channlelist-enterroominput">
           <InputWithLabel
             labelContent="Enter room"
-            placeholder="room ID..."
-            width= "80%"
+            placeholder="room ID"
+            width= "40%"
             height="60%"
           />
           <div className="channlelist-enterroominput-icon">
-            <FaDoorOpen size={60} />
+            <FaDoorOpen size={50} />
+          </div>
+          <InputWithLabel
+            labelContent="Create room"
+            placeholder="room title"
+            width= "40%"
+            height="60%"
+          />
+          <div className="channlelist-enterroominput-icon">
+            <FaDoorOpen size={50} />
           </div>
         </div>
         <ChannelListContainer />
