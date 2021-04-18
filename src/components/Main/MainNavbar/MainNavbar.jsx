@@ -45,6 +45,7 @@ function MainNavbar() {
     localStorage.removeItem("refresh");
     dispatch(deleteUser());
     dispatch(deleteRoom());
+
     return <Redirect to="/login" />;
   }
 
