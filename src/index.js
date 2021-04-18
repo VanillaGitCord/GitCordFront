@@ -3,8 +3,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createLogger } from "redux-logger";
-import createSagaMiddleware from "redux-saga";
-import rootSaga from "./saga";
+import thunk from "redux-thunk";
 import ReactDOM from "react-dom";
 import {
   BrowserRouter as Router,
@@ -15,19 +14,17 @@ import rootReducer from "./reducers";
 
 import App from "./components/App";
 
-const sagaMiddleware = createSagaMiddleware();
+const middlewares = [thunk];
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
-      sagaMiddleware,
+      ...middlewares,
       createLogger()
     )
   )
 );
-
-sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>

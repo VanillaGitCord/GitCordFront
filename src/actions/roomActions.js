@@ -1,24 +1,35 @@
 import {
-  CREATE_ROOM,
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAILURE
 } from "../constants/actionTypes";
 
-export function createRoom() {
-  return {
-    type: CREATE_ROOM
-  };
-}
+import { getNewRoomId } from "../api/roomApi";
 
-export function createRoomSuccess(roomId) {
+function createRoomSuccess(roomId) {
   return {
     type: CREATE_ROOM_SUCCESS,
     payload: roomId
   };
 }
 
-export function createRoomFailure() {
+function createRoomFailure() {
   return {
     type: CREATE_ROOM_FAILURE
+  };
+}
+
+export function createRoom(roomInfo) {
+  return async (dispatch) => {
+    try {
+      const response = await getNewRoomId(roomInfo);
+      const { roomId, message } = response;
+
+      if (message) return dispatch(createRoomFailure());
+
+      dispatch(createRoomSuccess(roomId));
+    } catch (err) {
+      console.error(err);
+      dispatch(createRoomFailure());
+    }
   };
 }

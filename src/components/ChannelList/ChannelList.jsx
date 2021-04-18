@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
-import { Redirect } from "react-router";
 import styled from "styled-components";
 
-import { getNewRoomId } from "../../api/roomApi";
+import { createRoom } from "../../actions/roomActions";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -38,7 +38,9 @@ const ChannelListOutter = styled.div`
 function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-  const [isError, setIsError] = useState(false);
+
+  const dispatch = useDispatch();
+  const roomId = useSelector((state) => state.roomReducer.roomId);
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -49,16 +51,12 @@ function ChannelList() {
   }
 
   async function handleCreateRoomClick() {
-    try {
-      const newRoomInfo = {
-        roomTitle: createRoomTitle,
-      };
-      const response = await getNewRoomId(newRoomInfo);
+    const newRoomInfo = {
+      roomTitle: createRoomTitle,
+      userEmail: "takhyun@naver.com"
+    };
 
-      if (response.message) throw new Error(response.message);
-    } catch (error) {
-      setIsError(true);
-    }
+    dispatch(createRoom(newRoomInfo));
   }
 
   return (
@@ -96,7 +94,6 @@ function ChannelList() {
         </div>
         <ChannelListContainer />
       </ChannelListOutter>
-      { isError && <Redirect to="/error" /> }
     </Background>
   );
 }
