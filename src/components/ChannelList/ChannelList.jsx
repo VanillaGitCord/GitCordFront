@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
+
+import { createRoom } from "../../actions/roomActions";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -33,19 +36,59 @@ const ChannelListOutter = styled.div`
 `;
 
 function ChannelList() {
+  const [enterRoomId, setEnterRoomId] = useState("");
+  const [createRoomTitle, setCreateRoomTitle] = useState("");
+  const dispatch = useDispatch();
+  const roomId = useSelector((state) => state.roomReducer.roomId);
+
+  function handleCreateRoomChange(event) {
+    setCreateRoomTitle(event.target.value);
+  }
+
+  function handleEnterRoomIdChange(event) {
+    setEnterRoomId(event.target.value);
+  }
+
+  async function handleCreateRoomClick() {
+    const newRoomInfo = {
+      roomTitle: createRoomTitle,
+      userEmail: "takhyun@naver.com"
+    };
+
+    dispatch(createRoom(newRoomInfo));
+  }
+
   return (
     <Background>
       <ChannelListOutter>
         <WelcomeHeader />
         <div className="channlelist-enterroominput">
           <InputWithLabel
-            labelContent="Enter room"
-            placeholder="room ID..."
-            width= "80%"
+            width="40%"
             height="60%"
+            labelContent="Enter room"
+            placeholder="room Id"
+            onChange={handleEnterRoomIdChange}
+            value={enterRoomId}
+            type="text"
           />
           <div className="channlelist-enterroominput-icon">
-            <FaDoorOpen size={60} />
+            <FaDoorOpen size={50} />
+          </div>
+          <InputWithLabel
+            width="40%"
+            height="60%"
+            labelContent="Create room"
+            placeholder="room title"
+            onChange={handleCreateRoomChange}
+            value={createRoomTitle}
+            type="text"
+          />
+          <div
+            className="channlelist-enterroominput-icon"
+            onClick={handleCreateRoomClick}
+          >
+            <FaDoorOpen size={50} />
           </div>
         </div>
         <ChannelListContainer />
