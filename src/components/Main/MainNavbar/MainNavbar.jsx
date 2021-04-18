@@ -28,18 +28,21 @@ const MainNavbarContainer = styled.div`
   }
 `;
 
-function MainNavbar() {
+function MainNavbar({ userInfo, roomInfo }) {
+  const { email } = userInfo;
+  const { roomTitle } = roomInfo;
+
   return (
     <MainNavbarContainer>
       <div className="navbar-left">
         <ImArrowLeft size={30} />
         <MainIcon width="30px" height="30px" />
-        Room name
+        {roomTitle}
       </div>
       <div className="navbar-right">
         <GiExitDoor size={30} />
         <FaUserCircle size={30} />
-        User email
+        {email}
       </div>
     </MainNavbarContainer>
   );

@@ -5,10 +5,10 @@ import {
 
 import { getNewRoomId } from "../api/roomApi";
 
-function createRoomSuccess(roomId) {
+function createRoomSuccess(roomInfo) {
   return {
     type: CREATE_ROOM_SUCCESS,
-    payload: roomId
+    payload: roomInfo
   };
 }
 
@@ -24,6 +24,7 @@ export function createRoom(payload) {
       const response = await getNewRoomId(payload);
       const {
         roomId,
+        roomTitle,
         message,
         accessToken
       } = response;
@@ -35,7 +36,7 @@ export function createRoom(payload) {
 
       if (message) return dispatch(createRoomFailure());
 
-      dispatch(createRoomSuccess(roomId));
+      dispatch(createRoomSuccess({ roomId, roomTitle }));
     } catch (err) {
       console.error(err);
       dispatch(createRoomFailure());

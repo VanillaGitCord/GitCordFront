@@ -3,7 +3,10 @@ import produce from "immer";
 import { ADD_USER } from "../constants/actionTypes";
 
 const initialState = {
-  user: ""
+  user: {
+    email: "",
+    name: ""
+  }
 };
 
 function userReducer(state = initialState, action) {

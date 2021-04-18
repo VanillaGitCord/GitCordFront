@@ -21,19 +21,22 @@ const MainContainer = styled.div`
 `;
 
 function Main() {
-  const roomId = useSelector((state) => state.roomReducer.roomId);
+  const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
 
   if (!currentUser.email) return <Redirect to="/login" />;
-  if (!roomId) return <Redirect to="/" />;
+  if (!roomInfo.roomId) return <Redirect to="/" />;
 
   return (
     <MainOuter>
-      <MainNavbar />
+      <MainNavbar
+        userInfo={currentUser}
+        roomInfo={roomInfo}
+      />
       <MainContainer>
-        <UserList />
+        <UserList userInfo={currentUser} />
         <CodeEditor />
-        <Chat />
+        <Chat userInfo={currentUser} />
       </MainContainer>
     </MainOuter>
   );
