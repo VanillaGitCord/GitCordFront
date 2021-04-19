@@ -5,7 +5,8 @@ import {
   CREATE_ROOM_FAILURE,
   DELETE_ROOM,
   ENTER_ROOM,
-  RECEIVE_CHAT
+  RECEIVE_CHAT,
+  SET_ROOM_INFO
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -27,20 +28,29 @@ function roomReducer(state = initialState, action) {
       });
     }
 
-    case ENTER_ROOM: {
-      return produce(state, (draft) => {
-        draft.roomId = action.payload;
-      });
-    }
-
     case CREATE_ROOM_FAILURE: {
       return produce(state, (draft) => {
         draft.isError = !draft.isError;
       });
     }
 
+    case ENTER_ROOM: {
+      return produce(state, (draft) => {
+        draft.roomId = action.payload;
+      });
+    }
+
+    case SET_ROOM_INFO: {
+      const { roomTitle, joinUsers } = action.payload;
+
+      return produce(state, (draft) => {
+        draft.roomTitle = roomTitle;
+        draft.joinUsers = joinUsers;
+      });
+    }
+
     case RECEIVE_CHAT: {
-      return produce(state, draft => {
+      return produce(state, (draft) => {
         draft.chatLogs.push(action.payload);
       });
     }

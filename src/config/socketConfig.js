@@ -1,6 +1,9 @@
 import io from "socket.io-client";
 
-import { receiveChat } from "../actions/roomActions";
+import {
+  receiveChat,
+  initRoomInfo
+} from "../actions/roomActions";
 
 const socketConnectionOptions =  {
   "force new connection" : true,
@@ -17,5 +20,9 @@ export const socket = io.connect(
 export function subscribeSocket(dispatch) {
   socket.on("receive chat", (chatInfo) => {
     dispatch(receiveChat(chatInfo));
+  });
+
+  socket.on("receive participants", (roomInfo) => {
+    dispatch(initRoomInfo(roomInfo));
   });
 }

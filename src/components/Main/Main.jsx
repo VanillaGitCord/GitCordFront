@@ -27,7 +27,6 @@ function Main() {
   const currentUser = useSelector((state) => state.userReducer.user);
 
   useEffect(() => {
-    // title과 접속한 user 정보를 set 해주어야한다.
     socket.emit("init", currentUser, roomInfo);
   }, []);
 
@@ -46,7 +45,6 @@ function Main() {
         <UserList
           currentUser={currentUser}
           roomInfo={roomInfo}
-          socket={socket}
         />
         <CodeEditor />
         <Chat

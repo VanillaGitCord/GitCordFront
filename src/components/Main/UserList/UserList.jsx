@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
@@ -34,14 +34,17 @@ const UserListContainer = styled.div`
 
 function UserList({
   currentUser,
-  roomInfo,
-  socket
+  roomInfo
 }) {
-  const { roomId } = roomInfo;
+  const { joinUsers } = roomInfo;
 
-  useEffect(() => {
-    socket.emit()
-  });
+  function renderJoinUsers() {
+    return joinUsers.map((joinUser) => (
+      <div key={joinUser}>
+        {joinUser}
+      </div>
+    ));
+  }
 
   return (
     <UserListContainer>
@@ -49,7 +52,7 @@ function UserList({
         Users
       </article>
       <article className="userlist-participants">
-        User List
+        {renderJoinUsers()}
       </article>
       <UserToolbar />
     </UserListContainer>

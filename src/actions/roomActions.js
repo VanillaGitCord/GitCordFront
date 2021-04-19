@@ -3,7 +3,8 @@ import {
   CREATE_ROOM_FAILURE,
   DELETE_ROOM,
   ENTER_ROOM,
-  RECEIVE_CHAT
+  RECEIVE_CHAT,
+  SET_ROOM_INFO
 } from "../constants/actionTypes";
 
 import { getNewRoomId } from "../api/roomApi";
@@ -25,7 +26,14 @@ export function enterRoom(roomId) {
   return {
     type: ENTER_ROOM,
     payload: roomId
-  }
+  };
+}
+
+export function initRoomInfo(roomInfo) {
+  return {
+    type: SET_ROOM_INFO,
+    payload: roomInfo
+  };
 }
 
 export function receiveChat(chatLogs) {
