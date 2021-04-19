@@ -6,7 +6,10 @@ import {
 } from "../constants/actionTypes";
 
 const initialState = {
-  user: ""
+  user: {
+    email: "",
+    name: ""
+  }
 };
 
 function userReducer(state = initialState, action) {

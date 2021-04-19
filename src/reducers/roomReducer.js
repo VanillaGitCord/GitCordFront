@@ -8,14 +8,18 @@ import {
 
 const initialState = {
   roomId: "",
+  roomTitle: "",
   isError: false
 };
 
 function roomReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_ROOM_SUCCESS:
+      const { roomId, roomTitle } = action.payload;
+
       return produce(state, draft => {
-        draft.roomId = action.payload;
+        draft.roomId = roomId;
+        draft.roomTitle = roomTitle;
       });
 
     case CREATE_ROOM_FAILURE:

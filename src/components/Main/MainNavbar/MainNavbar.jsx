@@ -37,7 +37,9 @@ const MainNavbarContainer = styled.div`
   }
 `;
 
-function MainNavbar() {
+function MainNavbar({ userInfo, roomInfo }) {
+  const { email } = userInfo;
+  const { roomTitle } = roomInfo;
   const dispatch = useDispatch();
 
   function handleLogoutButtonClick() {
@@ -53,8 +55,10 @@ function MainNavbar() {
     <MainNavbarContainer>
       <div className="navbar-left">
         <ImArrowLeft size={30} />
-        <MainIcon width="30px" height="30px" />
-        Room name
+        <div>
+          <MainIcon width="30px" height="30px" />
+          {roomTitle}
+        </div>
       </div>
       <div className="navbar-right">
         <GiExitDoor
@@ -63,7 +67,7 @@ function MainNavbar() {
           onClick={handleLogoutButtonClick}
         />
         <FaUserCircle size={30} />
-        User email
+        {email}
       </div>
     </MainNavbarContainer>
   );

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import mainImage from "../../../assets/images/mainIcon.png";
 
 const MainIconWrapper = styled.div`
+  display: inline-block;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
 
@@ -13,7 +14,7 @@ const MainIconWrapper = styled.div`
   }
 `;
 
-const MainIcon = ({ width, height }) => {
+function MainIcon({ width, height }) {
   return (
     <MainIconWrapper width={width} height={height}>
       <img src={mainImage} alt="icon" />
