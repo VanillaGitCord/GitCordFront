@@ -32,14 +32,27 @@ const UserListContainer = styled.div`
   }
 `;
 
-function UserList() {
+function UserList({
+  currentUser,
+  roomInfo
+}) {
+  const { joinUsers } = roomInfo;
+
+  function renderJoinUsers() {
+    return joinUsers.map((joinUser) => (
+      <div key={joinUser}>
+        {joinUser}
+      </div>
+    ));
+  }
+
   return (
     <UserListContainer>
       <article className="userlist-title">
         Users
       </article>
       <article className="userlist-participants">
-        User List
+        {renderJoinUsers()}
       </article>
       <UserToolbar />
     </UserListContainer>

@@ -1,7 +1,11 @@
 import {
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAILURE,
-  DELETE_ROOM
+  DELETE_ROOM,
+  ENTER_ROOM,
+  RECEIVE_CHAT,
+  SET_ROOM_INFO,
+  SET_ROOM_LIST
 } from "../constants/actionTypes";
 
 import { getNewRoomId } from "../api/roomApi";
@@ -16,6 +20,34 @@ function createRoomSuccess(roomInfo) {
 function createRoomFailure() {
   return {
     type: CREATE_ROOM_FAILURE
+  };
+}
+
+export function enterRoom(roomId) {
+  return {
+    type: ENTER_ROOM,
+    payload: roomId
+  };
+}
+
+export function initRoomInfo(roomInfo) {
+  return {
+    type: SET_ROOM_INFO,
+    payload: roomInfo
+  };
+}
+
+export function initRoomList(activedRoomList) {
+  return {
+    type: SET_ROOM_LIST,
+    payload: activedRoomList
+  };
+}
+
+export function receiveChat(chatLogs) {
+  return {
+    type: RECEIVE_CHAT,
+    payload: chatLogs
   };
 }
 

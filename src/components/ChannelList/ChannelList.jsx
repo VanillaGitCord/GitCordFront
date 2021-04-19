@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 
-import { createRoom } from "../../actions/roomActions";
+import { createRoom, enterRoom } from "../../actions/roomActions";
+import {
+  subscribeSocket,
+  cancelSocketSubscription,
+  socket
+} from "../../config/socketConfig";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -39,13 +44,19 @@ const ChannelListOutter = styled.div`
 function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-  const dispatch = useDispatch();
   const { roomId, isError } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
+  }, []);
 
   if (isError) return <Redirect to="/error" />;
   if (!currentUser.email) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to="/main" />;
+  if (roomId) return <Redirect to={`/main/${roomId}`} />;
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -65,6 +76,10 @@ function ChannelList() {
     dispatch(createRoom(payload));
   }
 
+  function handleEnterRoomClick() {
+    dispatch(enterRoom(enterRoomId));
+  }
+
   return (
     <Background>
       <ChannelListOutter>
@@ -79,7 +94,10 @@ function ChannelList() {
             value={enterRoomId}
             type="text"
           />
-          <div className="channlelist-enterroominput-icon">
+          <div
+            className="channlelist-enterroominput-icon"
+            onClick={handleEnterRoomClick}
+          >
             <FaDoorOpen size={50} />
           </div>
           <InputWithLabel
@@ -98,7 +116,7 @@ function ChannelList() {
             <FaDoorOpen size={50} />
           </div>
         </div>
-        <ChannelListContainer />
+        <ChannelListContainer socket={socket} />
       </ChannelListOutter>
     </Background>
   );

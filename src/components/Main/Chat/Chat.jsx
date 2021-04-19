@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import io from "socket.io-client";
-
-import { socketConnectionOptions } from "../../../config/socketConfig";
 
 import ChatInput from "./ChatInput/ChatInput";
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
@@ -48,31 +46,19 @@ const ChatContainer = styled.div`
   }
 `;
 
-const socket = io.connect(
-  process.env.REACT_APP_SERVER_URL,
-  socketConnectionOptions
-);
-
-function Chat({ userInfo, roomInfo }) {
+function Chat({
+  currentUser,
+  roomInfo,
+  socket
+}) {
   const [chat, setChat] = useState("");
-  const [chatLogs, setChatLogs] = useState([]);
-  const { name } = userInfo;
+  const chatLogs = useSelector((state) => state.roomReducer.chatLogs);
+  const { name } = currentUser;
   const { roomId } = roomInfo;
 
   useEffect(() => {
     socket.emit("join", roomId);
-
-    socket.once("receive chat", (chatlog) => {
-      const userChatLog = {
-        chatTime: Date.now(),
-        username: name,
-        userChat: chatlog
-      };
-      const newChatLogs = [...chatLogs, userChatLog];
-
-      setChatLogs(newChatLogs);
-    });
-  }, [chatLogs, name, roomId]);
+  }, [roomId, socket]);
 
   function handleChatChange(event) {
     const { value } = event.target;
@@ -83,13 +69,20 @@ function Chat({ userInfo, roomInfo }) {
   function handleChatSubmit(event) {
     event.preventDefault();
 
-    socket.emit("send chat", chat, roomId);
+    const chatlogs = {
+      chatTime: Date.now(),
+      userChat: chat,
+      userName: name,
+      roomId,
+    };
+
+    socket.emit("send chat", chatlogs);
     setChat("");
   }
 
   function renderChatLogs() {
     return chatLogs.map((chatLog) => {
-      const { chatTime, username, userChat } = chatLog;
+      const { chatTime, userName, userChat } = chatLog;
 
       return (
         <article className="chat-log" key={chatTime}>
@@ -97,7 +90,7 @@ function Chat({ userInfo, roomInfo }) {
             <MainIcon width="20px" height="20px" />
           </div>
           <div>
-            <span>{username}</span>
+            <span>{userName}</span>
             <span>{chatTime}</span>
             <div>{userChat}</div>
           </div>

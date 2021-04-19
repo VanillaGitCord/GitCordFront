@@ -14,18 +14,21 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_USER:
+    case ADD_USER: {
       return produce(state, draft => {
         draft.user = action.payload;
       });
+    }
 
-    case DELETE_USER:
+    case DELETE_USER: {
       return {
         ...initialState
       };
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }
 

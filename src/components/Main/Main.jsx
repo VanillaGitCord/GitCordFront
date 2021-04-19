@@ -1,7 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import styled from "styled-components";
+
+import {
+  subscribeSocket,
+  cancelSocketSubscription,
+  socket
+} from "../../config/socketConfig";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -23,6 +29,19 @@ const MainContainer = styled.div`
 function Main() {
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.emit("init", currentUser, roomInfo);
+
+    return () => socket.emit("bye", currentUser.email, roomInfo.roomId);
+  }, []);
+
+  useEffect(() => {
+    subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
+  }, []);
 
   if (roomInfo.isError) return <Redirect to="/error" />;
   if (!currentUser.email) return <Redirect to="/login" />;
@@ -31,15 +50,20 @@ function Main() {
   return (
     <MainOuter>
       <MainNavbar
-        userInfo={currentUser}
+        currentUser={currentUser}
         roomInfo={roomInfo}
+        socket={socket}
       />
       <MainContainer>
-        <UserList userInfo={currentUser} />
+        <UserList
+          currentUser={currentUser}
+          roomInfo={roomInfo}
+        />
         <CodeEditor />
         <Chat
-          userInfo={currentUser}
+          currentUser={currentUser}
           roomInfo={roomInfo}
+          socket={socket}
         />
       </MainContainer>
     </MainOuter>
