@@ -35,3 +35,16 @@ export async function postGoogleLogin(profileObj) {
 
   return await response.json();
 }
+
+export async function postAuthToken(token) {
+  const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/auth`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    mode: "cors",
+    body: JSON.stringify(token)
+  });
+
+  return await response.json();
+}
