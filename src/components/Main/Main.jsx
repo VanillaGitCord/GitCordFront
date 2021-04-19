@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import styled from "styled-components";
@@ -8,6 +8,8 @@ import {
   cancelSocketSubscription,
   socket
 } from "../../config/socketConfig";
+import { addUser } from "../../actions/userActions";
+import { postAuthToken } from "../../api/userApi";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -27,9 +29,29 @@ const MainContainer = styled.div`
 `;
 
 function Main() {
+  const [isAuthuticate, setIsAuthuticate] = useState(true);
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = {
+      accessToken: localStorage.getItem("access"),
+      refreshToken: localStorage.getItem("refresh")
+    };
+
+    (async function checkUserInfo() {
+      const response = await postAuthToken(token);
+      const {
+        user,
+        message
+      } = response;
+
+      if (message) return setIsAuthuticate(false);
+
+      dispatch(addUser(user));
+    })();
+  }, []);
 
   useEffect(() => {
     socket.emit("init", currentUser, roomInfo);
@@ -43,8 +65,7 @@ function Main() {
     return () => cancelSocketSubscription();
   }, []);
 
-  if (roomInfo.isError) return <Redirect to="/error" />;
-  if (!currentUser.email) return <Redirect to="/login" />;
+  if (!isAuthuticate) return <Redirect to="/login" />;
   if (!roomInfo.roomId) return <Redirect to="/" />;
 
   return (

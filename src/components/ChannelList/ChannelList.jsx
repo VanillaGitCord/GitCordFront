@@ -5,11 +5,13 @@ import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 
 import { createRoom, enterRoom } from "../../actions/roomActions";
+import { addUser } from "../../actions/userActions";
 import {
   subscribeSocket,
   cancelSocketSubscription,
   socket
 } from "../../config/socketConfig";
+import { postAuthToken } from "../../api/userApi";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -44,9 +46,28 @@ const ChannelListOutter = styled.div`
 function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-  const { roomId, isError } = useSelector((state) => state.roomReducer);
-  const currentUser = useSelector((state) => state.userReducer.user);
+  const [isAuthuticate, setIsAuthuticate] = useState(true);
+  const { roomId } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = {
+      accessToken: localStorage.getItem("access"),
+      refreshToken: localStorage.getItem("refresh")
+    };
+
+    (async function checkUserInfo() {
+      const response = await postAuthToken(token);
+      const {
+        user,
+        message
+      } = response;
+
+      if (message) return setIsAuthuticate(false);
+
+      dispatch(addUser(user));
+    })();
+  }, []);
 
   useEffect(() => {
     subscribeSocket(dispatch);
@@ -54,9 +75,8 @@ function ChannelList() {
     return () => cancelSocketSubscription();
   }, []);
 
-  if (isError) return <Redirect to="/error" />;
-  if (!currentUser.email) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to={`/main/${roomId}`} />;
+  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (roomId) return <Redirect to="/main" />;
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
