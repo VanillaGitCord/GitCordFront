@@ -13,7 +13,8 @@ import {
 const initialState = {
   roomId: "",
   roomTitle: "",
-  joinUsers: [],
+  owner: "",
+  participants: [],
   chatLogs: [],
   activedRooms: [],
   isError: false
@@ -43,11 +44,12 @@ function roomReducer(state = initialState, action) {
     }
 
     case SET_ROOM_INFO: {
-      const { roomTitle, joinUsers } = action.payload;
+      const { roomTitle, participants, owner } = action.payload;
 
       return produce(state, (draft) => {
         draft.roomTitle = roomTitle;
-        draft.joinUsers = joinUsers;
+        draft.participants = participants;
+        draft.owner = owner;
       });
     }
 
