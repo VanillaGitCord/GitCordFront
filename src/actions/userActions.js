@@ -1,4 +1,7 @@
-import { ADD_USER, DELETE_USER } from "../constants/actionTypes";
+import {
+  ADD_USER,
+  DELETE_USER
+} from "../constants/actionTypes";
 
 export function addUser(userInfo) {
   return {

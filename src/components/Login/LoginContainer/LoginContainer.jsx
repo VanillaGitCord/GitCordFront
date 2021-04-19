@@ -131,6 +131,9 @@ function LoginContainer() {
     try {
       const response = await postGoogleLogin(profileObj);
 
+      localStorage.setItem("access", response.accessToken);
+      localStorage.setItem("refresh", response.refreshToken);
+
       dispatch(addUser({
         email: response.email,
         name: response.name
