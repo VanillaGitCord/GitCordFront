@@ -4,3 +4,5 @@ export const DELETE_ROOM = "DELETE_ROOM";
 
 export const ADD_USER = "ADD_USER";
 export const DELETE_USER = "DELETE_USER";
+
+export const RECEIVE_CHAT = "RECEIVE_CHAT";

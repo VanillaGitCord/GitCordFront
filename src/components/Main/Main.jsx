@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import styled from "styled-components";
 
+import { socket } from "../../config/socketConfig";
+
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
@@ -31,15 +33,20 @@ function Main() {
   return (
     <MainOuter>
       <MainNavbar
-        userInfo={currentUser}
+        currentUser={currentUser}
         roomInfo={roomInfo}
       />
       <MainContainer>
-        <UserList userInfo={currentUser} />
+        <UserList
+          currentUser={currentUser}
+          roomInfo={roomInfo}
+          socket={socket}
+        />
         <CodeEditor />
         <Chat
-          userInfo={currentUser}
+          currentUser={currentUser}
           roomInfo={roomInfo}
+          socket={socket}
         />
       </MainContainer>
     </MainOuter>

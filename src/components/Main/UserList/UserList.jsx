@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
@@ -32,7 +32,17 @@ const UserListContainer = styled.div`
   }
 `;
 
-function UserList() {
+function UserList({
+  currentUser,
+  roomInfo,
+  socket
+}) {
+  const { roomId } = roomInfo;
+
+  useEffect(() => {
+    socket.emit()
+  });
+
   return (
     <UserListContainer>
       <article className="userlist-title">

@@ -37,8 +37,8 @@ const MainNavbarContainer = styled.div`
   }
 `;
 
-function MainNavbar({ userInfo, roomInfo }) {
-  const { email } = userInfo;
+function MainNavbar({ currentUser, roomInfo }) {
+  const { email } = currentUser;
   const { roomTitle } = roomInfo;
   const dispatch = useDispatch();
 
