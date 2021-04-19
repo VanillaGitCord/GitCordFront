@@ -5,7 +5,7 @@ import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 
 import { createRoom, enterRoom } from "../../actions/roomActions";
-import { subscribeSocket } from "../../config/socketConfig";
+import { subscribeSocket, socket } from "../../config/socketConfig";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -110,7 +110,7 @@ function ChannelList() {
             <FaDoorOpen size={50} />
           </div>
         </div>
-        <ChannelListContainer />
+        <ChannelListContainer socket={socket} />
       </ChannelListOutter>
     </Background>
   );

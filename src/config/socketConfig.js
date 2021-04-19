@@ -2,7 +2,8 @@ import io from "socket.io-client";
 
 import {
   receiveChat,
-  initRoomInfo
+  initRoomInfo,
+  initRoomList
 } from "../actions/roomActions";
 
 const socketConnectionOptions =  {
@@ -24,5 +25,9 @@ export function subscribeSocket(dispatch) {
 
   socket.on("receive participants", (roomInfo) => {
     dispatch(initRoomInfo(roomInfo));
+  });
+
+  socket.on("receive activeRoomList", (activedRoomList) => {
+    dispatch(initRoomList(activedRoomList));
   });
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const ChannelStyle = styled.div`
@@ -9,16 +10,24 @@ const ChannelStyle = styled.div`
   border: 3px solid #C9D3DD;
   border-radius: 8px;
   cursor: pointer;
+  color: #000000;
 
   &:hover {
     opacity: 0.8;
   }
 `;
 
-function Channel() {
+function Channel({ activeRoomInfo }) {
+  const {
+    roomId,
+    roomInfo: { roomTitle, owner }
+  } = activeRoomInfo;
+
   return (
     <ChannelStyle>
-      channelContents...
+      <Link to={`/main/:${roomId}`}>
+        {roomTitle}{owner}
+      </Link>
     </ChannelStyle>
   );
 }

@@ -6,7 +6,8 @@ import {
   DELETE_ROOM,
   ENTER_ROOM,
   RECEIVE_CHAT,
-  SET_ROOM_INFO
+  SET_ROOM_INFO,
+  SET_ROOM_LIST
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   roomTitle: "",
   joinUsers: [],
   chatLogs: [],
+  activedRooms: [],
   isError: false
 };
 
@@ -46,6 +48,12 @@ function roomReducer(state = initialState, action) {
       return produce(state, (draft) => {
         draft.roomTitle = roomTitle;
         draft.joinUsers = joinUsers;
+      });
+    }
+
+    case SET_ROOM_LIST: {
+      return produce(state, (draft) => {
+        draft.activedRooms = action.payload;
       });
     }
 
