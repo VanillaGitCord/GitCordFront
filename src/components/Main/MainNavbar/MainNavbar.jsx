@@ -55,8 +55,10 @@ function MainNavbar({ userInfo, roomInfo }) {
     <MainNavbarContainer>
       <div className="navbar-left">
         <ImArrowLeft size={30} />
-        <MainIcon width="30px" height="30px" />
-        {roomTitle}
+        <div>
+          <MainIcon width="30px" height="30px" />
+          {roomTitle}
+        </div>
       </div>
       <div className="navbar-right">
         <GiExitDoor

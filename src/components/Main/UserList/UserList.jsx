@@ -13,14 +13,22 @@ const UserListContainer = styled.div`
   text-align: center;
 
   .userlist-title {
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
     height: 10%;
-    border-bottom: 1px solid #C9D3DD;
+    line-height: 10%;
+    margin: 0.5em;
+    margin-left: 0.6em;
+    border-bottom: 2px solid #C9D3DD;
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 
   .userlist-participants {
     width: 100%;
-    height: 80%;
+    height: 76.5%;
   }
 `;
 

@@ -24,6 +24,7 @@ function Main() {
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
 
+  if (roomInfo.isError) return <Redirect to="/error" />;
   if (!currentUser.email) return <Redirect to="/login" />;
   if (!roomInfo.roomId) return <Redirect to="/" />;
 
@@ -36,7 +37,10 @@ function Main() {
       <MainContainer>
         <UserList userInfo={currentUser} />
         <CodeEditor />
-        <Chat userInfo={currentUser} />
+        <Chat
+          userInfo={currentUser}
+          roomInfo={roomInfo}
+        />
       </MainContainer>
     </MainOuter>
   );

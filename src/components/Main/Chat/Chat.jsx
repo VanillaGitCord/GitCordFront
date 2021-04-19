@@ -53,28 +53,26 @@ const socket = io.connect(
   socketConnectionOptions
 );
 
-function Chat() {
+function Chat({ userInfo, roomInfo }) {
   const [chat, setChat] = useState("");
-  const [username, setUsername] = useState("username");
   const [chatLogs, setChatLogs] = useState([]);
-  const [roomId, setRoomId] = useState("");
+  const { name } = userInfo;
+  const { roomId } = roomInfo;
 
   useEffect(() => {
-    socket.once("socket Id", (socketId) => {
-      setRoomId(socketId);
-    });
+    socket.emit("join", roomId);
 
     socket.once("receive chat", (chatlog) => {
       const userChatLog = {
         chatTime: Date.now(),
-        username,
+        username: name,
         userChat: chatlog
       };
       const newChatLogs = [...chatLogs, userChatLog];
 
       setChatLogs(newChatLogs);
     });
-  }, [chatLogs, username]);
+  }, [chatLogs, name, roomId]);
 
   function handleChatChange(event) {
     const { value } = event.target;
