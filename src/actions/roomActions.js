@@ -1,7 +1,9 @@
 import {
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAILURE,
-  DELETE_ROOM
+  DELETE_ROOM,
+  ENTER_ROOM,
+  RECEIVE_CHAT
 } from "../constants/actionTypes";
 
 import { getNewRoomId } from "../api/roomApi";
@@ -16,6 +18,20 @@ function createRoomSuccess(roomInfo) {
 function createRoomFailure() {
   return {
     type: CREATE_ROOM_FAILURE
+  };
+}
+
+export function enterRoom(roomId) {
+  return {
+    type: ENTER_ROOM,
+    payload: roomId
+  }
+}
+
+export function receiveChat(chatLogs) {
+  return {
+    type: RECEIVE_CHAT,
+    payload: chatLogs
   };
 }
 

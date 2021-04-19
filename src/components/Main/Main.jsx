@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import styled from "styled-components";
@@ -26,6 +26,11 @@ function Main() {
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
 
+  useEffect(() => {
+    // title과 접속한 user 정보를 set 해주어야한다.
+    socket.emit("init", currentUser, roomInfo);
+  }, []);
+
   if (roomInfo.isError) return <Redirect to="/error" />;
   if (!currentUser.email) return <Redirect to="/login" />;
   if (!roomInfo.roomId) return <Redirect to="/" />;
@@ -35,6 +40,7 @@ function Main() {
       <MainNavbar
         currentUser={currentUser}
         roomInfo={roomInfo}
+        socket={socket}
       />
       <MainContainer>
         <UserList

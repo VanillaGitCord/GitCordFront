@@ -52,7 +52,7 @@ function Chat({
   socket
 }) {
   const [chat, setChat] = useState("");
-  const chatLogs = useSelector((state) => state.socketReducer.chatLogs);
+  const chatLogs = useSelector((state) => state.roomReducer.chatLogs);
   const { name } = currentUser;
   const { roomId } = roomInfo;
 

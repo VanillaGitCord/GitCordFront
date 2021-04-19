@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 
-import { createRoom } from "../../actions/roomActions";
+import { createRoom, enterRoom } from "../../actions/roomActions";
 import { subscribeSocket } from "../../config/socketConfig";
 
 import Background from "../publicComponents/Backgroud/Background";
@@ -70,6 +70,10 @@ function ChannelList() {
     dispatch(createRoom(payload));
   }
 
+  function handleEnterRoomClick() {
+    dispatch(enterRoom(enterRoomId));
+  }
+
   return (
     <Background>
       <ChannelListOutter>
@@ -84,7 +88,10 @@ function ChannelList() {
             value={enterRoomId}
             type="text"
           />
-          <div className="channlelist-enterroominput-icon">
+          <div
+            className="channlelist-enterroominput-icon"
+            onClick={handleEnterRoomClick}
+          >
             <FaDoorOpen size={50} />
           </div>
           <InputWithLabel

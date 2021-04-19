@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 
-import { receiveChat } from "../actions/socketActions";
+import { receiveChat } from "../actions/roomActions";
 
 const socketConnectionOptions =  {
   "force new connection" : true,
