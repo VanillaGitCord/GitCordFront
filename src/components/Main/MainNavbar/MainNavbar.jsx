@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { ImArrowLeft } from "react-icons/im";
 import { GiExitDoor } from "react-icons/gi";
@@ -45,17 +44,20 @@ function MainNavbar({ currentUser, roomInfo }) {
   function handleLogoutButtonClick() {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
+
     dispatch(deleteUser());
     dispatch(deleteRoom());
+  }
 
-    return <Redirect to="/login" />;
+  function handleMainIconClick() {
+    dispatch(deleteRoom());
   }
 
   return (
     <MainNavbarContainer>
       <div className="navbar-left">
         <ImArrowLeft size={30} />
-        <div>
+        <div onClick={handleMainIconClick}>
           <MainIcon width="30px" height="30px" />
           {roomTitle}
         </div>

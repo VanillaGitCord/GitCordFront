@@ -1,6 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+
+import { enterRoom } from "../../../../actions/roomActions";
 
 const ChannelStyle = styled.div`
   width: 90%;
@@ -18,16 +20,19 @@ const ChannelStyle = styled.div`
 `;
 
 function Channel({ activeRoomInfo }) {
+  const dispatch = useDispatch();
   const {
     roomId,
     roomInfo: { roomTitle, owner }
   } = activeRoomInfo;
 
+  function handleEnterRoomClick() {
+    dispatch(enterRoom(roomId));
+  }
+
   return (
-    <ChannelStyle>
-      <Link to={`/main/:${roomId}`}>
-        {roomTitle}{owner}
-      </Link>
+    <ChannelStyle onClick={handleEnterRoomClick}>
+      {roomTitle}{owner}
     </ChannelStyle>
   );
 }

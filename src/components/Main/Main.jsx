@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import styled from "styled-components";
 
-import { socket } from "../../config/socketConfig";
+import {
+  subscribeSocket,
+  cancelSocketSubscription,
+  socket
+} from "../../config/socketConfig";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -25,9 +29,18 @@ const MainContainer = styled.div`
 function Main() {
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.emit("init", currentUser, roomInfo);
+
+    return () => socket.emit("bye", currentUser.email, roomInfo.roomId);
+  }, []);
+
+  useEffect(() => {
+    subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
   }, []);
 
   if (roomInfo.isError) return <Redirect to="/error" />;

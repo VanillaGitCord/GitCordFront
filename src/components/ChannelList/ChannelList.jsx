@@ -5,7 +5,11 @@ import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 
 import { createRoom, enterRoom } from "../../actions/roomActions";
-import { subscribeSocket, socket } from "../../config/socketConfig";
+import {
+  subscribeSocket,
+  cancelSocketSubscription,
+  socket
+} from "../../config/socketConfig";
 
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
@@ -46,11 +50,13 @@ function ChannelList() {
 
   useEffect(() => {
     subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
   }, []);
 
   if (isError) return <Redirect to="/error" />;
   if (!currentUser.email) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to="/main" />;
+  if (roomId) return <Redirect to={`/main/${roomId}`} />;
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
