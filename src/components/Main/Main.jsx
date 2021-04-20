@@ -15,6 +15,7 @@ import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
+import CamWindow from "./CamWindow/CamWindow";
 
 const MainOuter = styled.div`
   width: 100%;
@@ -26,6 +27,7 @@ const MainContainer = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  position: relative;
 `;
 
 function Main() {
@@ -89,6 +91,7 @@ function Main() {
           roomInfo={roomInfo}
           socket={socket}
         />
+        <CamWindow />
       </MainContainer>
     </MainOuter>
   );
