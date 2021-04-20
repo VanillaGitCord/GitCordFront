@@ -12,9 +12,9 @@ export const socket = io.connect(
 );
 
 export function subscribeSocket(dispatch) {
-  socket.on("receive chat", (chatInfo) => {
-    dispatch(receiveChat(chatInfo));
-  });
+  // socket.on("receive chat", (chatInfo) => {
+  //   dispatch(receiveChat(chatInfo));
+  // });
 
   socket.on("receive participants", (roomInfo) => {
     if (!roomInfo) return dispatch(deleteRoom());
