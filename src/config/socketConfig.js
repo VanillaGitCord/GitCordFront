@@ -4,7 +4,7 @@ import {
   receiveChat,
   initRoomInfo,
   initRoomList,
-  deleteRoom,
+  deleteRoom
 } from "../actions/roomActions";
 
 export const socket = io.connect(
