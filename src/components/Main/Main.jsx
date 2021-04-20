@@ -82,6 +82,7 @@ function Main() {
         />
         <CodeEditor
           socket={socket}
+          roomInfo={roomInfo}
         />
         <Chat
           currentUser={currentUser}

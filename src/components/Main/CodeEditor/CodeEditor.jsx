@@ -23,15 +23,26 @@ const CodeEditorContainer = styled.div`
   }
 `;
 
-function CodeEditor({ socket }) {
+function CodeEditor({ socket, roomInfo }) {
   const [code, setCode] = useState("");
+  const { roomId, contents } = roomInfo;
 
   useEffect(() => {
-    socket.emit("send codeEditor text", )
-  });
+    socket.on("receive codeEditor text", (text) => {
+      setCode(text);
+    });
+
+    setCode(contents);
+  }, []);
 
   function handleChange(editor, data, value) {
+    const payload = {
+      value,
+      roomId
+    };
+
     setCode(value);
+    socket.emit("send codeEditor text", payload);
   }
 
   return (
