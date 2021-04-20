@@ -21,14 +21,16 @@ const ChannelListContainerStyle = styled.div`
 function ChannelListContainer({ activedRooms, setRoomId }) {
   function renderActivedRooms() {
     return activedRooms.map((activedRoom) => {
-      function handleChannelonClick() {
-        setRoomId(activedRoom);
+      const [roomId, roomInfo] = activedRoom;
+
+      function handleChannelClick() {
+        setRoomId(roomId);
       }
 
       return (
         <Channel
-          activedRoom={activedRoom}
-          onClick={handleChannelonClick}
+          roomInfo={roomInfo}
+          onClick={handleChannelClick}
         />
       );
     });

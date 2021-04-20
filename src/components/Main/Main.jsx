@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useParams } from "react-router";
+import { useParams } from "react-router";
 import styled from "styled-components";
 
 import {
@@ -16,11 +16,11 @@ import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
+import Background from "../publicComponents/Backgroud/Background";
 
 const MainOuter = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #F3F6FB;
 `;
 
 const MainContainer = styled.div`
@@ -34,10 +34,8 @@ function Main() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const {
     title,
-    owner,
     participants,
     contents,
-    chatLogs,
     isError
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -45,7 +43,6 @@ function Main() {
   const { roomId } = useParams();
 
   useEffect(() => {
-    // 초기 데이터 요청
     socket.emit("join", currentUser, roomId);
 
     return () => socket.emit("bye", currentUser.email, roomId);
@@ -77,32 +74,33 @@ function Main() {
   }, []);
 
   return (
-    <MainOuter>
-      <MainNavbar
-        currentUser={currentUser}
-        roomTitle={title}
-        roomId={roomId}
-        socket={socket}
-      />
-      <MainContainer>
-        <UserList
+    <Background>
+      <MainOuter>
+        <MainNavbar
           currentUser={currentUser}
-          userList={participants}
-        />
-        <CodeEditor
-          socket={socket}
+          roomTitle={title}
           roomId={roomId}
-          contents={contents}
-        />
-        <Chat
-          currentUser={currentUser}
-          roomId={roomId}
-          chatLogs={chatLogs}
           socket={socket}
         />
-        <CamWindow />
-      </MainContainer>
-    </MainOuter>
+        <MainContainer>
+          <UserList
+            currentUser={currentUser}
+            userList={participants}
+          />
+          <CodeEditor
+            socket={socket}
+            roomId={roomId}
+            contents={contents}
+          />
+          <Chat
+            currentUser={currentUser}
+            roomId={roomId}
+            socket={socket}
+          />
+          {/* <CamWindow /> */}
+        </MainContainer>
+      </MainOuter>
+    </Background>
   );
 }
 

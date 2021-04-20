@@ -44,12 +44,12 @@ const ChannelListOutter = styled.div`
 `;
 
 function ChannelList() {
+  const [roomId, setRoomId] = useState("");
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-  const [roomId, setRoomId] = useState("");
+  const [isAuthuticate, setIsAuthuticate] = useState(true);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
-  const [isAuthuticate, setIsAuthuticate] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -94,14 +94,12 @@ function ChannelList() {
 
   async function handleCreateRoomClick() {
     const id = uuidv1();
-
-    setRoomId(id);
-
     const roomInfo = {
       title: createRoomTitle,
       roomId: id
     };
 
+    setRoomId(id);
     socket.emit("create room", currentUser, roomInfo);
   }
 

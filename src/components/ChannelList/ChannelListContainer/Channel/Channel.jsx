@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const ChannelStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 90%;
   height: 15%;
   background-color: white;
@@ -16,10 +19,12 @@ const ChannelStyle = styled.div`
   }
 `;
 
-function Channel({ activedRoom, onClick }) {
+function Channel({ roomInfo, onClick }) {
+  const { roomTitle, owner } = roomInfo;
   return (
     <ChannelStyle onClick={onClick}>
-      {activedRoom}
+      <span>채널 명: {roomTitle}</span><br />
+      <span>방장: {owner}</span>
     </ChannelStyle>
   );
 }

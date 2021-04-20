@@ -16,10 +16,10 @@ const UserToolbarContainer = styled.div`
   background-color: #FFEEF4;
 `;
 
-function UserToolbar() {
+function UserToolbar({ user }) {
   return (
     <UserToolbarContainer>
-      username
+      {user.name}
       <article>
         <GiSpeaker />
         <BsFillMicFill />
