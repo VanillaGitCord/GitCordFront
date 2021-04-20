@@ -21,15 +21,14 @@ const CodeEditorContainer = styled.div`
   }
 `;
 
-function CodeEditor({ socket, roomInfo }) {
+function CodeEditor({
+  socket,
+  roomId,
+  contents
+}) {
   const [code, setCode] = useState("");
-  const { roomId, contents } = roomInfo;
 
   useEffect(() => {
-    socket.on("receive codeEditor text", (text) => {
-      setCode(text);
-    });
-
     setCode(contents);
   }, []);
 

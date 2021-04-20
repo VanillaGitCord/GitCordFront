@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
 
 import {
@@ -32,9 +32,24 @@ const MainContainer = styled.div`
 
 function Main() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
-  const roomInfo = useSelector((state) => state.roomReducer);
+  const {
+    title,
+    owner,
+    participants,
+    contents,
+    chatLogs,
+    isError
+  } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    // 초기 데이터 요청
+    socket.emit("join", currentUser, roomId);
+
+    return () => socket.emit("bye", currentUser.email, roomId);
+  }, []);
 
   useEffect(() => {
     const token = {
@@ -56,39 +71,33 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    socket.emit("init", currentUser, roomInfo);
-
-    return () => socket.emit("bye", currentUser.email, roomInfo.roomId);
-  }, []);
-
-  useEffect(() => {
     subscribeSocket(dispatch);
 
     return () => cancelSocketSubscription();
   }, []);
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
-  if (!roomInfo.roomId) return <Redirect to="/" />;
-
   return (
     <MainOuter>
       <MainNavbar
         currentUser={currentUser}
-        roomInfo={roomInfo}
+        roomTitle={title}
+        roomId={roomId}
         socket={socket}
       />
       <MainContainer>
         <UserList
           currentUser={currentUser}
-          roomInfo={roomInfo}
+          userList={participants}
         />
         <CodeEditor
           socket={socket}
-          roomInfo={roomInfo}
+          roomId={roomId}
+          contents={contents}
         />
         <Chat
           currentUser={currentUser}
-          roomInfo={roomInfo}
+          roomId={roomId}
+          chatLogs={chatLogs}
           socket={socket}
         />
         <CamWindow />

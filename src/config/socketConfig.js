@@ -18,7 +18,11 @@ export function subscribeSocket(dispatch) {
 
   socket.on("receive participants", (roomInfo) => {
     if (!roomInfo) return dispatch(deleteRoom());
-    
+
+    dispatch(initRoomInfo(roomInfo));
+  });
+
+  socket.on("receive targetRoomInfo", (roomInfo) => {
     dispatch(initRoomInfo(roomInfo));
   });
 

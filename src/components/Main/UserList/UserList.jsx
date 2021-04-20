@@ -34,12 +34,11 @@ const UserListContainer = styled.div`
 
 function UserList({
   currentUser,
-  roomInfo
+  userList
 }) {
-  const { participants } = roomInfo;
 
   function renderJoinUsers() {
-    return participants.map((participant) => (
+    return userList.map((participant) => (
       <div key={participant.email}>
         {participant.email}
       </div>

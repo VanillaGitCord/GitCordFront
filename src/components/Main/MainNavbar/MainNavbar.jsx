@@ -1,14 +1,11 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { ImArrowLeft } from "react-icons/im";
 import { GiExitDoor } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
 
-import { deleteUser } from "../../../actions/userActions";
-import { deleteRoom } from "../../../actions/roomActions";
-
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+import { Redirect } from "react-router";
 
 const MainNavbarContainer = styled.div`
   display: flex;
@@ -36,21 +33,30 @@ const MainNavbarContainer = styled.div`
   }
 `;
 
-function MainNavbar({ currentUser, roomInfo }) {
+function MainNavbar({
+  currentUser,
+  roomTitle,
+  roomId,
+  socket
+}) {
   const { email } = currentUser;
-  const { roomTitle } = roomInfo;
-  const dispatch = useDispatch();
+  const [isOutRoom, setIsOutRoom] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
+
+  if (isOutRoom) return <Redirect to="/" />
+  if (isLogout) return <Redirect to="/login" />
 
   function handleLogoutButtonClick() {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
-    dispatch(deleteUser());
-    dispatch(deleteRoom());
+    socket.emit("bye", email, roomId);
+    setIsLogout(true);
   }
 
   function handleMainIconClick() {
-    dispatch(deleteRoom());
+    socket.emit("bye", email, roomId);
+    setIsOutRoom(true);
   }
 
   return (

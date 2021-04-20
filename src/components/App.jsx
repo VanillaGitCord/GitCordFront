@@ -11,7 +11,7 @@ function App() {
       <Route exact path="/" component={ChannelList} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={SignUp} />
-      <Route path="/main" component={Main} />
+      <Route path="/main/:roomId" component={Main} />
       <Route path="/error" />
       <Route path="*" />
     </Switch>
