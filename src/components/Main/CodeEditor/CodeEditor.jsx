@@ -7,8 +7,6 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript"
 
-import CamWindow from "./CamWindow/CamWindow";
-
 const CodeEditorContainer = styled.div`
   position: relative;
   width: 60%;
@@ -58,7 +56,6 @@ function CodeEditor({ socket, roomInfo }) {
           lineNumbers: true
         }}
       />
-      <CamWindow />
     </CodeEditorContainer>
   );
 }

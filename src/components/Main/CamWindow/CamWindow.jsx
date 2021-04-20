@@ -1,28 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { MdVideocam, MdVideocamOff } from "react-icons/md";
 import styled from "styled-components";
 import Peer from "simple-peer";
 
-import { socket } from "../../../../config/socketConfig";
-
-import MainIcon from "../../../publicComponents/MainIcon/MainIcon";
+import { socket } from "../../../config/socketConfig";
 
 const CamWindowContainer = styled.div`
   position: absolute;
-  bottom: 5%;
-  right: 5%;
-  width: 20%;
-  height: 20%;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 225px;
   background-color: #ffffff;
+  z-index: 9;
 
-  .cam-image {
-    position: absolute;
-    top: 5%;
-    right: 5%;
+  .cam-video {
+    width: 300px;
+    height: 225px;
   }
 
   .participant {
+    display: none;
+  }
+
+  .owner {
+    display: none;
   }
 `;
 
@@ -57,7 +59,6 @@ function CamWindow() {
 
   useEffect(() => {
     console.log(currentUser.email);
-    debugger;
     if (currentUser && participants && owner) {
       if (owner === currentUser.email) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
@@ -156,14 +157,12 @@ function CamWindow() {
   console.log("peers!!!!!!", peers);
   return (
     <CamWindowContainer>
-      <div>
-        <video ref={video} autoPlay playsInline />
-        {peers.map((peer, index) => {
-          return (
-            <Video key={index} peer={peer} />
-          );
-        })}
-      </div>
+      <video ref={video} autoPlay playsInline className="cam-video" />
+      {peers.map((peer, index) => {
+        return (
+          <Video key={index} peer={peer} className="participant owner" />
+        );
+      })}
     </CamWindowContainer>
   );
 }
