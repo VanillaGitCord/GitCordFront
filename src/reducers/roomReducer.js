@@ -16,6 +16,7 @@ const initialState = {
   joinUsers: [],
   chatLogs: [],
   activedRooms: [],
+  contents: "",
   isError: false
 };
 
