@@ -19,14 +19,14 @@ import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
 
 const MainOuter = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  min-height: 100vh;
 `;
 
 const MainContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   position: relative;
 `;
 

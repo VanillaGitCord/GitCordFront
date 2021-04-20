@@ -10,22 +10,18 @@ import { Redirect } from "react-router";
 const MainNavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 2%;
+  padding: 1%;
 
   .navbar-left {
     display: flex;
     justify-content: space-between;
     width: 15vw;
-    height: 5vh;
-    line-height: 5vh;
   }
 
   .navbar-right {
     display: flex;
     justify-content: space-evenly;
     width: 15vw;
-    height: 5vh;
-    line-height: 5vh;
 
     &-logout {
       cursor: pointer;
@@ -62,8 +58,11 @@ function MainNavbar({
   return (
     <MainNavbarContainer>
       <div className="navbar-left">
-        <ImArrowLeft size={30} />
-        <div onClick={handleMainIconClick}>
+        <ImArrowLeft
+          size={30}
+          onClick={handleMainIconClick}
+        />
+        <div>
           <MainIcon width="30px" height="30px" />
           {roomTitle}
         </div>
