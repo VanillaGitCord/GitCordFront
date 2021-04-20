@@ -15,6 +15,7 @@ import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
+import CamWindow from "./CamWindow/CamWindow";
 
 const MainOuter = styled.div`
   width: 100%;
@@ -26,15 +27,23 @@ const MainContainer = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
+  position: relative;
 `;
 
 function Main() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
-  const roomInfo = useSelector((state) => state.roomReducer);
+  const {
+    title,
+    owner,
+    participants,
+    contents,
+    chatLogs,
+    activedRooms,
+    isError
+  } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const { roomId } = useParams();
-  const { targetRoomInfo, chatLogs, activedRooms, isError } = roomInfo;
 
   useEffect(() => {
     // 초기 데이터 요청
@@ -98,6 +107,7 @@ function Main() {
           roomInfo={roomInfo}
           socket={socket}
         />
+        <CamWindow />
       </MainContainer>
     </MainOuter>
   );

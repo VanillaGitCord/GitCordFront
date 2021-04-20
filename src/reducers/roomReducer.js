@@ -11,7 +11,10 @@ import {
 } from "../constants/actionTypes";
 
 const initialState = {
-  targetRoomInfo: {},
+  title: "",
+  owner: "",
+  contents: "",
+  participants: [],
   chatLogs: [],
   activedRooms: [],
   isError: false
@@ -24,7 +27,7 @@ function roomReducer(state = initialState, action) {
 
       return produce(state, (draft) => {
         draft.roomId = roomId;
-        draft.roomTitle = roomTitle;
+        draft.title = roomTitle;
       });
     }
 
@@ -41,8 +44,13 @@ function roomReducer(state = initialState, action) {
     }
 
     case SET_ROOM_INFO: {
+      const { roomTitle, participants, owner, contents } = action.payload;
+
       return produce(state, (draft) => {
-        draft.roomTitle = action.payload;
+        draft.roomTitle = roomTitle;
+        draft.participants = participants;
+        draft.owner = owner;
+        draft.contents = contents;
       });
     }
 
