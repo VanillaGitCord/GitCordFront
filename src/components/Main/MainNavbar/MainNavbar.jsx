@@ -11,17 +11,20 @@ const MainNavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 1%;
+  font-weight: bold;
 
   .navbar-left {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    align-items: center;
     width: 15vw;
   }
 
   .navbar-right {
     display: flex;
     justify-content: space-evenly;
-    width: 15vw;
+    align-items: center;
+    width: 20vw;
 
     &-logout {
       cursor: pointer;
@@ -62,14 +65,11 @@ function MainNavbar({
           size={30}
           onClick={handleMainIconClick}
         />
-        <div>
-          <MainIcon width="30px" height="30px" />
-          {roomTitle}
-        </div>
+        <MainIcon width="30px" height="30px" />
+        {roomTitle}
       </div>
       <div className="navbar-right">
         <GiExitDoor
-          className="navbar-right-logout"
           size={30}
           onClick={handleLogoutButtonClick}
         />
