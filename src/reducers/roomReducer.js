@@ -11,12 +11,9 @@ import {
 } from "../constants/actionTypes";
 
 const initialState = {
-  roomId: "",
-  roomTitle: "",
-  joinUsers: [],
+  targetRoomInfo: {},
   chatLogs: [],
   activedRooms: [],
-  contents: "",
   isError: false
 };
 
@@ -44,11 +41,8 @@ function roomReducer(state = initialState, action) {
     }
 
     case SET_ROOM_INFO: {
-      const { roomTitle, joinUsers } = action.payload;
-
       return produce(state, (draft) => {
-        draft.roomTitle = roomTitle;
-        draft.joinUsers = joinUsers;
+        draft.roomTitle = action.payload;
       });
     }
 

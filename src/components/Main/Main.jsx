@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
 
 import {
@@ -33,6 +33,15 @@ function Main() {
   const roomInfo = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+  const { roomId } = useParams();
+  const { targetRoomInfo, chatLogs, activedRooms, isError } = roomInfo;
+
+  useEffect(() => {
+    // 초기 데이터 요청
+    socket.emit("init");
+
+    return () => socket.emit("bye", currentUser.email, roomId);
+  });
 
   useEffect(() => {
     const token = {
