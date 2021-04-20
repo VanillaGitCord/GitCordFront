@@ -17,6 +17,7 @@ const initialState = {
   participants: [],
   chatLogs: [],
   activedRooms: [],
+  contents: "",
   isError: false
 };
 

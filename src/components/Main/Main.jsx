@@ -80,7 +80,10 @@ function Main() {
           currentUser={currentUser}
           roomInfo={roomInfo}
         />
-        <CodeEditor />
+        <CodeEditor
+          socket={socket}
+          roomInfo={roomInfo}
+        />
         <Chat
           currentUser={currentUser}
           roomInfo={roomInfo}
