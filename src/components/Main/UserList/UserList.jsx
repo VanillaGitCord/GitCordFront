@@ -36,12 +36,12 @@ function UserList({
   currentUser,
   roomInfo
 }) {
-  const { joinUsers } = roomInfo;
+  const { participants } = roomInfo;
 
   function renderJoinUsers() {
-    return joinUsers.map((joinUser) => (
-      <div key={joinUser}>
-        {joinUser}
+    return participants.map((participant) => (
+      <div key={participant.email}>
+        {participant.email}
       </div>
     ));
   }
