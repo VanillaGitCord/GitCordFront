@@ -64,6 +64,7 @@ function MainNavbar({
         <ImArrowLeft
           size={30}
           onClick={handleMainIconClick}
+          cursor="pointer"
         />
         <MainIcon width="30px" height="30px" />
         {roomTitle}
@@ -72,6 +73,7 @@ function MainNavbar({
         <GiExitDoor
           size={30}
           onClick={handleLogoutButtonClick}
+          cursor="pointer"
         />
         <FaUserCircle size={30} />
         {email}
