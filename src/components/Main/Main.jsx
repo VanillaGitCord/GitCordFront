@@ -38,7 +38,6 @@ function Main() {
     participants,
     contents,
     chatLogs,
-    activedRooms,
     isError
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -47,10 +46,10 @@ function Main() {
 
   useEffect(() => {
     // 초기 데이터 요청
-    socket.emit("init");
+    socket.emit("join", currentUser, roomId);
 
     return () => socket.emit("bye", currentUser.email, roomId);
-  });
+  }, []);
 
   useEffect(() => {
     const token = {
@@ -72,39 +71,33 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    socket.emit("init", currentUser, roomInfo);
-
-    return () => socket.emit("bye", currentUser.email, roomInfo.roomId);
-  }, []);
-
-  useEffect(() => {
     subscribeSocket(dispatch);
 
     return () => cancelSocketSubscription();
   }, []);
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
-  if (!roomInfo.roomId) return <Redirect to="/" />;
-
   return (
     <MainOuter>
       <MainNavbar
         currentUser={currentUser}
-        roomInfo={roomInfo}
+        roomTitle={title}
+        roomId={roomId}
         socket={socket}
       />
       <MainContainer>
         <UserList
           currentUser={currentUser}
-          roomInfo={roomInfo}
+          userList={participants}
         />
         <CodeEditor
           socket={socket}
-          roomInfo={roomInfo}
+          roomId={roomId}
+          contents={contents}
         />
         <Chat
           currentUser={currentUser}
-          roomInfo={roomInfo}
+          roomId={roomId}
+          chatLogs={chatLogs}
           socket={socket}
         />
         <CamWindow />

@@ -3,8 +3,8 @@ import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
+import { v1 as uuidv1 } from "uuid";
 
-import { createRoom, enterRoom } from "../../actions/roomActions";
 import { addUser } from "../../actions/userActions";
 import {
   subscribeSocket,
@@ -46,9 +46,15 @@ const ChannelListOutter = styled.div`
 function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
+  const [roomId, setRoomId] = useState("");
+  const currentUser = useSelector((state) => state.userReducer.user);
+  const { activedRooms } = useSelector((state) => state.roomReducer);
   const [isAuthuticate, setIsAuthuticate] = useState(true);
-  const { roomId } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.emit("init roomList");
+  }, []);
 
   useEffect(() => {
     const token = {
@@ -59,13 +65,13 @@ function ChannelList() {
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
       const {
-        user,
+        user: { name, email },
         message
       } = response;
 
       if (message) return setIsAuthuticate(false);
 
-      dispatch(addUser(user));
+      dispatch(addUser({ name, email }));
     })();
   }, []);
 
@@ -76,7 +82,7 @@ function ChannelList() {
   }, []);
 
   if (!isAuthuticate) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to="/main" />;
+  if (roomId) return <Redirect to={`/main/${roomId}`} />;
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -87,17 +93,20 @@ function ChannelList() {
   }
 
   async function handleCreateRoomClick() {
-    const payload = {
-      accessToken: localStorage.getItem("access"),
-      refreshToken: localStorage.getItem("refresh"),
-      roomTitle: createRoomTitle
+    const id = uuidv1();
+
+    setRoomId(id);
+
+    const roomInfo = {
+      title: createRoomTitle,
+      roomId: id
     };
 
-    dispatch(createRoom(payload));
+    socket.emit("create room", currentUser, roomInfo);
   }
 
   function handleEnterRoomClick() {
-    dispatch(enterRoom(enterRoomId));
+    setRoomId(enterRoomId);
   }
 
   return (
@@ -136,7 +145,10 @@ function ChannelList() {
             <FaDoorOpen size={50} />
           </div>
         </div>
-        <ChannelListContainer socket={socket} />
+        <ChannelListContainer
+          activedRooms={activedRooms}
+          setRoomId={setRoomId}
+        />
       </ChannelListOutter>
     </Background>
   );

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import styled from "styled-components";
 
 import Channel from "./Channel/Channel";
@@ -19,25 +18,19 @@ const ChannelListContainerStyle = styled.div`
   overflow-y: scroll;
 `;
 
-function ChannelListContainer({ socket }) {
-  const { activedRooms } = useSelector((state) => state.roomReducer);
-
-  useEffect(() => {
-    socket.emit("init roomList");
-  }, []);
-
+function ChannelListContainer({ activedRooms, setRoomId }) {
   function renderActivedRooms() {
-    const activedRoomList = [];
+    return activedRooms.map((activedRoom) => {
+      function handleChannelonClick() {
+        setRoomId(activedRoom);
+      }
 
-    for (const activedRoom in activedRooms) {
-      activedRoomList.push({
-        roomId: activedRoom,
-        roomInfo: activedRooms[activedRoom]
-      });
-    }
-
-    return activedRoomList.map((activedRoom) => {
-      return <Channel activeRoomInfo={activedRoom} />
+      return (
+        <Channel
+          activedRoom={activedRoom}
+          onClick={handleChannelonClick}
+        />
+      );
     });
   }
 

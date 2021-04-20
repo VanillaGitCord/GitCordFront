@@ -47,7 +47,7 @@ function roomReducer(state = initialState, action) {
       const { roomTitle, participants, owner, contents } = action.payload;
 
       return produce(state, (draft) => {
-        draft.roomTitle = roomTitle;
+        draft.title = roomTitle;
         draft.participants = participants;
         draft.owner = owner;
         draft.contents = contents;

@@ -48,17 +48,12 @@ const ChatContainer = styled.div`
 
 function Chat({
   currentUser,
-  roomInfo,
+  roomId,
+  chatLogs,
   socket
 }) {
   const [chat, setChat] = useState("");
-  const chatLogs = useSelector((state) => state.roomReducer.chatLogs);
   const { name } = currentUser;
-  const { roomId } = roomInfo;
-
-  useEffect(() => {
-    socket.emit("join", roomId);
-  }, [roomId, socket]);
 
   function handleChatChange(event) {
     const { value } = event.target;

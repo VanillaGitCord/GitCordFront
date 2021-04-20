@@ -4,7 +4,7 @@ import {
   receiveChat,
   initRoomInfo,
   initRoomList,
-  deleteRoom
+  deleteRoom,
 } from "../actions/roomActions";
 
 export const socket = io.connect(
@@ -19,6 +19,10 @@ export function subscribeSocket(dispatch) {
   socket.on("receive participants", (roomInfo) => {
     if (!roomInfo) return dispatch(deleteRoom());
 
+    dispatch(initRoomInfo(roomInfo));
+  });
+
+  socket.on("receive targetRoomInfo", (roomInfo) => {
     dispatch(initRoomInfo(roomInfo));
   });
 
