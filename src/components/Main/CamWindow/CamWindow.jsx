@@ -93,7 +93,6 @@ function CamWindow({ currentUser, participants }) {
         const peers = [];
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
         participantsWithoutMe.forEach(userInfo => {
-          // 상대의 socket.id, 나의 socket.id, 나의 stream
           const peer = createPeer(userInfo.socketId, userInfo.isOwner, socket.id, stream);
           peersRef.current.push({
             peerID: userInfo.socketId,
