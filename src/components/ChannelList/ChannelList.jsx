@@ -13,6 +13,7 @@ import {
 } from "../../config/socketConfig";
 import { postAuthToken } from "../../api/userApi";
 
+import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
 import InputWithLabel from "../publicComponents/InputWithLabel/InputWithLabel";
@@ -48,6 +49,7 @@ function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
   const [isAuthuticate, setIsAuthuticate] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
@@ -81,8 +83,13 @@ function ChannelList() {
     return () => cancelSocketSubscription();
   }, []);
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to={`/main/${roomId}`} />;
+  useEffect(() => {
+    if (currentUser && activedRooms.length) {
+      setTimeout(() => {
+        setIsReady(true);
+      }, 4000);
+    }
+  }, [currentUser, activedRooms]);
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -106,6 +113,14 @@ function ChannelList() {
   function handleEnterRoomClick() {
     setRoomId(enterRoomId);
   }
+
+  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (roomId) return <Redirect to={`/main/${roomId}`} />;
+  if (!isReady) return (
+    <Background>
+      <Loading />
+    </Background>
+  );
 
   return (
     <Background>
