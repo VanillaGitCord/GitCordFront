@@ -36,8 +36,6 @@ const Video = ({ peer, isOwner }) => {
     peer.on("stream", stream => {
       ref.current.srcObject = stream;
     });
-
-    return () => ref.current.srcObject = null;
   }, []);
 
   return (
@@ -89,10 +87,12 @@ function CamWindow({ currentUser, participants }) {
   useEffect(() => {
     if (isStreaming) return;
 
+    const user = participants.find(participant => participant.email === currentUser.email);
+
+    if (!user) return;
+
     if (currentUser && participants.length) {
       setIsStreaming(true);
-
-      const user = participants.find(participant => participant.email === currentUser.email);
 
       navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
         localStream = stream;
@@ -157,8 +157,11 @@ function CamWindow({ currentUser, participants }) {
     return () => {
       socket.off("receiving returned signal");
       socket.off("user left");
-      localStream.getTracks().forEach(val => val.stop());
-      peers.forEach(peer => peer.destroy());
+      localStream && localStream.getTracks().forEach(val => val.stop());
+      peers && peers.forEach(peer => {
+        peer.removeAllListeners("signal");
+        peer.destroy();
+      });
     }
   }, []);
 
