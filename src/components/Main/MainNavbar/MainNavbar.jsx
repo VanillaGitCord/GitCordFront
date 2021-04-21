@@ -50,7 +50,7 @@ function MainNavbar({
     setIsLogout(true);
   }
 
-  function handleMainIconClick() {
+  function handleLeaveIconClick() {
     setIsOutRoom(true);
   }
 
@@ -59,7 +59,7 @@ function MainNavbar({
       <div className="navbar-left">
         <ImArrowLeft
           size={30}
-          onClick={handleMainIconClick}
+          onClick={handleLeaveIconClick}
           cursor="pointer"
         />
         <MainIcon width="30px" height="30px" />

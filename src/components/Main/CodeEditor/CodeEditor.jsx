@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Controlled as ControlledEditor
 } from "react-codemirror2";
 import styled from "styled-components";
+import { throttle } from "lodash";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript"
@@ -40,24 +41,29 @@ function CodeEditor({
 }) {
   const [code, setCode] = useState("");
 
-  useEffect(() => {
+  const refreshTypingUser = useCallback(() => {
     const typingInfo = {
-      typingUser: currentUser.name,
+      typingUser: currentUser,
       roomId
-    }
-    const stopTyping = setTimeout(() => {
-      socket.emit("stop typing", typingInfo);
-    }, 2000);
+    };
 
+    socket.emit("stop typing", typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingRefreshTypingUser = useMemo(() =>
+    throttle(refreshTypingUser, 3000),
+    [refreshTypingUser]
+  );
+
+  useEffect(() => {
     setCode(contents);
-    return () => {
-      clearTimeout(stopTyping);}
-  }, [contents, currentUser, socket, roomId]);
+    throllingRefreshTypingUser();
+  }, [contents, throllingRefreshTypingUser]);
 
   function handleChange(editor, data, value) {
     const typingInfo = {
       value,
-      typingUser: currentUser.name,
+      typingUser: currentUser,
       roomId
     };
 
