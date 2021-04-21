@@ -82,12 +82,12 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    if (currentUser && participants.length) {
+    if (currentUser.email) {
       setTimeout(() => {
         setIsReady(true);
       }, 4000);
     }
-  }, [participants, currentUser]);
+  }, [currentUser]);
 
   if (!isAuthuticate) return <Redirect to="/login" />;
   if (isClosed) return <Redirect to="/" />;
@@ -123,7 +123,7 @@ function Main() {
             roomId={roomId}
             socket={socket}
           />
-          {/* <CamWindow currentUser={currentUser} participants={participants}/> */}
+          <CamWindow currentUser={currentUser} participants={participants}/>
         </MainContainer>
       </MainOuter>
     </Background>

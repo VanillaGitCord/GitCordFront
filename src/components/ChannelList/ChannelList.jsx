@@ -84,12 +84,12 @@ function ChannelList() {
   }, []);
 
   useEffect(() => {
-    if (currentUser && activedRooms.length) {
+    if (currentUser) {
       setTimeout(() => {
         setIsReady(true);
       }, 4000);
     }
-  }, [currentUser, activedRooms]);
+  }, [currentUser]);
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
