@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
 
 import {
@@ -38,7 +38,7 @@ function Main() {
     participants,
     contents,
     chatLogs,
-    isError
+    isClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
@@ -77,6 +77,9 @@ function Main() {
 
     return () => cancelSocketSubscription();
   }, []);
+
+  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (isClosed) return <Redirect to="/" />
 
   return (
     <Background>
