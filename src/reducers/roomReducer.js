@@ -5,7 +5,7 @@ import {
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  CLEAR_CHATLOGS
+  LEAVE_ROOM
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -38,6 +38,7 @@ function roomReducer(state = initialState, action) {
 
     case SET_ROOM_LIST: {
       return produce(state, (draft) => {
+        draft.isClosed = false;
         draft.activedRooms = action.payload;
       });
     }
@@ -48,10 +49,9 @@ function roomReducer(state = initialState, action) {
       });
     }
 
-    case CLEAR_CHATLOGS: {
+    case LEAVE_ROOM: {
       return produce(state, (draft) => {
         draft.chatLogs = [];
-        draft.isClosed = false;
       });
     }
 
@@ -62,7 +62,6 @@ function roomReducer(state = initialState, action) {
         draft.contents = "";
         draft.participants = [];
         draft.chatLogs = [];
-        draft.activedRooms = [];
         draft.isClosed = true;
       });
     }

@@ -3,7 +3,7 @@ import {
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  CLEAR_CHATLOGS
+  LEAVE_ROOM
 } from "../constants/actionTypes";
 
 export function initRoomInfo(roomInfo) {
@@ -27,9 +27,9 @@ export function receiveChat(chatLogs) {
   };
 }
 
-export function clearChatLogs() {
+export function leaveRoom() {
   return {
-    type: CLEAR_CHATLOGS
+    type: LEAVE_ROOM
   };
 }
 

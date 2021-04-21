@@ -8,7 +8,7 @@ import {
   cancelSocketSubscription,
   socket
 } from "../../config/socketConfig";
-import { clearChatLogs } from "../../actions/roomActions";
+import { leaveRoom } from "../../actions/roomActions";
 import { addUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 
@@ -48,8 +48,8 @@ function Main() {
     socket.emit("join", currentUser, roomId);
 
     return () => {
-      dispatch(clearChatLogs());
       socket.emit("bye", currentUser.email, roomId);
+      dispatch(leaveRoom());
     };
   }, []);
 
