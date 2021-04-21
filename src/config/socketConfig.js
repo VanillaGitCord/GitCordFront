@@ -2,6 +2,7 @@ import io from "socket.io-client";
 
 import {
   receiveChat,
+  receiveCodeText,
   initRoomInfo,
   initRoomList,
   deleteRoom
@@ -28,6 +29,10 @@ export function subscribeSocket(dispatch) {
 
   socket.on("receive activeRoomList", (activedRoomList) => {
     dispatch(initRoomList(activedRoomList));
+  });
+
+  socket.on("receive codeEditor text", (text) => {
+    dispatch(receiveCodeText(text));
   });
 }
 

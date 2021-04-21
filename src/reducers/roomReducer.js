@@ -5,7 +5,8 @@ import {
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  RECEIVE_EDITOR_TEXT
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -46,6 +47,12 @@ function roomReducer(state = initialState, action) {
     case RECEIVE_CHAT: {
       return produce(state, (draft) => {
         draft.chatLogs.push(action.payload);
+      });
+    }
+
+    case RECEIVE_EDITOR_TEXT: {
+      return produce(state, (draft) => {
+        draft.contents = action.payload;
       });
     }
 

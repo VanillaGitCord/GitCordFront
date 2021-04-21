@@ -32,7 +32,7 @@ function CodeEditor({
 
   useEffect(() => {
     setCode(contents);
-  }, []);
+  }, [contents]);
 
   function handleChange(editor, data, value) {
     const payload = {

@@ -3,7 +3,8 @@ import {
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  RECEIVE_EDITOR_TEXT
 } from "../constants/actionTypes";
 
 export function initRoomInfo(roomInfo) {
@@ -24,6 +25,13 @@ export function receiveChat(chatLogs) {
   return {
     type: RECEIVE_CHAT,
     payload: chatLogs
+  };
+}
+
+export function receiveCodeText(text) {
+  return {
+    type: RECEIVE_EDITOR_TEXT,
+    payload: text
   };
 }
 
