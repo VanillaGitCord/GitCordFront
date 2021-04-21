@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import ModalBackground from "../publicComponents/ModalBackground/ModalBackground";
+import Background from "../publicComponents/Backgroud/Background";
 
 const Loader = styled.div`
   position: relative;
@@ -195,16 +197,46 @@ const Loader = styled.div`
 }
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 600px;
+  height: 250px;
+
+  .text {
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+  }
+`;
+
 function Loading() {
+  const [loadingText, setLoadingText] = useState("Loading");
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (loadingText === "Loading...") {
+        setLoadingText("Loading");
+      } else {
+        setLoadingText(loadingText + ".");
+      }
+    }, 500);
+  }, [loadingText]);
+
   return (
     <ModalBackground>
-      <Loader>
-        <span class="l-small"></span>
-        <span class="l-big"></span>
-        <span class="face"></span>
-        <span class="r-big"></span>
-        <span class="r-small"></span>
-      </Loader>
+      <LoadingContainer>
+        <Loader>
+          <span class="l-small"></span>
+          <span class="l-big"></span>
+          <span class="face"></span>
+          <span class="r-big"></span>
+          <span class="r-small"></span>
+        </Loader>
+        <div className="text">{loadingText}</div>
+      </LoadingContainer>
     </ModalBackground>
   );
 }

@@ -18,6 +18,7 @@ import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
+import Loading from "../Loading/Loading";
 
 const MainOuter = styled.div`
   width: 100vw;
@@ -33,6 +34,7 @@ const MainContainer = styled.div`
 
 function Main() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const {
     title,
     participants,
@@ -79,8 +81,21 @@ function Main() {
     return () => cancelSocketSubscription();
   }, []);
 
+  useEffect(() => {
+    if (currentUser && participants.length) {
+      setTimeout(() => {
+        setIsReady(true);
+      }, 4000);
+    }
+  }, [participants, currentUser]);
+
   if (!isAuthuticate) return <Redirect to="/login" />;
   if (isClosed) return <Redirect to="/" />;
+  if (!isReady) return (
+    <Background>
+      <Loading />
+    </Background>
+  );
 
   return (
     <Background>
