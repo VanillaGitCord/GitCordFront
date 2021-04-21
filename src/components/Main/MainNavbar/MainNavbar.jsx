@@ -49,12 +49,10 @@ function MainNavbar({
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
-    socket.emit("bye", email, roomId);
     setIsLogout(true);
   }
 
   function handleMainIconClick() {
-    socket.emit("bye", email, roomId);
     setIsOutRoom(true);
   }
 
