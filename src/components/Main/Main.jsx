@@ -38,6 +38,7 @@ function Main() {
     participants,
     contents,
     chatLogs,
+    typingUsers,
     isClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -96,6 +97,8 @@ function Main() {
             userList={participants}
           />
           <CodeEditor
+            currentUser={currentUser}
+            typingUsers={typingUsers}
             socket={socket}
             roomId={roomId}
             contents={contents}

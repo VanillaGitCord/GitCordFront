@@ -21,9 +21,19 @@ const CodeEditorContainer = styled.div`
     border-radius: 20px;
     overflow: hidden;
   }
+
+  .typing-user {
+    position: absolute;
+    left: 1rem;
+    bottom: 0;
+    color: #ffffff;
+    z-index: 4;
+  }
 `;
 
 function CodeEditor({
+  currentUser,
+  typingUsers,
   socket,
   roomId,
   contents
@@ -31,17 +41,28 @@ function CodeEditor({
   const [code, setCode] = useState("");
 
   useEffect(() => {
+    const typingInfo = {
+      typingUser: currentUser.name,
+      roomId
+    }
+    const stopTyping = setTimeout(() => {
+      socket.emit("stop typing", typingInfo);
+    }, 2000);
+
     setCode(contents);
-  }, [contents]);
+    return () => {
+      clearTimeout(stopTyping);}
+  }, [contents, currentUser, socket, roomId]);
 
   function handleChange(editor, data, value) {
-    const payload = {
+    const typingInfo = {
       value,
+      typingUser: currentUser.name,
       roomId
     };
 
     setCode(value);
-    socket.emit("send codeEditor text", payload);
+    socket.emit("start typing", typingInfo);
   }
 
   return (
@@ -57,8 +78,11 @@ function CodeEditor({
           lineNumbers: true
         }}
       />
+      <article className="typing-user">
+        {typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...`}
+      </article>
     </CodeEditorContainer>
   );
 }
 
-export default CodeEditor;
+export default React.memo(CodeEditor);

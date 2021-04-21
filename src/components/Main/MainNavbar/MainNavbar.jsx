@@ -34,9 +34,7 @@ const MainNavbarContainer = styled.div`
 
 function MainNavbar({
   currentUser,
-  roomTitle,
-  roomId,
-  socket
+  roomTitle
 }) {
   const { email } = currentUser;
   const [isOutRoom, setIsOutRoom] = useState(false);
@@ -49,12 +47,10 @@ function MainNavbar({
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
-    socket.emit("bye", email, roomId);
     setIsLogout(true);
   }
 
   function handleMainIconClick() {
-    socket.emit("bye", email, roomId);
     setIsOutRoom(true);
   }
 
@@ -82,4 +78,4 @@ function MainNavbar({
   );
 }
 
-export default MainNavbar;
+export default React.memo(MainNavbar);

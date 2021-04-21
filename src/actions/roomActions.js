@@ -4,7 +4,8 @@ import {
   SET_ROOM_INFO,
   SET_ROOM_LIST,
   LEAVE_ROOM,
-  RECEIVE_EDITOR_TEXT
+  RECEIVE_EDITOR_TYPING_INFO,
+  RECEIVE_EDITOR_TYPING_USERS
 } from "../constants/actionTypes";
 
 export function initRoomInfo(roomInfo) {
@@ -28,11 +29,18 @@ export function receiveChat(chatLogs) {
   };
 }
 
-export function receiveCodeText(text) {
+export function receiveTypingInfo(typingInfo) {
   return {
-    type: RECEIVE_EDITOR_TEXT,
-    payload: text
+    type: RECEIVE_EDITOR_TYPING_INFO,
+    payload: typingInfo
   };
+}
+
+export function receiveTypingUsers(typingUsers) {
+  return {
+    type: RECEIVE_EDITOR_TYPING_USERS,
+    payload: typingUsers
+  }
 }
 
 export function leaveRoom() {
