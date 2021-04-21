@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import ModalBackground from "../publicComponents/ModalBackground/ModalBackground";
 
 const Loader = styled.div`
   position: relative;
   height: 5rem;
   width: 9rem;
-
   animation-name: rotate;
   animation-duration: 3s;
   animation-delay: 1s;
@@ -24,11 +24,10 @@ const Loader = styled.div`
 }
 
 .l-small {
+  position: absolute;
   height: 1rem;
   width: 1rem;
   background: #eee;
-
-  position: absolute;
   left: 0;
   top: 2rem;
   animation-name: left-small;
@@ -59,14 +58,12 @@ const Loader = styled.div`
 }
 
 .l-big {
+  position: absolute;
   height: 2rem;
   width: 2rem;
   background: #eee;
-
-  position: absolute;
   left: 1rem;
   top: 1.5rem;
-
   animation-name: left-big;
   animation-duration: 3s;
   animation-delay: 1s;
@@ -92,48 +89,44 @@ const Loader = styled.div`
 }
 
 .face {
+  position: absolute;
   height: 3rem;
   width: 3rem;
   background: #eee;
-
-  position: absolute;
   left: 3rem;
   top: 1rem;
   border-radius: 20%;
 }
 
 .face::before {
+  position: absolute;
   content: "";
   height: 0.8rem;
   width: 0.75rem;
   background: #262a39;
   border-radius: 50%;
-
-  position: absolute;
   top: 1rem;
   left: 0.5rem;
 }
 
 .face::after {
+  position: absolute;
   content: "";
   height: 0.8rem;
   width: 0.75rem;
   background: #262a39;
   border-radius: 50%;
-
-  position: absolute;
   top: 1rem;
   right: 0.5rem;
 }
 
 .r-big {
+  position: absolute;
   height: 2rem;
   width: 2rem;
   background: #eee;
-  position: absolute;
   right: 1rem;
   top: 1.5rem;
-
   animation-name: right-big;
   animation-duration: 3s;
   animation-delay: 1s;
@@ -159,14 +152,12 @@ const Loader = styled.div`
 }
 
 .r-small {
+  position: absolute;
   height: 1rem;
   width: 1rem;
   background: #eee;
-
-  position: absolute;
   right: 0;
   top: 2rem;
-
   animation-name: right-small;
   animation-duration: 3s;
   animation-delay: 1s;
@@ -206,13 +197,15 @@ const Loader = styled.div`
 
 function Loading() {
   return (
-    <Loader>
-      <span class="l-small"></span>
-      <span class="l-big"></span>
-      <span class="face"></span>
-      <span class="r-big"></span>
-      <span class="r-small"></span>
-    </Loader>
+    <ModalBackground>
+      <Loader>
+        <span class="l-small"></span>
+        <span class="l-big"></span>
+        <span class="face"></span>
+        <span class="r-big"></span>
+        <span class="r-small"></span>
+      </Loader>
+    </ModalBackground>
   );
 }
 

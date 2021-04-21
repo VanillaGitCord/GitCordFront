@@ -41,7 +41,12 @@ const Video = ({ peer, isOwner }) => {
   }, []);
 
   return (
-    <video playsInline autoPlay ref={ref} className={`cam-video ${className}`} />
+    <video
+      ref={ref}
+      playsInline
+      autoPlay
+      className={`cam-video ${className}`}
+    />
   );
 }
 
@@ -86,6 +91,7 @@ function CamWindow({ currentUser, participants }) {
 
     if (currentUser && participants.length) {
       setIsStreaming(true);
+
       const user = participants.find(participant => participant.email === currentUser.email);
 
       navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
@@ -95,14 +101,18 @@ function CamWindow({ currentUser, participants }) {
 
         const peers = [];
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
+
         participantsWithoutMe.forEach(userInfo => {
           const peer = createPeer(userInfo.socketId, userInfo.isOwner, socket.id, stream);
+
           peersRef.current.push({
             peerID: userInfo.socketId,
             peer
           });
+
           peers.push({ peerID: userInfo.socketId, isOwner: userInfo.isOwner, peer });
         });
+
         setPeers(peers);
 
         socket.on("user joined", payload => {
@@ -114,12 +124,14 @@ function CamWindow({ currentUser, participants }) {
               peerID: payload.callerID,
               peer
             });
+
             setPeers(peers => [...peers, { peerID: payload.socketId, isOwner: payload.isUserOwner, peer }]);
           }
         });
 
         socket.on("receiving returned signal", payload => {
           const item = peersRef.current.find(p => p.peerID === payload.id);
+
           item.peer.signal(payload.signal);
         });
 
@@ -127,10 +139,13 @@ function CamWindow({ currentUser, participants }) {
           peersRef.current = peersRef.current.filter((peerObj) => (
             peerObj.peerID !== targetUser.socketId
           ));
+
           setPeers(peers => {
             const targetPeer = peers.find(peerObj => peerObj.peerID === targetUser.socketId);
             const restPeers = peers.filter(peerObj => peerObj.peerID !== targetUser.socketId);
+
             if (targetPeer) targetPeer.peer.destroy();
+
             return [...restPeers];
           });
         });
@@ -149,10 +164,18 @@ function CamWindow({ currentUser, participants }) {
 
   return (
     <CamWindowContainer>
-      <video ref={userVideo} autoPlay playsInline className="cam-video" />
+      <video
+        ref={userVideo}
+        autoPlay
+        playsInline
+      />
       {peers.map((peerObj) => {
         return (
-          <Video key={peerObj.peerID} isOwner={peerObj.isOwner} peer={peerObj.peer} />
+          <Video
+            key={peerObj.peerID}
+            isOwner={peerObj.isOwner}
+            peer={peerObj.peer}
+          />
         );
       })}
     </CamWindowContainer>
