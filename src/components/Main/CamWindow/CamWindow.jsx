@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import styled from "styled-components";
 import Peer from "simple-peer";
 
@@ -38,12 +43,9 @@ const Video = ({ peer }) => {
   );
 }
 
-let count = 0;
-
 function CamWindow({ currentUser, participants }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [peers, setPeers] = useState([]);
-  const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
 
@@ -51,12 +53,12 @@ function CamWindow({ currentUser, participants }) {
     const peer = new Peer({
       initiator: true,
       trickle: false,
-      stream,
+      stream
     });
 
     peer.on("signal", signal => {
       socket.emit("sending signal", { userToSignal, callerID, signal })
-    })
+    });
 
     return peer;
   }, []);
@@ -65,12 +67,12 @@ function CamWindow({ currentUser, participants }) {
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream,
-    })
+      stream
+    });
 
     peer.on("signal", signal => {
       socket.emit("returning signal", { signal, callerID })
-    })
+    });
 
     peer.signal(incomingSignal);
 
@@ -88,17 +90,16 @@ function CamWindow({ currentUser, participants }) {
 
         const peers = [];
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
-        // 지금 여러번 여기 들어오고 있음.... 딱 1번만!!! 실행 시키도록 해야함
         debugger;
         participantsWithoutMe.forEach(userInfo => {
           // 상대의 socket.id, 나의 socket.id, 나의 stream
           const peer = createPeer(userInfo.socketId, socket.id, stream);
           peersRef.current.push({
             peerID: userInfo.socketId,
-            peer,
-          })
+            peer
+          });
           peers.push(peer);
-        })
+        });
         setPeers(peers);
 
         socket.on("user joined", payload => {
@@ -106,12 +107,13 @@ function CamWindow({ currentUser, participants }) {
           console.log("user joined event!    ", payload);
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
+
           if (!isPeerExist) {
             peersRef.current.push({
               peerID: payload.callerID,
-              peer,
+              peer
             });
-            setPeers(peers => [...peers, peer])
+            setPeers(peers => [...peers, peer]);
           }
         });
 
