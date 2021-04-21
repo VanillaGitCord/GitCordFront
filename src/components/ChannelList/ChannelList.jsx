@@ -64,12 +64,12 @@ function ChannelList() {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
-      const {
-        user: { name, email },
-        message
-      } = response;
 
-      if (message) return setIsAuthuticate(false);
+      if (response.message) return setIsAuthuticate(false);
+
+      const {
+        user: { name, email }
+      } = response;
 
       dispatch(addUser({ name, email }));
     })();
