@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCrown } from "react-icons/fa";
 import styled from "styled-components";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
@@ -38,11 +39,15 @@ function UserList({
 }) {
 
   function renderJoinUsers() {
-    return userList.map((participant) => (
-      <div key={participant.email}>
-        {participant.email}
-      </div>
-    ));
+    return userList.map((participant) => {
+      const { email, isOwner } = participant;
+
+      return (
+        <div key={email}>
+          {isOwner && <FaCrown />} {email}
+        </div>
+      );
+    });
   }
 
   return (
@@ -53,7 +58,7 @@ function UserList({
       <article className="userlist-participants">
         {renderJoinUsers()}
       </article>
-      <UserToolbar />
+      <UserToolbar user={currentUser} />
     </UserListContainer>
   );
 }

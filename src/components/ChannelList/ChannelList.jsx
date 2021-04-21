@@ -44,9 +44,9 @@ const ChannelListOutter = styled.div`
 `;
 
 function ChannelList() {
+  const [roomId, setRoomId] = useState("");
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
-  const [roomId, setRoomId] = useState("");
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
@@ -94,14 +94,12 @@ function ChannelList() {
 
   async function handleCreateRoomClick() {
     const id = uuidv1();
-
-    setRoomId(id);
-
     const roomInfo = {
       title: createRoomTitle,
       roomId: id
     };
 
+    setRoomId(id);
     socket.emit("create room", currentUser, roomInfo);
   }
 
@@ -123,12 +121,11 @@ function ChannelList() {
             value={enterRoomId}
             type="text"
           />
-          <div
-            className="channlelist-enterroominput-icon"
+          <FaDoorOpen
+            size={40}
             onClick={handleEnterRoomClick}
-          >
-            <FaDoorOpen size={50} />
-          </div>
+            cursor="pointer"
+          />
           <InputWithLabel
             width="40%"
             height="60%"
@@ -138,12 +135,11 @@ function ChannelList() {
             value={createRoomTitle}
             type="text"
           />
-          <div
-            className="channlelist-enterroominput-icon"
+          <FaDoorOpen
+            size={40}
             onClick={handleCreateRoomClick}
-          >
-            <FaDoorOpen size={50} />
-          </div>
+            cursor="pointer"
+          />
         </div>
         <ChannelListContainer
           activedRooms={activedRooms}

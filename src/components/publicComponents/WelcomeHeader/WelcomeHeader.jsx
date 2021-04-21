@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import mainIcon from "../../../assets/images/mainIcon.png";
+import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 
 const WelComeHeaderStyle = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-content: center;
-  width: 35%;
+  width: 17%;
   height: 100%;
 
   .welcomeheader-mainicon {
@@ -25,8 +25,8 @@ const HeaderContainer = styled.div`
     align-content: center;
 
     img {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
     }
   }
 `;
@@ -36,7 +36,7 @@ const AppTitleWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
 `;
 
@@ -45,7 +45,7 @@ function WelComeHeader() {
     <WelComeHeaderStyle>
       <HeaderContainer>
         <div className="welcomeheader-mainicon">
-          <img src={mainIcon} />
+          <MainIcon />
         </div>
         <AppTitleWrapper>GitCord</AppTitleWrapper>
       </HeaderContainer>

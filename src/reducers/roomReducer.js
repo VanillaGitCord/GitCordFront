@@ -7,7 +7,8 @@ import {
   ENTER_ROOM,
   RECEIVE_CHAT,
   SET_ROOM_INFO,
-  SET_ROOM_LIST
+  SET_ROOM_LIST,
+  CLEAR_CHATLOGS
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -63,6 +64,12 @@ function roomReducer(state = initialState, action) {
     case RECEIVE_CHAT: {
       return produce(state, (draft) => {
         draft.chatLogs.push(action.payload);
+      });
+    }
+
+    case CLEAR_CHATLOGS: {
+      return produce(state, (draft) => {
+        draft.chatLogs = [];
       });
     }
 
