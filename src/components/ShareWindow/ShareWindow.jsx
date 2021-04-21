@@ -3,11 +3,12 @@ import { RiFileCopyLine } from "react-icons/ri";
 import styled from "styled-components";
 
 const ShareWindowContainer = styled.div`
-  width: 15%;
+  width: 100%;
   height: 8%;
   padding: 10px;
   background-color: #FF6623;
   text-align: center;
+  border-radius: 10px;
 
   span {
     display: block;
@@ -27,11 +28,15 @@ const ShareWindowContainer = styled.div`
   }
 `;
 
-function ShareWindow() {
+function ShareWindow({ url }) {
   return (
     <ShareWindowContainer>
       <span>INVITE</span>
-      <input type="text" readOnly />
+      <input
+        type="text"
+        value={url}
+        readOnly
+      />
       <div className="copy-icon">
         <RiFileCopyLine size={15} />
       </div>

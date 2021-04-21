@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Controlled as ControlledEditor
 } from "react-codemirror2";
 import styled from "styled-components";
+import { throttle } from "lodash";
+
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript"
@@ -21,27 +23,53 @@ const CodeEditorContainer = styled.div`
     border-radius: 20px;
     overflow: hidden;
   }
+
+  .typing-user {
+    position: absolute;
+    left: 1rem;
+    bottom: 0;
+    color: #ffffff;
+    z-index: 4;
+  }
 `;
 
 function CodeEditor({
+  currentUser,
+  typingUsers,
   socket,
   roomId,
   contents
 }) {
   const [code, setCode] = useState("");
 
+  const refreshTypingUser = useCallback(() => {
+    const typingInfo = {
+      typingUser: currentUser,
+      roomId
+    };
+
+    socket.emit("stop typing", typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingRefreshTypingUser = useMemo(() =>
+    throttle(refreshTypingUser, 3000),
+    [refreshTypingUser]
+  );
+
   useEffect(() => {
     setCode(contents);
-  }, []);
+    throllingRefreshTypingUser();
+  }, [contents, throllingRefreshTypingUser]);
 
   function handleChange(editor, data, value) {
-    const payload = {
+    const typingInfo = {
       value,
+      typingUser: currentUser,
       roomId
     };
 
     setCode(value);
-    socket.emit("send codeEditor text", payload);
+    socket.emit("start typing", typingInfo);
   }
 
   return (
@@ -57,8 +85,11 @@ function CodeEditor({
           lineNumbers: true
         }}
       />
+      <article className="typing-user">
+        {typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...`}
+      </article>
     </CodeEditorContainer>
   );
 }
 
-export default CodeEditor;
+export default React.memo(CodeEditor);

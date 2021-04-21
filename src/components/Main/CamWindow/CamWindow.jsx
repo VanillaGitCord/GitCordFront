@@ -100,6 +100,7 @@ function CamWindow({ currentUser, participants }) {
         userVideo.current.className = user.isOwner ? "owner cam-video" : "participant cam-video";
 
         const peers = [];
+        debugger;
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
 
         participantsWithoutMe.forEach(userInfo => {
@@ -116,6 +117,7 @@ function CamWindow({ currentUser, participants }) {
         setPeers(peers);
 
         socket.on("user joined", payload => {
+          debugger;
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
 
@@ -130,6 +132,7 @@ function CamWindow({ currentUser, participants }) {
         });
 
         socket.on("receiving returned signal", payload => {
+          debugger;
           const item = peersRef.current.find(p => p.peerID === payload.id);
 
           item.peer.signal(payload.signal);

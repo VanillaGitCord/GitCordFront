@@ -5,7 +5,9 @@ import {
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  LEAVE_ROOM
+  LEAVE_ROOM,
+  RECEIVE_EDITOR_TYPING_INFO,
+  RECEIVE_EDITOR_TYPING_USERS
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   contents: "",
   participants: [],
   chatLogs: [],
+  typingUsers: [],
   activedRooms: [],
   isClosed: false
 };
@@ -49,9 +52,25 @@ function roomReducer(state = initialState, action) {
       });
     }
 
+    case RECEIVE_EDITOR_TYPING_INFO: {
+      const { text, typingUsers } = action.payload;
+
+      return produce(state, (draft) => {
+        draft.contents = text;
+        draft.typingUsers = typingUsers;
+      });
+    }
+
+    case RECEIVE_EDITOR_TYPING_USERS: {
+      return produce(state, (draft) => {
+        draft.typingUsers = action.payload;
+      });
+    }
+
     case LEAVE_ROOM: {
       return produce(state, (draft) => {
         draft.chatLogs = [];
+        draft.typingUsers = [];
       });
     }
 
@@ -62,6 +81,7 @@ function roomReducer(state = initialState, action) {
         draft.contents = "";
         draft.participants = [];
         draft.chatLogs = [];
+        draft.typingUsers = [];
         draft.isClosed = true;
       });
     }

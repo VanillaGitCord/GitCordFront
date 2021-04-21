@@ -40,6 +40,7 @@ function Main() {
     participants,
     contents,
     chatLogs,
+    typingUsers,
     isClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -81,12 +82,12 @@ function Main() {
   }, []);
 
   useEffect(() => {
-    if (currentUser && participants.length) {
+    if (currentUser.email) {
       setTimeout(() => {
         setIsReady(true);
       }, 4000);
     }
-  }, [participants, currentUser]);
+  }, [currentUser]);
 
   if (!isAuthuticate) return <Redirect to="/login" />;
   if (isClosed) return <Redirect to="/" />;
@@ -103,7 +104,6 @@ function Main() {
           currentUser={currentUser}
           roomTitle={title}
           roomId={roomId}
-          socket={socket}
         />
         <MainContainer>
           <UserList
@@ -111,6 +111,8 @@ function Main() {
             userList={participants}
           />
           <CodeEditor
+            currentUser={currentUser}
+            typingUsers={typingUsers}
             socket={socket}
             roomId={roomId}
             contents={contents}
