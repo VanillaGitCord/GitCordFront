@@ -20,7 +20,6 @@ const CamWindowContainer = styled.div`
     width: 100px;
     height: 100px;
   }
-
 `;
 
 const StyledVideo = styled.video`
@@ -98,7 +97,7 @@ function CamWindow({ currentUser, participants }) {
             peerID: userInfo.socketId,
             peer
           });
-          peers.push(peer);
+          peers.push({ peerID: userInfo.socketId, peer });
         });
         setPeers(peers);
 
@@ -113,7 +112,7 @@ function CamWindow({ currentUser, participants }) {
               peerID: payload.callerID,
               peer
             });
-            setPeers(peers => [...peers, peer]);
+            setPeers(peers => [...peers, { peerID: payload.socketId, peer }]);
           }
         });
 
@@ -122,6 +121,22 @@ function CamWindow({ currentUser, participants }) {
           console.log("receiving returned signal event!    ", payload);
           const item = peersRef.current.find(p => p.peerID === payload.id);
           item.peer.signal(payload.signal);
+        });
+
+        socket.on("user left", targetUser => {
+          debugger;
+          console.log("user left!!!", targetUser);
+          peersRef.current = peersRef.current.filter((peerObj) => (
+            peerObj.peerID !== targetUser.socketId
+          ));
+          setPeers(peers => {
+            console.log("지운다!!!!!");
+            const targetPeer = peers.find(peerObj => peerObj.peerID === targetUser.socketId);
+            console.log(targetPeer);
+            const restPeers = peers.filter(peerObj => peerObj.peerID !== targetUser.socketId);
+            if (targetPeer) targetPeer.peer.destroy();
+            return [...restPeers];
+          });
         });
       });
     }
@@ -133,9 +148,9 @@ function CamWindow({ currentUser, participants }) {
   return (
     <CamWindowContainer>
       <video ref={userVideo} autoPlay playsInline className="cam-video" />
-      {peers.map((peer, index) => {
+      {peers.map((peerObj, index) => {
         return (
-          <Video key={index} peer={peer} className="participant owner" />
+          <Video key={index} peer={peerObj.peer} className="participant owner" />
         );
       })}
     </CamWindowContainer>
