@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import ChatInput from "./ChatInput/ChatInput";
@@ -48,17 +48,11 @@ const ChatContainer = styled.div`
 function Chat({
   currentUser,
   roomId,
+  chatLogs,
   socket
 }) {
   const [chat, setChat] = useState("");
-  const [chatLogs, setChatLogs] = useState([]);
   const { name } = currentUser;
-
-  useEffect(() => {
-    socket.once("receive chat", (chatLog) => {
-      setChatLogs([...chatLogs, chatLog]);
-    });
-  }, [chatLogs, socket]);
 
   function handleChatChange(event) {
     const { value } = event.target;

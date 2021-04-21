@@ -5,7 +5,8 @@ import {
   ENTER_ROOM,
   RECEIVE_CHAT,
   SET_ROOM_INFO,
-  SET_ROOM_LIST
+  SET_ROOM_LIST,
+  CLEAR_CHATLOGS
 } from "../constants/actionTypes";
 
 import { getNewRoomId } from "../api/roomApi";
@@ -48,6 +49,13 @@ export function receiveChat(chatLogs) {
   return {
     type: RECEIVE_CHAT,
     payload: chatLogs
+  };
+}
+
+export function clearChatLogs() {
+  console.log(1);
+  return {
+    type: CLEAR_CHATLOGS
   };
 }
 
