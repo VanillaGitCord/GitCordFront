@@ -26,6 +26,8 @@ const CamWindowContainer = styled.div`
   }
 `;
 
+let localStream;
+
 const Video = ({ peer, isOwner }) => {
   const ref = useRef();
   const className = isOwner ? "owner" : "participant";
@@ -87,6 +89,7 @@ function CamWindow({ currentUser, participants }) {
       const user = participants.find(participant => participant.email === currentUser.email);
 
       navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
+        localStream = stream;
         userVideo.current.srcObject = stream;
         userVideo.current.className = user.isOwner ? "owner cam-video" : "participant cam-video";
 
