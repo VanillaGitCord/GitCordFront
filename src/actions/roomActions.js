@@ -53,7 +53,6 @@ export function receiveChat(chatLogs) {
 }
 
 export function clearChatLogs() {
-  console.log(1);
   return {
     type: CLEAR_CHATLOGS
   };
