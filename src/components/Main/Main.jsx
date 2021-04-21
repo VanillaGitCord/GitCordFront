@@ -106,7 +106,7 @@ function Main() {
             roomId={roomId}
             socket={socket}
           />
-          {/* <CamWindow currentUser={currentUser} participants={participants}/> */}
+          <CamWindow currentUser={currentUser} participants={participants}/>
         </MainContainer>
       </MainOuter>
     </Background>
