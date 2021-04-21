@@ -100,7 +100,7 @@ function Main() {
           chatLogs={chatLogs}
           socket={socket}
         />
-        <CamWindow />
+        <CamWindow roomId={roomId} currentUser={currentUser}  participants={participants} />
       </MainContainer>
     </MainOuter>
   );

@@ -47,9 +47,9 @@ function ChannelList() {
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
   const [roomId, setRoomId] = useState("");
+  const [isAuthuticate, setIsAuthuticate] = useState(true);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
-  const [isAuthuticate, setIsAuthuticate] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,12 +64,12 @@ function ChannelList() {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
-      const {
-        user: { name, email },
-        message
-      } = response;
 
-      if (message) return setIsAuthuticate(false);
+      if (response.message) return setIsAuthuticate(false);
+
+      const {
+        user: { name, email }
+      } = response;
 
       dispatch(addUser({ name, email }));
     })();
