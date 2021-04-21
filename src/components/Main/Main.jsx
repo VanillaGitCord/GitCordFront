@@ -8,6 +8,7 @@ import {
   cancelSocketSubscription,
   socket
 } from "../../config/socketConfig";
+import { clearChatLogs } from "../../actions/roomActions";
 import { addUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 
@@ -36,6 +37,7 @@ function Main() {
     title,
     participants,
     contents,
+    chatLogs,
     isError
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -45,7 +47,10 @@ function Main() {
   useEffect(() => {
     socket.emit("join", currentUser, roomId);
 
-    return () => socket.emit("bye", currentUser.email, roomId);
+    return () => {
+      dispatch(clearChatLogs());
+      socket.emit("bye", currentUser.email, roomId);
+    };
   }, []);
 
   useEffect(() => {
@@ -94,6 +99,7 @@ function Main() {
           />
           <Chat
             currentUser={currentUser}
+            chatLogs={chatLogs}
             roomId={roomId}
             socket={socket}
           />

@@ -5,7 +5,6 @@ import styled from "styled-components";
 const ChatInputContainer = styled.div`
   width: 100%;
   height: 10%;
-  border-top: 1px solid #FFEEF4;
 
   .chat-input {
     width: 50%;
