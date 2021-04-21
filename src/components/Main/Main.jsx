@@ -79,7 +79,7 @@ function Main() {
   }, []);
 
   if (!isAuthuticate) return <Redirect to="/login" />;
-  if (isClosed) return <Redirect to="/" />
+  if (isClosed) return <Redirect to="/" />;
 
   return (
     <Background>
