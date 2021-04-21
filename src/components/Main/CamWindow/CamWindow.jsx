@@ -40,7 +40,7 @@ const Video = ({ peer }) => {
 
 let count = 0;
 
-function CamWindow({ roomId, currentUser, participants }) {
+function CamWindow({ currentUser, participants }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [peers, setPeers] = useState([]);
   const socketRef = useRef();
@@ -79,9 +79,10 @@ function CamWindow({ roomId, currentUser, participants }) {
 
   useEffect(() => {
     debugger;
+    if (isStreaming) return;
     if (currentUser && participants.length) {
-      !isStreaming && navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
-        setIsStreaming(true);
+      setIsStreaming(true);
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
         userVideo.current.srcObject = stream;
         console.log("stream Start", participants);
 
@@ -113,7 +114,7 @@ function CamWindow({ roomId, currentUser, participants }) {
             setPeers(peers => [...peers, peer])
           }
         });
-  
+
         socket.on("receiving returned signal", payload => {
           debugger;
           console.log("receiving returned signal event!    ", payload);
@@ -122,7 +123,7 @@ function CamWindow({ roomId, currentUser, participants }) {
         });
       });
     }
-  }, [currentUser, isStreaming, roomId, participants]);
+  }, [currentUser, isStreaming, participants]);
 
   console.log(peers);
   console.log(peersRef.current);
