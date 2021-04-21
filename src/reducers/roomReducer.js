@@ -1,14 +1,11 @@
 import produce from "immer";
 
 import {
-  CREATE_ROOM_SUCCESS,
-  CREATE_ROOM_FAILURE,
   DELETE_ROOM,
-  ENTER_ROOM,
   RECEIVE_CHAT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
-  CLEAR_CHATLOGS
+  LEAVE_ROOM
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -18,34 +15,18 @@ const initialState = {
   participants: [],
   chatLogs: [],
   activedRooms: [],
-  isError: false
+  isClosed: false
 };
 
 function roomReducer(state = initialState, action) {
   switch (action.type) {
-    case CREATE_ROOM_SUCCESS: {
-      const { roomId, roomTitle } = action.payload;
-
-      return produce(state, (draft) => {
-        draft.roomId = roomId;
-        draft.title = roomTitle;
-      });
-    }
-
-    case CREATE_ROOM_FAILURE: {
-      return produce(state, (draft) => {
-        draft.isError = !draft.isError;
-      });
-    }
-
-    case ENTER_ROOM: {
-      return produce(state, (draft) => {
-        draft.roomId = action.payload;
-      });
-    }
-
     case SET_ROOM_INFO: {
-      const { roomTitle, participants, owner, contents } = action.payload;
+      const {
+        roomTitle,
+        participants,
+        owner,
+        contents
+      } = action.payload;
 
       return produce(state, (draft) => {
         draft.title = roomTitle;
@@ -57,6 +38,7 @@ function roomReducer(state = initialState, action) {
 
     case SET_ROOM_LIST: {
       return produce(state, (draft) => {
+        draft.isClosed = false;
         draft.activedRooms = action.payload;
       });
     }
@@ -67,16 +49,21 @@ function roomReducer(state = initialState, action) {
       });
     }
 
-    case CLEAR_CHATLOGS: {
+    case LEAVE_ROOM: {
       return produce(state, (draft) => {
         draft.chatLogs = [];
       });
     }
 
     case DELETE_ROOM: {
-      return {
-        ...initialState
-      };
+      return produce(state, (draft) => {
+        draft.title = "";
+        draft.owner = "";
+        draft.contents = "";
+        draft.participants = [];
+        draft.chatLogs = [];
+        draft.isClosed = true;
+      });
     }
 
     default: {

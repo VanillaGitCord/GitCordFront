@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
 
 import {
@@ -8,7 +8,7 @@ import {
   cancelSocketSubscription,
   socket
 } from "../../config/socketConfig";
-import { clearChatLogs } from "../../actions/roomActions";
+import { leaveRoom } from "../../actions/roomActions";
 import { addUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 
@@ -38,7 +38,7 @@ function Main() {
     participants,
     contents,
     chatLogs,
-    isError
+    isClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
@@ -48,8 +48,8 @@ function Main() {
     socket.emit("join", currentUser, roomId);
 
     return () => {
-      dispatch(clearChatLogs());
       socket.emit("bye", currentUser.email, roomId);
+      dispatch(leaveRoom());
     };
   }, []);
 
@@ -77,6 +77,9 @@ function Main() {
 
     return () => cancelSocketSubscription();
   }, []);
+
+  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (isClosed) return <Redirect to="/" />;
 
   return (
     <Background>
