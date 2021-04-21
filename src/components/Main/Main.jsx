@@ -89,7 +89,6 @@ function Main() {
           currentUser={currentUser}
           roomTitle={title}
           roomId={roomId}
-          socket={socket}
         />
         <MainContainer>
           <UserList
@@ -109,7 +108,7 @@ function Main() {
             roomId={roomId}
             socket={socket}
           />
-          <CamWindow currentUser={currentUser} participants={participants}/>
+          {/* <CamWindow currentUser={currentUser} participants={participants}/> */}
         </MainContainer>
       </MainOuter>
     </Background>
