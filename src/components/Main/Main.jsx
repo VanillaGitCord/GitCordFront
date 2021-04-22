@@ -9,7 +9,7 @@ import {
   socket
 } from "../../config/socketConfig";
 import { leaveRoom } from "../../actions/roomActions";
-import { addUser } from "../../actions/userActions";
+import { loginUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
@@ -71,7 +71,7 @@ function Main() {
 
       if (message) return setIsAuthuticate(false);
 
-      dispatch(addUser(user));
+      dispatch(loginUser(user));
     })();
   }, []);
 
@@ -89,7 +89,7 @@ function Main() {
     }
   }, [currentUser]);
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (!isAuthuticate || !currentUser.name) return <Redirect to="/login" />;
   if (isClosed) return <Redirect to="/" />;
   if (!isReady) return (
     <Background>

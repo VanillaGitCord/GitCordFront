@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { useDispatch } from "react-redux";
 import { ImArrowLeft } from "react-icons/im";
-import { GiExitDoor } from "react-icons/gi";
+import { CgLogOut } from "react-icons/cg";
 import { FaUserCircle, FaShareAltSquare } from "react-icons/fa";
 import styled from "styled-components";
+
+import { logoutUser } from "../../../actions/userActions";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 import ShareWindow from "../../ShareWindow/ShareWindow";
@@ -48,17 +51,16 @@ function MainNavbar({
 }) {
   const { email } = currentUser;
   const [isOutRoom, setIsOutRoom] = useState(false);
-  const [isLogout, setIsLogout] = useState(false);
   const [isShowShareWindow, setIsShowShareWindow] = useState(false);
+  const dispatch = useDispatch();
 
   if (isOutRoom) return <Redirect to="/" />
-  if (isLogout) return <Redirect to="/login" />
 
   function handleLogoutIconClick() {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
-    setIsLogout(true);
+    dispatch(logoutUser());
   }
 
   function handleLeaveIconClick() {
@@ -86,7 +88,7 @@ function MainNavbar({
           onClick={handleShareIconClick}
           cursor="pointer"
         />
-        <GiExitDoor
+        <CgLogOut
           size={30}
           onClick={handleLogoutIconClick}
           cursor="pointer"

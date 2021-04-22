@@ -1,7 +1,10 @@
 import React from "react";
-import { GiExitDoor } from "react-icons/gi";
+import { useDispatch } from "react-redux";
+import { CgLogOut } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
 import styled from "styled-components";
+
+import { logoutUser } from "../../../actions/userActions";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 
@@ -32,9 +35,16 @@ const HeaderContainer = styled.div`
   }
 `;
 
-function WelComeHeader({
-  currentUser
-}) {
+function WelComeHeader({ currentUser }) {
+  const dispatch = useDispatch();
+
+  function handleLogoutIconClick() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+
+    dispatch(logoutUser());
+  }
+
   return (
     <WelComeHeaderStyle>
       <HeaderContainer>
@@ -44,8 +54,9 @@ function WelComeHeader({
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        <GiExitDoor
+        <CgLogOut
           size={30}
+          onClick={handleLogoutIconClick}
           cursor="pointer"
         />
         <FaUserCircle size={30} />

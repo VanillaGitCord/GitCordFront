@@ -1,17 +1,17 @@
 import {
-  ADD_USER,
-  DELETE_USER
+  USER_LOGIN,
+  USER_LOGOUT
 } from "../constants/actionTypes";
 
-export function addUser(userInfo) {
+export function loginUser(userInfo) {
   return {
-    type: ADD_USER,
+    type: USER_LOGIN,
     payload: userInfo
   };
 }
 
-export function deleteUser() {
+export function logoutUser() {
   return {
-    type: DELETE_USER
+    type: USER_LOGOUT
   };
 }

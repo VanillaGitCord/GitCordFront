@@ -5,7 +5,7 @@ import { FaDoorOpen } from "react-icons/fa";
 import styled from "styled-components";
 import { v1 as uuidv1 } from "uuid";
 
-import { addUser } from "../../actions/userActions";
+import { loginUser } from "../../actions/userActions";
 import {
   subscribeSocket,
   cancelSocketSubscription,
@@ -68,13 +68,16 @@ function ChannelList() {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
+
+      if (!response.email) return;
+
       const {
         user: { name, email }
       } = response;
 
       if (response.message) return setIsAuthuticate(false);
 
-      dispatch(addUser({ name, email }));
+      dispatch(loginUser({ name, email }));
     })();
   }, []);
 
@@ -132,7 +135,7 @@ function ChannelList() {
     setRoomId(enterRoomId);
   }
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (!isAuthuticate || !currentUser.email) return <Redirect to="/login" />;
   if (roomId) return <Redirect to={`/main/${roomId}`} />;
   if (!isReady) return (
     <Background>
