@@ -15,6 +15,7 @@ import { postAuthToken } from "../../api/userApi";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
+import AlertModal from "../publicComponents/AlertModal/AlertModal";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
 import InputWithLabel from "../publicComponents/InputWithLabel/InputWithLabel";
 import ChannelListContainer from "./ChannelListContainer/ChannelListContainer";
@@ -50,6 +51,7 @@ function ChannelList() {
   const [createRoomTitle, setCreateRoomTitle] = useState("");
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
+  const [modalMessages, setModalMessages] = useState([]);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
@@ -66,12 +68,11 @@ function ChannelList() {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
-
-      if (response.message) return setIsAuthuticate(false);
-
       const {
         user: { name, email }
       } = response;
+
+      if (response.message) return setIsAuthuticate(false);
 
       dispatch(addUser({ name, email }));
     })();
@@ -99,7 +100,13 @@ function ChannelList() {
     setEnterRoomId(event.target.value);
   }
 
-  async function handleCreateRoomClick() {
+  function handleCreateRoomClick() {
+    if (!createRoomTitle) {
+      const alertMessage = "타이틀을 입력하셔야 합니다.";
+
+      return setModalMessages([...modalMessages, alertMessage]);
+    }
+
     const id = uuidv1();
     const roomInfo = {
       title: createRoomTitle,
@@ -111,6 +118,17 @@ function ChannelList() {
   }
 
   function handleEnterRoomClick() {
+    if (!enterRoomId) {
+      const alertMessage = "방 주소를 입력하셔아합니다.";
+
+      return setModalMessages([...modalMessages, alertMessage]);
+    }
+    if (!activedRooms.includes(enterRoomId)) {
+      const alertMessage = "존재하지 않는 방입니다.";
+
+      return setModalMessages([...modalMessages, alertMessage]);
+    }
+
     setRoomId(enterRoomId);
   }
 
@@ -160,6 +178,12 @@ function ChannelList() {
           activedRooms={activedRooms}
           setRoomId={setRoomId}
         />
+        {modalMessages.length > 0 &&
+          <AlertModal
+            handleAlertDelete={setModalMessages}
+            alertMessages={modalMessages}
+          />
+        }
       </ChannelListOutter>
     </Background>
   );

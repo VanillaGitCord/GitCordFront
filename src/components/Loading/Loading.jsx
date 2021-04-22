@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import ModalBackground from "../publicComponents/ModalBackground/ModalBackground";
-import Background from "../publicComponents/Backgroud/Background";
 
 const Loader = styled.div`
   position: relative;
