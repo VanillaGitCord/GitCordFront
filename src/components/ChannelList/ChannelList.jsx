@@ -143,7 +143,9 @@ function ChannelList() {
   return (
     <Background>
       <ChannelListOutter>
-        <WelcomeHeader />
+        <WelcomeHeader
+          currentUser={currentUser}
+        />
         <div className="channlelist-enterroominput">
           <InputWithLabel
             width="40%"
