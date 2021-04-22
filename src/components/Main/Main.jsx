@@ -32,7 +32,7 @@ const MainContainer = styled.div`
   position: relative;
 `;
 
-function Main() {
+function Main({ location }) {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const {
@@ -47,8 +47,10 @@ function Main() {
   const dispatch = useDispatch();
   const { roomId } = useParams();
 
+  const authRouting = location.state && location.state.authRouting;
+
   useEffect(() => {
-    socket.emit("join", currentUser, roomId);
+    socket.emit("join", currentUser, roomId, true);
 
     return () => {
       socket.emit("bye", currentUser.email, roomId);
@@ -87,8 +89,26 @@ function Main() {
     }
   }, [currentUser]);
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
+  if (!authRouting) return (
+    <Redirect
+      to={{
+        pathname: "/error",
+        state: { message: "정상적인 접근 방법이 아닙니다!" }
+      }}
+    />
+  );
+
+  if (!isAuthuticate) return (
+    <Redirect
+      to={{
+        pathname: "/error",
+        state: { message: "Token has Expired!" }
+      }}
+    />
+  );
+
   if (isClosed) return <Redirect to="/" />;
+
   if (!isReady) return (
     <Background>
       <Loading />
