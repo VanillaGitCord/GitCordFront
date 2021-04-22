@@ -11,12 +11,31 @@ const AlertModalWrapper = styled.div`
 `;
 
 const AlertModalOuter = styled.div`
+  @keyframes slide {
+    0% {
+      transform: translateX(100%);
+    }
+    25% {
+      transform: translateX(75%);
+    }
+    50% {
+      transform: translateX(50%);
+    }
+    75% {
+      transform: translateX(25%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
   width: 100%;
   height: 7%;
   padding: 0.5em;
   margin: 0 0 1em 0;
   background-color: rgb(255, 255, 255, 0.9);
   border-radius: 10px;
+  animation: slide 0.2s ease-in;
 
   .alert-message {
     display: flex;
