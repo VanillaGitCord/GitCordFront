@@ -1,4 +1,5 @@
 import React from "react";
+import { SiDatadog } from "react-icons/si";
 import styled from "styled-components";
 
 import Channel from "./Channel/Channel";
@@ -16,6 +17,18 @@ const ChannelListContainerStyle = styled.div`
   background-color: #3B4755;
   box-shadow: 0px 2px 5px black;
   overflow-y: scroll;
+  color: white;
+
+  .unactivate-room {
+    margin: auto;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    &-text {
+      margin-top: 1em;
+    }
+  }
 `;
 
 function ChannelListContainer({ activedRooms, setRoomId }) {
@@ -36,9 +49,26 @@ function ChannelListContainer({ activedRooms, setRoomId }) {
     });
   }
 
+  function renderUnActivatedRooms() {
+    return (
+      <article className="unactivate-room">
+        <SiDatadog
+          color="#9de8ff"
+          size={300}
+        />
+        <div className="unactivate-room-text">
+          활성화된 방이 없습니다
+        </div>
+      </article>
+    );
+  }
+
   return (
     <ChannelListContainerStyle>
-      {renderActivedRooms()}
+      {0 < activedRooms.length
+        ? renderActivedRooms()
+        : renderUnActivatedRooms()
+      }
     </ChannelListContainerStyle>
   );
 }
