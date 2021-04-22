@@ -114,8 +114,24 @@ function ChannelList() {
     setRoomId(enterRoomId);
   }
 
-  if (!isAuthuticate) return <Redirect to="/login" />;
-  if (roomId) return <Redirect to={`/main/${roomId}`} />;
+  if (!isAuthuticate) return (
+    <Redirect
+      to={{
+        pathname: "/error",
+        state: { message: "Token has Expired!" }
+      }}
+    />
+  );
+
+  if (roomId) return (
+    <Redirect
+      to={{
+        pathname: `/main/${roomId}`,
+        state: { authRouting: true }
+      }}
+    />
+  );
+
   if (!isReady) return (
     <Background>
       <Loading />
