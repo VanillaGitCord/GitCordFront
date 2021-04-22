@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 
 import { postGoogleLogin, putLogin } from "../../../api/userApi";
-import { addUser } from "../../../actions/userActions";
+import { loginUser } from "../../../actions/userActions";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -114,7 +114,7 @@ function LoginContainer() {
       localStorage.setItem("access", response.accessToken);
       localStorage.setItem("refresh", response.refreshToken);
 
-      dispatch(addUser({
+      dispatch(loginUser({
         email: response.email,
         name: response.name
       }));
@@ -134,7 +134,7 @@ function LoginContainer() {
       localStorage.setItem("access", response.accessToken);
       localStorage.setItem("refresh", response.refreshToken);
 
-      dispatch(addUser({
+      dispatch(loginUser({
         email: response.email,
         name: response.name
       }));
