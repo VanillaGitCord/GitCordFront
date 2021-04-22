@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import styled from "styled-components";
 import { FaExclamation } from "react-icons/fa";
-
-import mainIcon from "../../assets/images/mainIcon.png";
+import styled from "styled-components";
 
 import Background from "../publicComponents/Backgroud/Background";
+import MainIcon from "../publicComponents/MainIcon/MainIcon";
 
 const ModalBackground = styled.div`
   display: flex;
@@ -49,18 +48,11 @@ const ModalBackground = styled.div`
       transform: translate(-20%, -20%);
       transform: rotate(15deg);
     }
-
-    &-mainicon {
-      width: 300px;
-      height: 300px;
-    }
   }
 `;
 
 function Error({ location }) {
-  const {
-    state: { message }
-  } = location;
+  const message = location.state ? location.state.message : "Page not Found";
   const [count, setCount] = useState(3);
 
   useEffect(() => {
@@ -77,7 +69,7 @@ function Error({ location }) {
         <div className="container">
           <div className="container-picture">
             <FaExclamation className="container-picture-exclamation" />
-            <img src={mainIcon} className="container-picture-mainicon" />
+            <MainIcon width="300px" height="300px" />
           </div>
           <div className="container-text">
             <div className="container-text-message">
