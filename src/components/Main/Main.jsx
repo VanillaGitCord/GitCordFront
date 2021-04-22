@@ -35,6 +35,7 @@ const MainContainer = styled.div`
 function Main() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
+  const [modalMessages, setModalMessages] = useState([]);
   const {
     title,
     participants,
