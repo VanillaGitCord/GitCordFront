@@ -9,7 +9,7 @@ import {
   socket
 } from "../../config/socketConfig";
 import { leaveRoom } from "../../actions/roomActions";
-import { addUser } from "../../actions/userActions";
+import { loginUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
@@ -66,14 +66,12 @@ function Main({ location }) {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
-      const {
-        user,
-        message
-      } = response;
 
-      if (message) return setIsAuthuticate(false);
+      if (response.message) return setIsAuthuticate(false);
 
-      dispatch(addUser(user));
+      const { user } = response;
+
+      dispatch(loginUser(user));
     })();
   }, []);
 

@@ -1,8 +1,8 @@
 import produce from "immer";
 
 import {
-  ADD_USER,
-  DELETE_USER
+  USER_LOGIN,
+  USER_LOGOUT
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -14,13 +14,13 @@ const initialState = {
 
 function userReducer(state = initialState, action) {
   switch (action.type) {
-    case ADD_USER: {
+    case USER_LOGIN: {
       return produce(state, draft => {
         draft.user = action.payload;
       });
     }
 
-    case DELETE_USER: {
+    case USER_LOGOUT: {
       return {
         ...initialState
       };
