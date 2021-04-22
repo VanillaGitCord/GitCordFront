@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { RiFileCopyLine } from "react-icons/ri";
 import styled from "styled-components";
 
@@ -28,17 +28,34 @@ const ShareWindowContainer = styled.div`
   }
 `;
 
-function ShareWindow({ url }) {
+function ShareWindow({
+  url,
+  handleCopyButtonClick
+}) {
+  const textInput = useRef();
+
+  function copyUrl() {
+    const urlText = textInput.current;
+
+    urlText.select();
+    document.execCommand("copy");
+    handleCopyButtonClick();
+  }
+
   return (
     <ShareWindowContainer>
       <span>INVITE</span>
       <input
+        ref={textInput}
         type="text"
         value={url}
         readOnly
       />
       <div className="copy-icon">
-        <RiFileCopyLine size={15} />
+        <RiFileCopyLine
+          size={15}
+          onClick={copyUrl}
+        />
       </div>
     </ShareWindowContainer>
   );

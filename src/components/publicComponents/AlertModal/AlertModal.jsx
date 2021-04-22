@@ -5,7 +5,7 @@ import styled from "styled-components";
 const AlertModalWrapper = styled.div`
   position: fixed;
   bottom: 3rem;
-  right: 3rem;
+  left: 3rem;
   width: 15em;
   height: auto;
 `;
@@ -13,16 +13,16 @@ const AlertModalWrapper = styled.div`
 const AlertModalOuter = styled.div`
   @keyframes slide {
     0% {
-      transform: translateX(100%);
+      transform: translateX(-100%);
     }
     25% {
-      transform: translateX(75%);
+      transform: translateX(-75%);
     }
     50% {
-      transform: translateX(50%);
+      transform: translateX(-50%);
     }
     75% {
-      transform: translateX(25%);
+      transform: translateX(-25%);
     }
     100% {
       transform: translateX(0%);
@@ -33,7 +33,7 @@ const AlertModalOuter = styled.div`
   height: 7%;
   padding: 0.5em;
   margin: 0 0 1em 0;
-  background-color: rgb(255, 255, 255, 0.9);
+  background-color: rgb(250, 250, 250, 0.9);
   border-radius: 10px;
   animation: slide 0.2s ease-in;
 
@@ -53,13 +53,15 @@ function AlertModal({
   color = "#000000"
 }) {
   useEffect(() => {
-    setTimeout(() => {
+    const deleteAlert = setTimeout(() => {
       handleAlertDelete((alertMessages) => {
         alertMessages.shift();
 
         return [...alertMessages];
       });
-    }, 4000);
+    }, 1000);
+
+    return () => clearTimeout(deleteAlert);
   }, [alertMessages, handleAlertDelete]);
 
   function renderMessages() {
