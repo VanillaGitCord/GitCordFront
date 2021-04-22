@@ -28,7 +28,10 @@ const ShareWindowContainer = styled.div`
   }
 `;
 
-function ShareWindow({ url }) {
+function ShareWindow({
+  url,
+  handleCopyButtonClick
+}) {
   const textInput = useRef();
 
   function copyUrl() {
@@ -36,17 +39,23 @@ function ShareWindow({ url }) {
 
     urlText.select();
     document.execCommand("copy");
+    handleCopyButtonClick();
   }
+
   return (
     <ShareWindowContainer>
       <span>INVITE</span>
       <input
+        ref={textInput}
         type="text"
         value={url}
         readOnly
       />
       <div className="copy-icon">
-        <RiFileCopyLine size={15} />
+        <RiFileCopyLine
+          size={15}
+          onClick={copyUrl}
+        />
       </div>
     </ShareWindowContainer>
   );

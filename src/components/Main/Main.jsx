@@ -19,6 +19,7 @@ import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
 import Loading from "../Loading/Loading";
+import AlertModal from "../publicComponents/AlertModal/AlertModal";
 
 const MainOuter = styled.div`
   width: 100vw;
@@ -90,6 +91,12 @@ function Main({ location }) {
     }
   }, [currentUser]);
 
+  function handleCopyButtonClick() {
+    const alertMessage = "클립보드에 복사되었습니다."
+
+    setModalMessages([...modalMessages, alertMessage]);
+  }
+
   if (!authRouting) return (
     <Redirect
       to={{
@@ -123,6 +130,7 @@ function Main({ location }) {
           currentUser={currentUser}
           roomTitle={title}
           roomId={roomId}
+          handleCopyButtonClick={handleCopyButtonClick}
         />
         <MainContainer>
           <UserList
@@ -142,7 +150,16 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          <CamWindow currentUser={currentUser} participants={participants}/>
+          <CamWindow
+            currentUser={currentUser}
+            participants={participants}
+          />
+          {0 < modalMessages.length &&
+            <AlertModal
+              handleAlertDelete={setModalMessages}
+              alertMessages={modalMessages}
+            />
+          }
         </MainContainer>
       </MainOuter>
     </Background>

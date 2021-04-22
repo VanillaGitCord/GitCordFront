@@ -45,6 +45,7 @@ const MainNavbarContainer = styled.div`
 `;
 
 function MainNavbar({
+  handleCopyButtonClick,
   currentUser,
   roomTitle,
   roomId
@@ -97,7 +98,10 @@ function MainNavbar({
         {email}
         {isShowShareWindow &&
           <div className="share-window">
-            <ShareWindow url={roomId}/>
+            <ShareWindow
+              url={roomId}
+              handleCopyButtonClick={handleCopyButtonClick}
+            />
           </div>
         }
       </div>
