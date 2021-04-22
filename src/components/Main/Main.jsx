@@ -41,15 +41,13 @@ function Main({ location }) {
     contents,
     chatLogs,
     typingUsers,
-    isClosed,
-    isError
+    isClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const { roomId } = useParams();
 
   const authRouting = location.state && location.state.authRouting;
-  console.log(authRouting);
 
   useEffect(() => {
     socket.emit("join", currentUser, roomId, true);
@@ -101,6 +99,7 @@ function Main({ location }) {
       }}
     />
   );
+
   if (!isAuthuticate) return (
     <Redirect
       to={{
@@ -109,7 +108,9 @@ function Main({ location }) {
       }}
     />
   );
+
   if (isClosed) return <Redirect to="/" />;
+
   if (!isReady) return (
     <Background>
       <Loading />
