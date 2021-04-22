@@ -64,12 +64,10 @@ function Main() {
 
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
-      const {
-        user,
-        message
-      } = response;
 
-      if (message) return setIsAuthuticate(false);
+      if (response.message) return setIsAuthuticate(false);
+
+      const { user } = response;
 
       dispatch(loginUser(user));
     })();
@@ -89,7 +87,7 @@ function Main() {
     }
   }, [currentUser]);
 
-  if (!isAuthuticate || !currentUser.name) return <Redirect to="/login" />;
+  if (!isAuthuticate) return <Redirect to="/login" />;
   if (isClosed) return <Redirect to="/" />;
   if (!isReady) return (
     <Background>

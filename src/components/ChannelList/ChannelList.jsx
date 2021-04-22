@@ -69,15 +69,11 @@ function ChannelList() {
     (async function checkUserInfo() {
       const response = await postAuthToken(token);
 
-      if (!response.email) return;
-
-      const {
-        user: { name, email }
-      } = response;
-
       if (response.message) return setIsAuthuticate(false);
 
-      dispatch(loginUser({ name, email }));
+      const { user } = response;
+
+      dispatch(loginUser(user));
     })();
   }, []);
 
@@ -126,6 +122,7 @@ function ChannelList() {
 
       return setModalMessages([...modalMessages, alertMessage]);
     }
+
     if (!activedRooms.includes(enterRoomId)) {
       const alertMessage = "존재하지 않는 방입니다.";
 
@@ -135,7 +132,7 @@ function ChannelList() {
     setRoomId(enterRoomId);
   }
 
-  if (!isAuthuticate || !currentUser.email) return <Redirect to="/login" />;
+  if (!isAuthuticate) return <Redirect to="/login" />;
   if (roomId) return <Redirect to={`/main/${roomId}`} />;
   if (!isReady) return (
     <Background>
@@ -146,9 +143,7 @@ function ChannelList() {
   return (
     <Background>
       <ChannelListOutter>
-        <WelcomeHeader
-          currentUser={currentUser}
-        />
+        <WelcomeHeader currentUser={currentUser} />
         <div className="channlelist-enterroominput">
           <InputWithLabel
             width="40%"
@@ -183,7 +178,7 @@ function ChannelList() {
           activedRooms={activedRooms}
           setRoomId={setRoomId}
         />
-        {modalMessages.length > 0 &&
+        {0 < modalMessages.length &&
           <AlertModal
             handleAlertDelete={setModalMessages}
             alertMessages={modalMessages}
