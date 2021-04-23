@@ -170,6 +170,8 @@ function Main({ location }) {
           <UserList
             currentUser={currentUser}
             userList={participants}
+            alertMessages={modalMessages}
+            setAlertMessages={setModalMessages}
           />
           {
             toggleMainBoard
