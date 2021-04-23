@@ -161,6 +161,8 @@ function Main({ location }) {
           <UserList
             currentUser={currentUser}
             userList={participants}
+            alertMessages={modalMessages}
+            setAlertMessages={setModalMessages}
           />
           <CodeEditor
             currentUser={currentUser}
@@ -175,12 +177,12 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          {/*<CamWindow
+          {/* <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
-          />*/}
+          /> */}
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}
