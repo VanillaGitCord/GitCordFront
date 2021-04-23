@@ -6,6 +6,7 @@ import {
   SET_ROOM_INFO,
   SET_ROOM_LIST,
   LEAVE_ROOM,
+  LEAVE_OWNER_ROOM,
   RECEIVE_EDITOR_TYPING_INFO,
   RECEIVE_EDITOR_TYPING_USERS
 } from "../constants/actionTypes";
@@ -18,7 +19,7 @@ const initialState = {
   chatLogs: [],
   typingUsers: [],
   activedRooms: [],
-  isClosed: false
+  isOwnerClosed: false
 };
 
 function roomReducer(state = initialState, action) {
@@ -41,7 +42,6 @@ function roomReducer(state = initialState, action) {
 
     case SET_ROOM_LIST: {
       return produce(state, (draft) => {
-        draft.isClosed = false;
         draft.activedRooms = action.payload;
       });
     }
@@ -74,6 +74,12 @@ function roomReducer(state = initialState, action) {
       });
     }
 
+    case LEAVE_OWNER_ROOM: {
+      return produce(state, (draft) => {
+        draft.isOwnerClosed = false;
+      });
+    }
+
     case DELETE_ROOM: {
       return produce(state, (draft) => {
         draft.title = "";
@@ -82,7 +88,7 @@ function roomReducer(state = initialState, action) {
         draft.participants = [];
         draft.chatLogs = [];
         draft.typingUsers = [];
-        draft.isClosed = true;
+        draft.isOwnerClosed = true;
       });
     }
 
