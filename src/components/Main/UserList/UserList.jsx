@@ -35,7 +35,9 @@ const UserListContainer = styled.div`
 
 function UserList({
   currentUser,
-  userList
+  userList,
+  alertMessages,
+  setAlertMessages
 }) {
 
   function renderJoinUsers() {
@@ -58,7 +60,11 @@ function UserList({
       <article className="userlist-participants">
         {renderJoinUsers()}
       </article>
-      <UserToolbar user={currentUser} />
+      <UserToolbar
+        user={currentUser}
+        alertMessages={alertMessages}
+        setAlertMessages={setAlertMessages}
+      />
     </UserListContainer>
   );
 }

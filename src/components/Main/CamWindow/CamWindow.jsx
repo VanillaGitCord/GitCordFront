@@ -9,14 +9,14 @@ import Peer from "simple-peer";
 
 const CamWindowContainer = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 10%;
+  left: 33%;
   background-color: #ffffff;
   z-index: 9;
 
   .cam-video {
-    width: 100px;
-    height: 100px;
+    width: 600px;
+    height: 600px;
   }
 
   .participant {
