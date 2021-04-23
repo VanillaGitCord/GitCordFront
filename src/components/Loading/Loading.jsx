@@ -228,11 +228,11 @@ function Loading() {
     <ModalBackground>
       <LoadingContainer>
         <Loader>
-          <span class="l-small"></span>
-          <span class="l-big"></span>
-          <span class="face"></span>
-          <span class="r-big"></span>
-          <span class="r-small"></span>
+          <span className="l-small"></span>
+          <span className="l-big"></span>
+          <span className="face"></span>
+          <span className="r-big"></span>
+          <span className="r-small"></span>
         </Loader>
         <div className="text">{loadingText}</div>
       </LoadingContainer>
