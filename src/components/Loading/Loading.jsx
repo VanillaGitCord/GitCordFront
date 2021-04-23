@@ -215,13 +215,15 @@ function Loading() {
   const [loadingText, setLoadingText] = useState("Loading");
 
   useEffect(() => {
-    setTimeout(() => {
+    const loadingCount = setTimeout(() => {
       if (loadingText === "Loading...") {
         setLoadingText("Loading");
       } else {
         setLoadingText(loadingText + ".");
       }
     }, 500);
+
+    return () => clearTimeout(loadingCount);
   }, [loadingText]);
 
   return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
+import { FaBook } from "react-icons/fa";
 import styled from "styled-components";
 
 import {
@@ -22,6 +23,7 @@ import Background from "../publicComponents/Backgroud/Background";
 import ModalBackground from "../publicComponents/ModalBackground/ModalBackground";
 import Loading from "../Loading/Loading";
 import AlertModal from "../publicComponents/AlertModal/AlertModal";
+import MainGuide from "./MainGuide/MainGuide";
 import LeaveRoomAlertModal from "./LeaveRoomAlertModal/LeaveRoomAlertModal";
 
 const MainOuter = styled.div`
@@ -34,6 +36,15 @@ const MainContainer = styled.div`
   width: 100%;
   height: 100vh;
   position: relative;
+
+  .guide {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+    color: #ffffff;
+    z-index: 11;
+    cursor: pointer;
+  }
 `;
 
 function Main({ location }) {
@@ -41,6 +52,7 @@ function Main({ location }) {
   const [isReady, setIsReady] = useState(false);
   const [modalMessages, setModalMessages] = useState([]);
   const [toggleMainBoard, setToggleMainBoard] = useState(false);
+  const [isShowGuide, setIsShowGuide] = useState(false);
   const {
     title,
     participants,
@@ -115,6 +127,10 @@ function Main({ location }) {
   function handleToggleButtonClick() {
     setToggleMainBoard(beforeState => !beforeState);
   }
+  
+  function handleGuideClick() {
+    setIsShowGuide((isShowGuide) => !isShowGuide);
+  }
 
   if (!authRouting) return (
     <Redirect
@@ -186,6 +202,12 @@ function Main({ location }) {
               alertMessages={modalMessages}
             />
           }
+          <FaBook
+            size={40}
+            className="guide"
+            onClick={handleGuideClick}
+          />
+          {isShowGuide && <MainGuide />}
           {isOwnerClosed &&
             <ModalBackground>
               <LeaveRoomAlertModal />

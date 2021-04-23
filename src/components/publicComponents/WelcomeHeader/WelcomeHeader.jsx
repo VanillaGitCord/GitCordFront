@@ -25,11 +25,6 @@ const HeaderContainer = styled.div`
   font-size: 1.3rem;
   font-weight: bold;
 
-  img {
-    width: 60px;
-    height: 60px;
-  }
-
   .nav-title {
     font-size: 2.5rem;
   }
@@ -48,7 +43,10 @@ function WelComeHeader({ currentUser }) {
   return (
     <WelComeHeaderStyle>
       <HeaderContainer>
-        <MainIcon />
+        <MainIcon
+          width="60px"
+          height="60px"
+        />
         <span className="nav-title">
           GitCord
         </span>

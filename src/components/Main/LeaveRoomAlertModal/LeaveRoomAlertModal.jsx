@@ -38,9 +38,11 @@ function LeaveRoomAlertModal() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
+    const loadgingCount = setTimeout(() => {
       setCount(count => count - 1);
     }, 1000);
+
+    return () => clearTimeout(loadgingCount);
   }, [count]);
 
   if (count <= 0) dispatch(leaveOnwerRoom());
