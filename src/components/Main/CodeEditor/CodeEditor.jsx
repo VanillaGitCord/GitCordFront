@@ -72,6 +72,8 @@ function CodeEditor({
     socket.emit("start typing", typingInfo);
   }
 
+  console.log("contents : ", contents);
+
   return (
     <CodeEditorContainer>
       <ControlledEditor

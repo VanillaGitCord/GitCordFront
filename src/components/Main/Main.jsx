@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
@@ -15,6 +15,7 @@ import { postAuthToken } from "../../api/userApi";
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
+import WhiteBoard from "./WhiteBoard/WhiteBoard";
 import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
@@ -39,6 +40,7 @@ function Main({ location }) {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [modalMessages, setModalMessages] = useState([]);
+  const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const {
     title,
     participants,
@@ -50,6 +52,8 @@ function Main({ location }) {
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const { roomId } = useParams();
+  const canvas = useRef();
+  console.log(canvas)
 
   const authRouting = location.state && location.state.authRouting;
 
@@ -57,10 +61,10 @@ function Main({ location }) {
     socket.emit("join", currentUser, roomId, true);
 
     window && window.addEventListener("keydown", (event) => {
-      console.log(event);
       if (event.key === "F5") {
         event.preventDefault();
         event.returnValue = false;
+
         return false;
       }
     });
@@ -108,6 +112,10 @@ function Main({ location }) {
     setModalMessages([...modalMessages, alertMessage]);
   }
 
+  function handleToggleButtonClick() {
+    setToggleMainBoard(beforeState => !beforeState);
+  }
+
   if (!authRouting) return (
     <Redirect
       to={{
@@ -140,31 +148,38 @@ function Main({ location }) {
           roomTitle={title}
           roomId={roomId}
           handleCopyButtonClick={handleCopyButtonClick}
+          onToggleClick={handleToggleButtonClick}
         />
         <MainContainer>
           <UserList
             currentUser={currentUser}
             userList={participants}
           />
-          <CodeEditor
-            currentUser={currentUser}
-            typingUsers={typingUsers}
-            socket={socket}
-            roomId={roomId}
-            contents={contents}
-          />
+          {
+            toggleMainBoard
+              ? <WhiteBoard
+                  canvas={canvas}
+                />
+              : <CodeEditor
+                  currentUser={currentUser}
+                  typingUsers={typingUsers}
+                  socket={socket}
+                  roomId={roomId}
+                  contents={contents}
+                />
+          }
           <Chat
             currentUser={currentUser}
             chatLogs={chatLogs}
             roomId={roomId}
             socket={socket}
           />
-          {/*<CamWindow
+          {/* <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
-          />*/}
+          /> */}
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}
