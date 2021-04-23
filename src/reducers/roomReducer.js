@@ -13,7 +13,7 @@ import {
 
 const initialState = {
   title: "",
-  owner: "",
+  owner: {},
   contents: "",
   participants: [],
   chatLogs: [],
@@ -83,7 +83,7 @@ function roomReducer(state = initialState, action) {
     case DELETE_ROOM: {
       return produce(state, (draft) => {
         draft.title = "";
-        draft.owner = "";
+        draft.owner = {};
         draft.contents = "";
         draft.participants = [];
         draft.chatLogs = [];
