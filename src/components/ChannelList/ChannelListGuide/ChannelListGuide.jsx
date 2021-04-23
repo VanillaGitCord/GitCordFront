@@ -8,7 +8,7 @@ const ChannelListGuideContainer = styled.div`
   font-size: 1rem;
   color: #ffffff;
 
-  .enterroom-guide {
+  .enter-room-guide {
     position: fixed;
     width: 23%;
     top: 17%;
@@ -16,7 +16,7 @@ const ChannelListGuideContainer = styled.div`
     border-bottom: 1px solid #ffffff;
   }
 
-  .createroom-guide {
+  .create-room-guide {
     position: fixed;
     width: 23%;
     top: 17%;
@@ -25,7 +25,7 @@ const ChannelListGuideContainer = styled.div`
     text-align: right;
   }
 
-  .activedRoom-guide {
+  .actived-room-guide {
     position: fixed;
     width: 23%;
     top: 50%;
@@ -39,13 +39,13 @@ function ChannelListGuide() {
   return (
     <ModalBackground>
       <ChannelListGuideContainer>
-        <span className="enterroom-guide">
+        <span className="enter-room-guide">
           받은 키를 작성해서 우측의 버튼을 눌러 입장합니다.
         </span>
-        <span className="createroom-guide">
+        <span className="create-room-guide">
           방 제목을 입력 후 버튼을 눌러 새로운 방을 생성합니다.
         </span>
-        <span className="activedRoom-guide">
+        <span className="actived-room-guide">
           활성화된 방이 있는 경우 카드 형식으로 방이 생성됩니다.<br />
           카드를 클릭하면 해당 방에 입장합니다.
         </span>
