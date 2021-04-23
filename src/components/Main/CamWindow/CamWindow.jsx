@@ -7,8 +7,6 @@ import React, {
 import styled from "styled-components";
 import Peer from "simple-peer";
 
-import { socket } from "../../../config/socketConfig";
-
 const CamWindowContainer = styled.div`
   position: absolute;
   top: 50%;
@@ -48,11 +46,23 @@ const Video = ({ peer, isOwner }) => {
   );
 }
 
-function CamWindow({ currentUser, participants }) {
+function CamWindow({
+  currentUser,
+  participants,
+  socket,
+  roomId
+}) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [peers, setPeers] = useState([]);
   const userVideo = useRef();
   const peersRef = useRef([]);
+
+  window.addEventListener("beforeunload", () => {
+    peers && peers.forEach(peer => {
+      peer.removeAllListeners("signal");
+      peer.destroy();
+    });
+  });
 
   const createPeer = useCallback((userToSignal, isUserOwner, callerID, stream) => {
     const peer = new Peer({
@@ -88,6 +98,7 @@ function CamWindow({ currentUser, participants }) {
     if (isStreaming) return;
 
     const user = participants.find(participant => participant.email === currentUser.email);
+    console.log(user);
 
     if (!user) return;
 
@@ -148,7 +159,10 @@ function CamWindow({ currentUser, participants }) {
             const targetPeer = peers.find(peerObj => peerObj.peerID === targetUser.socketId);
             const restPeers = peers.filter(peerObj => peerObj.peerID !== targetUser.socketId);
 
-            if (targetPeer) targetPeer.peer.destroy();
+            if (targetPeer) {
+              targetPeer.peer.removeAllListeners("signal");
+              targetPeer.peer.destroy();
+            }
 
             return [...restPeers];
           });

@@ -4,8 +4,8 @@ import {
   AiFillCaretRight,
   AiFillSave
 } from "react-icons/ai";
-import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
-import { GiSpeakerOff, GiSpeaker } from "react-icons/gi";
+import { BsFillMicFill } from "react-icons/bs";
+import { GiSpeaker } from "react-icons/gi";
 import styled from "styled-components";
 
 const UserToolbarContainer = styled.div`

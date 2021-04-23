@@ -61,7 +61,7 @@ function Error({ location }) {
     }, 1000);
   }, [count]);
 
-  if (count <= 0) return <Redirect to={"/"} />;
+  if (count <= 0) return <Redirect to={"/login"} />;
 
   return (
     <Background>
