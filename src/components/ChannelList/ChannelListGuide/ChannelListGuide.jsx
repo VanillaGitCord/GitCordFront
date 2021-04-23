@@ -5,15 +5,50 @@ import ModalBackground from "../../publicComponents/ModalBackground/ModalBackgro
 
 const ChannelListGuideContainer = styled.div`
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1rem;
   color: #ffffff;
+
+  .enterroom-guide {
+    position: fixed;
+    width: 23%;
+    top: 17%;
+    left: 7%;
+    border-bottom: 1px solid #ffffff;
+  }
+
+  .createroom-guide {
+    position: fixed;
+    width: 23%;
+    top: 17%;
+    right: 7%;
+    border-bottom: 1px solid #ffffff;
+    text-align: right;
+  }
+
+  .activedRoom-guide {
+    position: fixed;
+    width: 23%;
+    top: 50%;
+    right: 5%;
+    border-bottom: 1px solid #ffffff;
+    text-align: right;
+  }
 `;
 
 function ChannelListGuide() {
   return (
     <ModalBackground>
       <ChannelListGuideContainer>
-        가이드 입니다.
+        <span className="enterroom-guide">
+          받은 키를 작성해서 우측의 버튼을 눌러 입장합니다.
+        </span>
+        <span className="createroom-guide">
+          방 제목을 입력 후 버튼을 눌러 새로운 방을 생성합니다.
+        </span>
+        <span className="activedRoom-guide">
+          활성화된 방이 있는 경우 카드 형식으로 방이 생성됩니다.<br />
+          카드를 클릭하면 해당 방에 입장합니다.
+        </span>
       </ChannelListGuideContainer>
     </ModalBackground>
   );

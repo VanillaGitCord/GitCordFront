@@ -150,12 +150,12 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          <CamWindow
+          {/* <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
-          />
+          /> */}
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}

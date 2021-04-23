@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { FaDoorOpen } from "react-icons/fa";
+import { FaDoorOpen, FaBook } from "react-icons/fa";
 import styled from "styled-components";
 import { v1 as uuidv1 } from "uuid";
 
@@ -29,7 +29,7 @@ const ChannelListOutter = styled.div`
   width: 100vw;
   height: 100vh;
 
-  .channlelist-enterroominput {
+  .channel-enterroominput {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -44,6 +44,15 @@ const ChannelListOutter = styled.div`
       cursor: pointer;
     }
   }
+
+  .guide {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+    color: #ffffff;
+    z-index: 11;
+    cursor: pointer;
+  }
 `;
 
 function ChannelList() {
@@ -53,6 +62,7 @@ function ChannelList() {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [modalMessages, setModalMessages] = useState([]);
+  const [isShowGuide, setIsShowGuide] = useState(false);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
@@ -137,6 +147,10 @@ function ChannelList() {
     setRoomId(enterRoomId);
   }
 
+  function handleGuideClick() {
+    setIsShowGuide((isShowGuide) => !isShowGuide);
+  }
+
   if (!isAuthuticate) return (
     <Redirect
       to={{
@@ -165,7 +179,7 @@ function ChannelList() {
     <Background>
       <ChannelListOutter>
         <WelcomeHeader currentUser={currentUser} />
-        <div className="channlelist-enterroominput">
+        <div className="channel-enterroominput">
           <InputWithLabel
             width="40%"
             height="60%"
@@ -205,8 +219,13 @@ function ChannelList() {
             alertMessages={modalMessages}
           />
         }
+        <FaBook
+          size={40}
+          className="guide"
+          onClick={handleGuideClick}
+        />
+        {isShowGuide && <ChannelListGuide />}
       </ChannelListOutter>
-      <ChannelListGuide />
     </Background>
   );
 }
