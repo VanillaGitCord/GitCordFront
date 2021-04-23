@@ -52,8 +52,8 @@ const ModalBackground = styled.div`
 `;
 
 function Error({ location }) {
-  const message = location.state ? location.state.message : "Page not Found";
   const [count, setCount] = useState(3);
+  const message = location.state ? location.state.message : "Page not Found";
 
   useEffect(() => {
     setTimeout(() => {
@@ -61,7 +61,11 @@ function Error({ location }) {
     }, 1000);
   }, [count]);
 
+<<<<<<< HEAD
   if (count <= 0) return <Redirect to={"/login"} />;
+=======
+  if (count <= 0) return <Redirect to="/login" />;
+>>>>>>> 7bff0143e2e1a3bf857d9fa5d919df04e09a78b8
 
   return (
     <Background>

@@ -12,19 +12,10 @@ const AlertModalWrapper = styled.div`
 
 const AlertModalOuter = styled.div`
   @keyframes slide {
-    0% {
+    from {
       transform: translateX(-100%);
     }
-    25% {
-      transform: translateX(-75%);
-    }
-    50% {
-      transform: translateX(-50%);
-    }
-    75% {
-      transform: translateX(-25%);
-    }
-    100% {
+    to {
       transform: translateX(0%);
     }
   }

@@ -4,6 +4,7 @@ import {
   SET_ROOM_INFO,
   SET_ROOM_LIST,
   LEAVE_ROOM,
+  LEAVE_OWNER_ROOM,
   RECEIVE_EDITOR_TYPING_INFO,
   RECEIVE_EDITOR_TYPING_USERS
 } from "../constants/actionTypes";
@@ -46,6 +47,12 @@ export function receiveTypingUsers(typingUsers) {
 export function leaveRoom() {
   return {
     type: LEAVE_ROOM
+  };
+}
+
+export function leaveOnwerRoom() {
+  return {
+    type: LEAVE_OWNER_ROOM
   };
 }
 

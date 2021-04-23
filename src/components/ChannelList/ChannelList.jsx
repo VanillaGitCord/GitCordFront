@@ -123,7 +123,11 @@ function ChannelList() {
       return setModalMessages([...modalMessages, alertMessage]);
     }
 
-    if (!activedRooms.includes(enterRoomId)) {
+    const isExistRoom = activedRooms.some((activedRoom) => {
+      return activedRoom[0] === enterRoomId;
+    });
+
+    if (!isExistRoom) {
       const alertMessage = "존재하지 않는 방입니다.";
 
       return setModalMessages([...modalMessages, alertMessage]);

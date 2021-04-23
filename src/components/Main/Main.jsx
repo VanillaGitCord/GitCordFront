@@ -18,8 +18,10 @@ import CodeEditor from "./CodeEditor/CodeEditor";
 import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
+import ModalBackground from "../publicComponents/ModalBackground/ModalBackground";
 import Loading from "../Loading/Loading";
 import AlertModal from "../publicComponents/AlertModal/AlertModal";
+import LeaveRoomAlertModal from "./LeaveRoomAlertModal/LeaveRoomAlertModal";
 
 const MainOuter = styled.div`
   width: 100vw;
@@ -43,7 +45,7 @@ function Main({ location }) {
     contents,
     chatLogs,
     typingUsers,
-    isClosed
+    isOwnerClosed
   } = useSelector((state) => state.roomReducer);
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
@@ -115,8 +117,6 @@ function Main({ location }) {
     />
   );
 
-  if (isClosed) return <Redirect to="/" />;
-
   if (!isReady) return (
     <Background>
       <Loading />
@@ -161,6 +161,11 @@ function Main({ location }) {
               handleAlertDelete={setModalMessages}
               alertMessages={modalMessages}
             />
+          }
+          {isOwnerClosed &&
+            <ModalBackground>
+              <LeaveRoomAlertModal />
+            </ModalBackground>
           }
         </MainContainer>
       </MainOuter>
