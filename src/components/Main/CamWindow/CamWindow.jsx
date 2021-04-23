@@ -98,7 +98,6 @@ function CamWindow({
     if (isStreaming) return;
 
     const user = participants.find(participant => participant.email === currentUser.email);
-    console.log(user);
 
     if (!user) return;
 
