@@ -23,7 +23,8 @@ function Channel({ roomInfo, onClick }) {
   const { roomTitle, owner } = roomInfo;
   return (
     <ChannelStyle onClick={onClick}>
-      <span>채널 명: {roomTitle}</span><br />
+      <span>채널 명: {roomTitle}</span>
+      <br />
       <span>방장: {owner.email}</span>
     </ChannelStyle>
   );

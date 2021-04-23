@@ -68,6 +68,15 @@ function Main({ location }) {
   useEffect(() => {
     socket.emit("join", currentUser, roomId, true);
 
+    window && window.addEventListener("keydown", (event) => {
+      console.log(event);
+      if (event.key === "F5") {
+        event.preventDefault();
+        event.returnValue = false;
+        return false;
+      }
+    });
+
     return () => {
       socket.emit("bye", currentUser.email, roomId);
       dispatch(leaveRoom());
