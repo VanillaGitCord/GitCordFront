@@ -24,7 +24,7 @@ function Channel({ roomInfo, onClick }) {
   return (
     <ChannelStyle onClick={onClick}>
       <span>채널 명: {roomTitle}</span><br />
-      <span>방장: {owner}</span>
+      <span>방장: {owner.email}</span>
     </ChannelStyle>
   );
 }

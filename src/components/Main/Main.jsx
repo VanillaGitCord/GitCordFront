@@ -153,6 +153,8 @@ function Main({ location }) {
           <CamWindow
             currentUser={currentUser}
             participants={participants}
+            socket={socket}
+            roomId={roomId}
           />
           {0 < modalMessages.length &&
             <AlertModal
