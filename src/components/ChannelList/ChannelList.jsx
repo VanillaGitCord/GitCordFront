@@ -18,6 +18,7 @@ import Background from "../publicComponents/Backgroud/Background";
 import AlertModal from "../publicComponents/AlertModal/AlertModal";
 import WelcomeHeader from "../publicComponents/WelcomeHeader/WelcomeHeader";
 import InputWithLabel from "../publicComponents/InputWithLabel/InputWithLabel";
+import GuideModal from "../publicComponents/GuideModal/GuideModal";
 import ChannelListContainer from "./ChannelListContainer/ChannelListContainer";
 
 const ChannelListOutter = styled.div`
@@ -205,6 +206,7 @@ function ChannelList() {
           />
         }
       </ChannelListOutter>
+      <GuideModal />
     </Background>
   );
 }
