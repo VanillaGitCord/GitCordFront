@@ -3,10 +3,13 @@ import React, {
   useRef,
   useEffect
 } from "react";
+import { v1 as uuidv1 } from "uuid";
 import styled from "styled-components";
 
 import ChatInput from "./ChatInput/ChatInput";
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+
+import getDate from "../../../utils/date";
 
 const ChatContainer = styled.div`
   width: 18%;
@@ -31,9 +34,7 @@ const ChatContainer = styled.div`
     width: 90%;
     height: 10%;
     line-height: 10%;
-    margin: 0.5em;
     margin-left: 0.6em;
-    border-bottom: 2px solid #C9D3DD;
     font-size: 1.5rem;
     font-weight: bold;
   }
@@ -41,6 +42,7 @@ const ChatContainer = styled.div`
   .chat-area {
     width: 100%;
     height: 80%;
+    background-color: #F7F9FB;
     overflow-y: scroll;
   }
 
@@ -77,10 +79,10 @@ function Chat({
     event.preventDefault();
 
     const chatlogs = {
-      chatTime: Date.now(),
+      chatTime: getDate(),
       userChat: chat,
       userName: name,
-      roomId,
+      roomId
     };
 
     socket.emit("send chat", chatlogs);
@@ -89,15 +91,19 @@ function Chat({
 
   function renderChatLogs() {
     return chatLogs.map((chatLog) => {
-      const { chatTime, userName, userChat } = chatLog;
+      const {
+        chatTime,
+        userName,
+        userChat
+      } = chatLog;
 
       return (
-        <article className="chat-log" key={chatTime}>
+        <article className="chat-log" key={uuidv1()}>
           <div className="main-icon">
             <MainIcon width="20px" height="20px" />
           </div>
           <div>
-            <span>{userName}</span>
+            <span>{userName}</span>{" "}
             <span>{chatTime}</span>
             <div>{userChat}</div>
           </div>
