@@ -67,7 +67,7 @@ function Chat({
       chatTime: Date.now(),
       userChat: chat,
       userName: name,
-      roomId,
+      roomId
     };
 
     socket.emit("send chat", chatlogs);

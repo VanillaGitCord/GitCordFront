@@ -34,7 +34,8 @@ function UserToolbar({
   alertMessages,
   setAlertMessages,
   socket,
-  roomId
+  roomId,
+  videoToggle
 }) {
   const [isShowSavingToolbar, setIsShowSavingToolbar] = useState(false);
   const [isShowDocumentList, setIsShowDocumentList] = useState(false);
@@ -48,11 +49,19 @@ function UserToolbar({
     setIsShowDocumentList((isShowDocumentList) => !isShowDocumentList);
   }
 
+  function handleVideoToggleButtonClick() {
+    videoToggle(isVideoStopped => !isVideoStopped);
+  }
+
   return (
     <UserToolbarContainer>
       <article>
         <GiSpeaker size={25} className="toolbar-icon" />
-        <BsFillMicFill size={25} className="toolbar-icon" />
+        <BsFillMicFill
+          size={25}
+          className="toolbar-icon"
+          onClick={handleVideoToggleButtonClick}
+        />
         <AiFillCaretLeft size={25} className="toolbar-icon" />
         <GrDocumentText
           size={25}

@@ -146,7 +146,7 @@ function MainNavbar({
         <div className="navbar-right-toggle">
           <ToggleButton>
             <input type="checkbox" onClick={onToggleClick} />
-            <span class="slider round" />
+            <span className="slider round" />
           </ToggleButton>
         </div>
         <FaShareAltSquare
