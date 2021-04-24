@@ -1,4 +1,4 @@
-export async function getDocument(userId) {
+export async function getDocuments(userId) {
   const response = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/document/${userId}`,
     {

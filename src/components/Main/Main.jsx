@@ -69,10 +69,10 @@ function Main({ location }) {
     socket.emit("join", currentUser, roomId, true);
 
     window && window.addEventListener("keydown", (event) => {
-      console.log(event);
       if (event.key === "F5") {
         event.preventDefault();
         event.returnValue = false;
+
         return false;
       }
     });
@@ -163,6 +163,8 @@ function Main({ location }) {
             userList={participants}
             alertMessages={modalMessages}
             setAlertMessages={setModalMessages}
+            roomId={roomId}
+            socket={socket}
           />
           <CodeEditor
             currentUser={currentUser}

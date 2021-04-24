@@ -40,6 +40,7 @@ function SavingToolbar({
 
   async function handleSaveIconClick() {
     const documentInfo = {
+      title: documentTitle,
       contents,
       user: user.email
     };
