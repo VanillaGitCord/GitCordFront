@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { throttle } from "lodash";
 
 const WhiteBoardCanvas = styled.div`
   position: relative;
@@ -21,13 +20,6 @@ function WhiteBoard({ socket, roomId }) {
     drawable: false,
     X: -1,
     Y: -1
-  };
-
-  let sendingPos = {
-    startX: -1,
-    startY: -1,
-    endX: -1,
-    endY: -1
   };
 
   useEffect(() => {
@@ -51,12 +43,14 @@ function WhiteBoard({ socket, roomId }) {
 
     function initDraw(event) {
       pos = {drawable: true, ...getPosition(event)};
+
       socket.emit("send draw Start", roomId, pos);
     }
 
     function draw(event) {
       if (pos.drawable) {
         pos = { drawable: pos.drawable, ...getPosition(event) };
+
         socket.emit("sendDraw", roomId, pos);
       }
     }
@@ -73,14 +67,12 @@ function WhiteBoard({ socket, roomId }) {
     }
 
     socket.on("drawStart", (receivedPos) => {
-      console.log("drawStart", receivedPos);
       ctx.moveTo(receivedPos.X, receivedPos.Y);
       ctx.strokeStyle = "#211eeb";
       ctx.lineWidth = 2.5;
     });
 
     socket.on("drawing", (receivedPos) => {
-      console.log("drawing", receivedPos);
       ctx.lineTo(receivedPos.X, receivedPos.Y);
       ctx.stroke();
     });
