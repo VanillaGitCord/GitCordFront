@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
   AiFillCaretLeft,
-  AiFillCaretRight,
   AiFillSave
 } from "react-icons/ai";
 import { BsFillMicFill } from "react-icons/bs";
 import { GiSpeaker } from "react-icons/gi";
+import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -32,7 +32,9 @@ const UserToolbarContainer = styled.div`
 function UserToolbar({
   user,
   alertMessages,
-  setAlertMessages
+  setAlertMessages,
+  socket,
+  roomId
 }) {
   const [isShowSavingToolbar, setIsShowSavingToolbar] = useState(false);
   const [isShowDocumentList, setIsShowDocumentList] = useState(false);
@@ -52,7 +54,7 @@ function UserToolbar({
         <GiSpeaker size={25} className="toolbar-icon" />
         <BsFillMicFill size={25} className="toolbar-icon" />
         <AiFillCaretLeft size={25} className="toolbar-icon" />
-        <AiFillCaretRight
+        <GrDocumentText
           size={25}
           className="toolbar-icon"
           onClick={handleDocumentListButtonClick}
@@ -72,7 +74,16 @@ function UserToolbar({
           hideToolbar={handleSaveButtonClick}
         />
       }
-      {isShowDocumentList && <DocumentList />}
+      {isShowDocumentList &&
+        <DocumentList
+          alertMessages={alertMessages}
+          setAlertMessages={setAlertMessages}
+          user={user}
+          socket={socket}
+          roomId={roomId}
+          hideDocumentList={handleDocumentListButtonClick}
+        />
+      }
     </UserToolbarContainer>
   );
 }

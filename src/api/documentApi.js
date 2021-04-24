@@ -1,4 +1,4 @@
-export async function getDocument(userId) {
+export async function getDocuments(userId) {
   const response = await fetch(
     `${process.env.REACT_APP_SERVER_URL}/document/${userId}`,
     {
@@ -24,8 +24,13 @@ export async function postDocument(documentInfo) {
   return await response.json();
 }
 
-export async function deleteDocument() {
+export async function deleteDocument(documentId) {
   const response = await fetch(
-    `${process.env.REACT_APP_SERVER_URL}/document`
+    `${process.env.REACT_APP_SERVER_URL}/document/${documentId}`,
+    {
+      method: "DELETE"
+    }
   );
+
+  return await response.json();
 }

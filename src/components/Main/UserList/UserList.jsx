@@ -37,7 +37,9 @@ function UserList({
   currentUser,
   userList,
   alertMessages,
-  setAlertMessages
+  setAlertMessages,
+  socket,
+  roomId
 }) {
 
   function renderJoinUsers() {
@@ -61,9 +63,11 @@ function UserList({
         {renderJoinUsers()}
       </article>
       <UserToolbar
+        roomId={roomId}
         user={currentUser}
         alertMessages={alertMessages}
         setAlertMessages={setAlertMessages}
+        socket={socket}
       />
     </UserListContainer>
   );

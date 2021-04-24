@@ -170,6 +170,8 @@ function Main({ location }) {
             userList={participants}
             alertMessages={modalMessages}
             setAlertMessages={setModalMessages}
+            roomId={roomId}
+            socket={socket}
           />
           {
             toggleMainBoard
