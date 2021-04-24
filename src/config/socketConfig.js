@@ -2,6 +2,7 @@ import io from "socket.io-client";
 
 import {
   receiveChat,
+  receiveDocumentText,
   receiveTypingInfo,
   initRoomInfo,
   initRoomList,
@@ -39,6 +40,10 @@ export function subscribeSocket(dispatch) {
   socket.on("receive text", (typingInfo) => {
     dispatch(receiveTypingInfo(typingInfo));
   });
+
+  socket.on("receive document text", (text) => {
+    dispatch(receiveDocumentText(text));
+  });
 }
 
 export function cancelSocketSubscription() {
@@ -47,5 +52,6 @@ export function cancelSocketSubscription() {
   socket.off("receive activeRoomList");
   socket.off("receive filtered user list");
   socket.off("receive text");
+  socket.off("receive document text");
   socket.off("receive targetRoomInfo");
 }

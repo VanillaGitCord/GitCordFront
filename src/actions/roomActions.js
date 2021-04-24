@@ -1,6 +1,7 @@
 import {
   DELETE_ROOM,
   RECEIVE_CHAT,
+  RECEIVE_DOCUMENT_TEXT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
   LEAVE_ROOM,
@@ -27,6 +28,13 @@ export function receiveChat(chatLogs) {
   return {
     type: RECEIVE_CHAT,
     payload: chatLogs
+  };
+}
+
+export function receiveDocumentText(text) {
+  return {
+    type: RECEIVE_DOCUMENT_TEXT,
+    payload: text
   };
 }
 
