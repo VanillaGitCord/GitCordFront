@@ -12,11 +12,15 @@ const DocumentListContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  width: 18%;
-  background-color: coral;
+  width: 16%;
+  padding: 1em;
+  background-color: #EEADCC;
+  border-radius: 10px;
 `;
 
 function DocumentList({
+  alertMessages,
+  setAlertMessages,
   user,
   socket,
   roomId,
@@ -37,23 +41,6 @@ function DocumentList({
     })();
   }, []);
 
-  function renderMyDocuments() {
-    return documents.map((document) => {
-      const { title, contents } = document;
-
-      return (
-        <DocumentFile
-          title={title}
-          contents={contents}
-          socket={socket}
-          roomId={roomId}
-          user={user}
-          hideDocumentList={hideDocumentList}
-        />
-      );
-    });
-  }
-
   if (isError) return (
     <Redirect
       to={{
@@ -63,6 +50,28 @@ function DocumentList({
     />
   );
 
+  function renderMyDocuments() {
+    return documents.map((document) => {
+      const {
+        title,
+        contents,
+        _id
+      } = document;
+
+      return (
+        <DocumentFile
+          alertMessages={alertMessages}
+          setAlertMessages={setAlertMessages}
+          title={title}
+          contents={contents}
+          socket={socket}
+          roomId={roomId}
+          documentId={_id}
+          hideDocumentList={hideDocumentList}
+        />
+      );
+    });
+  }
 
   return (
     <DocumentListContainer>

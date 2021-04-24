@@ -76,6 +76,8 @@ function UserToolbar({
       }
       {isShowDocumentList &&
         <DocumentList
+          alertMessages={alertMessages}
+          setAlertMessages={setAlertMessages}
           user={user}
           socket={socket}
           roomId={roomId}

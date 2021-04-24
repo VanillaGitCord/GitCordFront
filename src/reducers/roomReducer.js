@@ -3,6 +3,7 @@ import produce from "immer";
 import {
   DELETE_ROOM,
   RECEIVE_CHAT,
+  RECEIVE_DOCUMENT_TEXT,
   SET_ROOM_INFO,
   SET_ROOM_LIST,
   LEAVE_ROOM,
@@ -49,6 +50,12 @@ function roomReducer(state = initialState, action) {
     case RECEIVE_CHAT: {
       return produce(state, (draft) => {
         draft.chatLogs.push(action.payload);
+      });
+    }
+
+    case RECEIVE_DOCUMENT_TEXT: {
+      return produce(state, (draft) => {
+        draft.contents = action.payload;
       });
     }
 
