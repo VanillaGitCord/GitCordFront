@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect
+} from "react";
 import styled from "styled-components";
 
 import ChatInput from "./ChatInput/ChatInput";
@@ -52,7 +56,16 @@ function Chat({
   socket
 }) {
   const [chat, setChat] = useState("");
+  const scrollRef = useRef();
   const { name } = currentUser;
+
+  function scrollToBottom() {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatLogs]);
 
   function handleChatChange(event) {
     const { value } = event.target;
@@ -98,7 +111,10 @@ function Chat({
       <article className="chat-title">
         Chat
       </article>
-      <article className="chat-area">
+      <article
+        ref={scrollRef}
+        className="chat-area"
+      >
         {renderChatLogs()}
       </article>
       <ChatInput
