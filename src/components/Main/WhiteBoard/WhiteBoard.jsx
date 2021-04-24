@@ -1,4 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import styled from "styled-components";
 
 const WhiteBoardCanvas = styled.div`
@@ -42,7 +46,7 @@ function WhiteBoard({ socket, roomId }) {
     canvas.addEventListener("mouseout", finishDraw);
 
     function initDraw(event) {
-      pos = {drawable: true, ...getPosition(event)};
+      pos = { drawable: true, ...getPosition(event) };
 
       socket.emit("send draw Start", roomId, pos);
     }
@@ -56,7 +60,11 @@ function WhiteBoard({ socket, roomId }) {
     }
 
     function finishDraw() {
-      pos = {drawable: false, X: -1, Y: -1};
+      pos = {
+        drawable: false,
+        X: -1,
+        Y: -1
+      };
     }
 
     function getPosition(event) {
@@ -85,7 +93,7 @@ function WhiteBoard({ socket, roomId }) {
         className="whiteboard-canvas"
         width={width}
         height={height}
-      ></canvas>
+      />
     </WhiteBoardCanvas>
   );
 }
