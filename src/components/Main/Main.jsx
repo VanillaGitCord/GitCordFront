@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { FaBook } from "react-icons/fa";
@@ -64,8 +64,6 @@ function Main({ location }) {
   const currentUser = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const { roomId } = useParams();
-  const canvas = useRef();
-  console.log(canvas)
 
   const authRouting = location.state && location.state.authRouting;
 
@@ -127,7 +125,7 @@ function Main({ location }) {
   function handleToggleButtonClick() {
     setToggleMainBoard(beforeState => !beforeState);
   }
-  
+
   function handleGuideClick() {
     setIsShowGuide((isShowGuide) => !isShowGuide);
   }
@@ -176,7 +174,8 @@ function Main({ location }) {
           {
             toggleMainBoard
               ? <WhiteBoard
-                  canvas={canvas}
+                  socket={socket}
+                  roomId={roomId}
                 />
               : <CodeEditor
                   currentUser={currentUser}

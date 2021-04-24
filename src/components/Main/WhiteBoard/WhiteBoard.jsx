@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
+import { throttle } from "lodash";
 
 const WhiteBoardCanvas = styled.div`
   position: relative;
@@ -10,7 +11,7 @@ const WhiteBoardCanvas = styled.div`
   border-radius: 10px;
 `;
 
-function WhiteBoard() {
+function WhiteBoard({ socket, roomId }) {
   const [width, setWidth] = useState();
   const [height, setHeight] = useState();
   const canvasRef = useRef();
@@ -22,9 +23,14 @@ function WhiteBoard() {
     Y: -1
   };
 
-  useEffect(() => {
-    console.log(canvasRef)
+  let sendingPos = {
+    startX: -1,
+    startY: -1,
+    endX: -1,
+    endY: -1
+  };
 
+  useEffect(() => {
     if (!canvasRef || !canvasouter) return;
 
     setWidth(canvasouter.current.offsetWidth);
@@ -32,10 +38,12 @@ function WhiteBoard() {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+
     if (ctx) {
       ctx.strokeStyle = "#211eeb";
       ctx.lineWidth = 2.5;
     }
+
     canvas.addEventListener("mousedown", initDraw);
     canvas.addEventListener("mousemove", draw);
     canvas.addEventListener("mouseup", finishDraw);
@@ -43,14 +51,13 @@ function WhiteBoard() {
 
     function initDraw(event) {
       pos = {drawable: true, ...getPosition(event)};
-      ctx.moveTo(pos.X, pos.Y);
+      socket.emit("send draw Start", roomId, pos);
     }
 
     function draw(event) {
       if (pos.drawable) {
         pos = { drawable: pos.drawable, ...getPosition(event) };
-        ctx.lineTo(pos.X, pos.Y);
-        ctx.stroke();
+        socket.emit("sendDraw", roomId, pos);
       }
     }
 
@@ -64,10 +71,20 @@ function WhiteBoard() {
         Y: event.offsetY
       }
     }
-  }, [canvasRef, canvasouter]);
 
-  // 캔바스 그 자체를 보내기
+    socket.on("drawStart", (receivedPos) => {
+      console.log("drawStart", receivedPos);
+      ctx.moveTo(receivedPos.X, receivedPos.Y);
+      ctx.strokeStyle = "#211eeb";
+      ctx.lineWidth = 2.5;
+    });
 
+    socket.on("drawing", (receivedPos) => {
+      console.log("drawing", receivedPos);
+      ctx.lineTo(receivedPos.X, receivedPos.Y);
+      ctx.stroke();
+    });
+  }, [canvasRef, canvasouter, roomId]);
 
   return (
     <WhiteBoardCanvas ref={canvasouter}>
