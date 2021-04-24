@@ -16,6 +16,7 @@ import { postAuthToken } from "../../api/userApi";
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
 import CodeEditor from "./CodeEditor/CodeEditor";
+import WhiteBoard from "./WhiteBoard/WhiteBoard";
 import Chat from "./Chat/Chat";
 import CamWindow from "./CamWindow/CamWindow";
 import Background from "../publicComponents/Backgroud/Background";
@@ -50,6 +51,7 @@ function Main({ location }) {
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [modalMessages, setModalMessages] = useState([]);
+  const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const [isShowGuide, setIsShowGuide] = useState(false);
   const {
     title,
@@ -120,6 +122,10 @@ function Main({ location }) {
     setModalMessages([...modalMessages, alertMessage]);
   }
 
+  function handleToggleButtonClick() {
+    setToggleMainBoard(beforeState => !beforeState);
+  }
+
   function handleGuideClick() {
     setIsShowGuide((isShowGuide) => !isShowGuide);
   }
@@ -156,6 +162,7 @@ function Main({ location }) {
           roomTitle={title}
           roomId={roomId}
           handleCopyButtonClick={handleCopyButtonClick}
+          onToggleClick={handleToggleButtonClick}
         />
         <MainContainer>
           <UserList
@@ -166,13 +173,20 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          <CodeEditor
-            currentUser={currentUser}
-            typingUsers={typingUsers}
-            socket={socket}
-            roomId={roomId}
-            contents={contents}
-          />
+          {
+            toggleMainBoard
+              ? <WhiteBoard
+                  socket={socket}
+                  roomId={roomId}
+                />
+              : <CodeEditor
+                  currentUser={currentUser}
+                  typingUsers={typingUsers}
+                  socket={socket}
+                  roomId={roomId}
+                  contents={contents}
+                />
+          }
           <Chat
             currentUser={currentUser}
             chatLogs={chatLogs}
