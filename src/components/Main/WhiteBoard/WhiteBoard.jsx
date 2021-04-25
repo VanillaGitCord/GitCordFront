@@ -4,6 +4,7 @@ import React, {
   useState
 } from "react";
 import styled from "styled-components";
+import { throttle } from "lodash";
 
 const WhiteBoardCanvas = styled.div`
   position: relative;
@@ -13,10 +14,66 @@ const WhiteBoardCanvas = styled.div`
   background-color: #FFFFFF;
   border-radius: 10px;
 
-  .colorpicker {
+  .colorpicker-container {
     position: absolute;
-    top: -10px;
     left: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transform: translateX(-50%);
+
+    &-up {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-100%);
+    }
+
+    &-down {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      transform: translateY(50%);
+    }
+  }
+
+  .clearbutton {
+    width: 50px;
+    height: 30px;
+    border-radius: 13%;
+    border: solid 0px;
+    cursor: pointer;
+    background-color: #5C377F;
+    font-weight: bold;
+    color: #FFFFFF;
+  }
+
+  .colorpicker-text {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .colorpicker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    &-input {
+      width: 100px;
+      height: 100px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
   }
 `;
 
@@ -24,14 +81,14 @@ function WhiteBoard({ socket, roomId }) {
   const [width, setWidth] = useState();
   const [height, setHeight] = useState();
   const [color, setColor] = useState("#000000");
+  const [isDrawing, setIsDrawing] = useState(false);
   const canvasRef = useRef();
   const canvasouter = useRef();
 
   let pos = {
     drawable: false,
     X: -1,
-    Y: -1,
-    color
+    Y: -1
   };
 
   useEffect(() => {
@@ -43,21 +100,22 @@ function WhiteBoard({ socket, roomId }) {
     const canvas = canvasRef.current;
 
     const ctx = canvas.getContext("2d");
+    ctx.lineWidth = 2.5;
 
     canvas.addEventListener("mousedown", initDraw);
-    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mousemove", throttle(draw, 50));
     canvas.addEventListener("mouseup", finishDraw);
     canvas.addEventListener("mouseout", finishDraw);
 
     function initDraw(event) {
-      pos = { drawable: true, color, ...getPosition(event) };
+      pos = { drawable: true, ...getPosition(event) };
 
       socket.emit("send draw Start", roomId, pos);
     }
 
     function draw(event) {
       if (pos.drawable) {
-        pos = { drawable: pos.drawable, color, ...getPosition(event) };
+        pos = { drawable: pos.drawable, ...getPosition(event) };
 
         socket.emit("sendDraw", roomId, pos);
       }
@@ -78,12 +136,14 @@ function WhiteBoard({ socket, roomId }) {
       }
     }
 
+    socket.on("receive color", (color) => {
+      setColor(color);
+      ctx.strokeStyle = color;
+    });
+
     socket.on("drawStart", (receivedPos) => {
-      console.log(ctx);
-      setColor(receivedPos.color);
+      isDrawing || setIsDrawing(true);
       ctx.moveTo(receivedPos.X, receivedPos.Y);
-      ctx.strokeStyle = receivedPos.color;
-      ctx.lineWidth = 2.5;
     });
 
     socket.on("drawing", (receivedPos) => {
@@ -92,7 +152,7 @@ function WhiteBoard({ socket, roomId }) {
     });
 
     socket.on("clearCanvas", () => {
-      console.log("clearCanvas");
+      setIsDrawing(false);
       ctx.clearRect(0,0,width,height);
       ctx.beginPath();
     });
@@ -101,22 +161,49 @@ function WhiteBoard({ socket, roomId }) {
       socket.off("drawStart");
       socket.off("drawing");
       socket.off("clearCanvas");
-    }
-  }, [canvasRef, canvasouter, roomId, color]);
+      socket.off("receive color");
+    };
+  }, [canvasRef, canvasouter, roomId, color, isDrawing]);
 
   function handleColorChange(e) {
-    setColor(e.target.value);
+    socket.emit("change color", roomId, e.target.value);
   }
 
-  function handleButtonClick(e) {
+  function handleButtonClick() {
     console.log("asdfasdf");
     socket.emit("deleteCanvas", roomId);
   }
 
+  function getColorpickerOrClearButton() {
+    if (isDrawing) {
+      return (
+        <div className="colorpicker-container">
+          <div className="colorpicker-container-up">
+            <button className="clearbutton" onClick={handleButtonClick}>
+              Clear!
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="colorpicker-container">
+        <div className="colorpicker-container-down">
+          <span className="colorpicker-text">색 선택</span>
+          <div className="colorpicker">
+            <input type="color" className="colorpicker-input" value={color} onChange={handleColorChange} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <WhiteBoardCanvas ref={canvasouter}>
-      <input type="color" className="colorpicker" value={color} onChange={handleColorChange} />
-      <button onClick={handleButtonClick} />
+      {
+        getColorpickerOrClearButton()
+      }
       <canvas
         ref={canvasRef}
         className="whiteboard-canvas"
