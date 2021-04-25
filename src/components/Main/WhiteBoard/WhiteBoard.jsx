@@ -110,6 +110,7 @@ function WhiteBoard({ socket, roomId }) {
     const canvas = canvasRef.current;
 
     const ctx = canvas.getContext("2d");
+
     ctx.lineWidth = 2.5;
 
     canvas.addEventListener("mousedown", initDraw);
