@@ -169,9 +169,9 @@ function WhiteBoard({ socket, roomId }) {
     });
 
     return () => {
-      socket.off("drawStart");
+      socket.off("draw start");
       socket.off("drawing");
-      socket.off("clearCanvas");
+      socket.off("clear canvas");
       socket.off("receive color");
     };
   }, [canvasRef, canvasouter, roomId, color, isDrawing]);
