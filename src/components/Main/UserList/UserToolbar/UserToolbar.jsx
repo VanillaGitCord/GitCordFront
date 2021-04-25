@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  AiFillCaretLeft,
-  AiFillSave
-} from "react-icons/ai";
+import { AiFillSave } from "react-icons/ai";
 import { BsFillMicFill } from "react-icons/bs";
 import { GiSpeaker } from "react-icons/gi";
 import { GrDocumentText } from "react-icons/gr";

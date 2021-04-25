@@ -7,7 +7,7 @@ import mainIcon from "../../../../assets/images/mainIcon.png";
 const ChannelStyle = styled.div`
   position: relative;
   width: 90%;
-  height: 15%;
+  min-height: 15%;
   margin: 0.5em;
   border-radius: 8px;
   background: #ffffff;

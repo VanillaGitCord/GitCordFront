@@ -58,7 +58,7 @@ const WhiteBoardCanvas = styled.div`
     transition: all .5s ease;
 
     &:hover {
-      box-shadow: 0px 0px 0px 7px rgba(121, 119, 119, 0.6);
+      box-shadow: 0px 0px 0px 7px rgba(92, 55, 127, 0.6);
     }
   }
 
