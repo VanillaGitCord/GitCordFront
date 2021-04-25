@@ -9,19 +9,16 @@ const ChannelStyle = styled.div`
   width: 90%;
   height: 15%;
   margin: 0.5em;
-  border: 1px solid #C9D3DD;
   border-radius: 8px;
-  background-color: #ffffff;
+  background: #ffffff;
   background-image: url(${(props) => props.mainIcon});
-  background-size: 300px;
-  cursor: pointer;
+  background-position: -10% 60%;
+  background-size: 250px;
+  background-repeat: no-repeat;
+  font-weight: bold;
   color: #000000;
-
-  .left {
-    display: block;
-    width: 50%;
-    height: 100%;
-  }
+  box-shadow: 0px 8px 12px 0px rgba(255, 255, 255, 0.3);
+  transition: all .5s ease-in-out;
 
   .channel-icon {
     position: absolute;
@@ -36,18 +33,33 @@ const ChannelStyle = styled.div`
     display: block;
     width: 50%;
     height: 100%;
-    background-color: gold;
+    background: linear-gradient(to right, #ffffff -3%, gold);
     border-radius: 8px;
+    float: right;
+  }
+
+  .enter-button {
+    width: 10em;
+    height: 2em;
+    line-height: 1em;
+    margin: 1em;
+    background: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 3px;
+    font-weight: bold;
+    float: right;
+    cursor: pointer;
+    transition: all .5s ease-in-out;
+  }
+
+  .enter-button:hover {
+    background: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
   }
 
   &:hover {
-    opacity: 0.8;
-  }
-
-  span {
-    padding: 1em;
-    font-weight: bold;
-    line-height: 2em;
+    transform: scale(1.05);
   }
 `;
 
@@ -55,16 +67,18 @@ function Channel({ roomInfo, onClick }) {
   const { roomTitle, owner } = roomInfo;
 
   return (
-    <ChannelStyle onClick={onClick} mainIcon={mainIcon} >
-      <div className="left">
-        background
-      </div>
+    <ChannelStyle mainIcon={mainIcon}>
       <GiMushroomHouse className="channel-icon" size={30} />
       <div className="channel-info">
-        <span>title: {roomTitle}</span>
+        <span>{roomTitle}</span>
         <br />
         <span>owner: {owner.email}</span>
-        <button className="enter-button">입장하기</button>
+        <button
+          onClick={onClick}
+          className="enter-button"
+        >
+          입장하기
+        </button>
       </div>
     </ChannelStyle>
   );
