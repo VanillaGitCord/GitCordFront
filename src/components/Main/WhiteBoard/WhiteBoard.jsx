@@ -181,7 +181,6 @@ function WhiteBoard({ socket, roomId }) {
   }
 
   function handleButtonClick() {
-    console.log("asdfasdf");
     socket.emit("deleteCanvas", roomId);
   }
 
