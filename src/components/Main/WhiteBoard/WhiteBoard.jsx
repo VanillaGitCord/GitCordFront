@@ -55,6 +55,11 @@ const WhiteBoardCanvas = styled.div`
     background-color: #5C377F;
     font-weight: bold;
     color: #FFFFFF;
+    transition: all .5s ease;
+
+    &:hover {
+      box-shadow: 0px 0px 0px 7px rgba(121, 119, 119, 0.6);
+    }
   }
 
   .colorpicker-text {
@@ -67,6 +72,11 @@ const WhiteBoardCanvas = styled.div`
     height: 30px;
     border-radius: 50%;
     overflow: hidden;
+    transition: all .5s ease;
+
+    &:hover {
+      box-shadow: 0px 0px 0px 7px rgba(121, 119, 119, 0.6);
+    }
 
     &-input {
       width: 100px;
@@ -117,7 +127,7 @@ function WhiteBoard({ socket, roomId }) {
       if (pos.drawable) {
         pos = { drawable: pos.drawable, ...getPosition(event) };
 
-        socket.emit("sendDraw", roomId, pos);
+        socket.emit("send draw", roomId, pos);
       }
     }
 
@@ -141,7 +151,7 @@ function WhiteBoard({ socket, roomId }) {
       ctx.strokeStyle = color;
     });
 
-    socket.on("drawStart", (receivedPos) => {
+    socket.on("draw start", (receivedPos) => {
       isDrawing || setIsDrawing(true);
       ctx.moveTo(receivedPos.X, receivedPos.Y);
     });
@@ -151,7 +161,7 @@ function WhiteBoard({ socket, roomId }) {
       ctx.stroke();
     });
 
-    socket.on("clearCanvas", () => {
+    socket.on("clear canvas", () => {
       setIsDrawing(false);
       ctx.clearRect(0,0,width,height);
       ctx.beginPath();
