@@ -5,10 +5,10 @@ import React, {
 } from "react";
 import styled from "styled-components";
 
+import getDate from "../../../utils/date";
+
 import ChatInput from "./ChatInput/ChatInput";
 import ChatLog from "./ChatLog/ChatLog";
-
-import getDate from "../../../utils/date";
 
 const ChatContainer = styled.div`
   width: 18%;
