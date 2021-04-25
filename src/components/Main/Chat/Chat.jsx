@@ -40,7 +40,6 @@ const ChatContainer = styled.div`
 `;
 
 function Chat({
-  owner,
   currentUser,
   roomId,
   chatLogs,
