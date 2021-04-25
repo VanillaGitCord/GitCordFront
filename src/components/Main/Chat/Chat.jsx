@@ -3,11 +3,10 @@ import React, {
   useRef,
   useEffect
 } from "react";
-import { v1 as uuidv1 } from "uuid";
 import styled from "styled-components";
 
 import ChatInput from "./ChatInput/ChatInput";
-import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+import ChatLog from "./ChatLog/ChatLog";
 
 import getDate from "../../../utils/date";
 
@@ -19,13 +18,6 @@ const ChatContainer = styled.div`
   border: 2px solid #C9D3DD;
   border-radius: 10px;
   text-align: center;
-
-  .chat-log {
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-    font-size: 13px;
-  }
 
   .chat-title {
     display: flex;
@@ -45,13 +37,10 @@ const ChatContainer = styled.div`
     background-color: #F7F9FB;
     overflow-y: scroll;
   }
-
-  .main-icon {
-    margin: 0.5em;
-  }
 `;
 
 function Chat({
+  owner,
   currentUser,
   roomId,
   chatLogs,
@@ -59,7 +48,7 @@ function Chat({
 }) {
   const [chat, setChat] = useState("");
   const scrollRef = useRef();
-  const { name } = currentUser;
+  const { name, email } = currentUser;
 
   function scrollToBottom() {
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -82,6 +71,7 @@ function Chat({
       chatTime: getDate(),
       userChat: chat,
       userName: name,
+      userEmail: email,
       roomId
     };
 
@@ -90,26 +80,12 @@ function Chat({
   }
 
   function renderChatLogs() {
-    return chatLogs.map((chatLog) => {
-      const {
-        chatTime,
-        userName,
-        userChat
-      } = chatLog;
-
-      return (
-        <article className="chat-log" key={uuidv1()}>
-          <div className="main-icon">
-            <MainIcon width="20px" height="20px" />
-          </div>
-          <div>
-            <span>{userName}</span>{" "}
-            <span>{chatTime}</span>
-            <div>{userChat}</div>
-          </div>
-        </article>
-      );
-    });
+    return chatLogs.map((chatLog) => (
+      <ChatLog
+        user={currentUser}
+        chatLog={chatLog}
+      />
+    ));
   }
 
   return (

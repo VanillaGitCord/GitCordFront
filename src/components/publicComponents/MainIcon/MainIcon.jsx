@@ -7,6 +7,7 @@ const MainIconWrapper = styled.div`
   display: inline-block;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
+  margin: 0.5em;
 
   img {
     width: 100%;

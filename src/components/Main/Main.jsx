@@ -54,6 +54,7 @@ function Main({ location }) {
   const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const [isShowGuide, setIsShowGuide] = useState(false);
   const {
+    owner,
     title,
     participants,
     contents,
@@ -188,6 +189,7 @@ function Main({ location }) {
                 />
           }
           <Chat
+            owner={owner}
             currentUser={currentUser}
             chatLogs={chatLogs}
             roomId={roomId}
