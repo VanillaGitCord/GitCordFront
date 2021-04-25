@@ -22,8 +22,9 @@ const InputWithLabelStyle = styled.div`
   .textInput {
     width: 97%;
     height: 35px;
-    border: 3px solid #C9D3DD;
+    border: none;
     border-radius: 5px;
+    outline: none;
   }
 `;
 

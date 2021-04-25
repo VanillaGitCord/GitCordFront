@@ -11,6 +11,7 @@ const LeaveRoomAlertModalContainer = styled.div`
     from {
       transform: translateX(-400%);
     }
+
     to {
       transform: translateX(400%);
     }

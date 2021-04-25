@@ -17,6 +17,17 @@ const MainNavbarContainer = styled.div`
   padding: 1%;
   font-weight: bold;
 
+  .navbar-icon {
+    border-radius: 50%;
+    transition: all .5s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 107, 107, 0.6);
+      box-shadow: 0px 0px 0px 5px rgba(255, 107, 107, 0.6);
+    }
+  }
+
   .navbar-left {
     display: flex;
     justify-content: space-evenly;
@@ -135,9 +146,9 @@ function MainNavbar({
     <MainNavbarContainer>
       <div className="navbar-left">
         <ImArrowLeft
+          className="navbar-icon"
           size={30}
           onClick={handleLeaveIconClick}
-          cursor="pointer"
         />
         <MainIcon width="30px" height="30px" />
         {roomTitle}
@@ -150,14 +161,14 @@ function MainNavbar({
           </ToggleButton>
         </div>
         <FaShareAltSquare
-          size={30}
+          className="navbar-icon"
+          size={35}
           onClick={handleShareIconClick}
-          cursor="pointer"
         />
         <CgLogOut
+          className="navbar-icon"
           size={30}
           onClick={handleLogoutIconClick}
-          cursor="pointer"
         />
         <FaUserCircle size={30} />
         {email}

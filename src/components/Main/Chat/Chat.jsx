@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect
+} from "react";
 import styled from "styled-components";
 
+import getDate from "../../../utils/date";
+
 import ChatInput from "./ChatInput/ChatInput";
-import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+import ChatLog from "./ChatLog/ChatLog";
 
 const ChatContainer = styled.div`
   width: 18%;
@@ -13,13 +19,6 @@ const ChatContainer = styled.div`
   border-radius: 10px;
   text-align: center;
 
-  .chat-log {
-    display: flex;
-    justify-content: center;
-    margin: 10px;
-    font-size: 13px;
-  }
-
   .chat-title {
     display: flex;
     justify-content: center;
@@ -27,9 +26,7 @@ const ChatContainer = styled.div`
     width: 90%;
     height: 10%;
     line-height: 10%;
-    margin: 0.5em;
     margin-left: 0.6em;
-    border-bottom: 2px solid #C9D3DD;
     font-size: 1.5rem;
     font-weight: bold;
   }
@@ -37,11 +34,8 @@ const ChatContainer = styled.div`
   .chat-area {
     width: 100%;
     height: 80%;
+    background-color: #F7F9FB;
     overflow-y: scroll;
-  }
-
-  .main-icon {
-    margin: 0.5em;
   }
 `;
 
@@ -52,7 +46,16 @@ function Chat({
   socket
 }) {
   const [chat, setChat] = useState("");
-  const { name } = currentUser;
+  const scrollRef = useRef();
+  const { name, email } = currentUser;
+
+  function scrollToBottom() {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatLogs]);
 
   function handleChatChange(event) {
     const { value } = event.target;
@@ -64,10 +67,11 @@ function Chat({
     event.preventDefault();
 
     const chatlogs = {
-      chatTime: Date.now(),
+      chatTime: getDate(),
       userChat: chat,
       userName: name,
-      roomId,
+      userEmail: email,
+      roomId
     };
 
     socket.emit("send chat", chatlogs);
@@ -75,22 +79,12 @@ function Chat({
   }
 
   function renderChatLogs() {
-    return chatLogs.map((chatLog) => {
-      const { chatTime, userName, userChat } = chatLog;
-
-      return (
-        <article className="chat-log" key={chatTime}>
-          <div className="main-icon">
-            <MainIcon width="20px" height="20px" />
-          </div>
-          <div>
-            <span>{userName}</span>
-            <span>{chatTime}</span>
-            <div>{userChat}</div>
-          </div>
-        </article>
-      );
-    });
+    return chatLogs.map((chatLog) => (
+      <ChatLog
+        user={currentUser}
+        chatLog={chatLog}
+      />
+    ));
   }
 
   return (
@@ -98,7 +92,10 @@ function Chat({
       <article className="chat-title">
         Chat
       </article>
-      <article className="chat-area">
+      <article
+        ref={scrollRef}
+        className="chat-area"
+      >
         {renderChatLogs()}
       </article>
       <ChatInput

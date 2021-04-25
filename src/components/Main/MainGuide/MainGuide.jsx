@@ -12,7 +12,7 @@ const MainGuideContainer = styled.div`
     position: fixed;
     width: 15%;
     top: 10%;
-    left: 3%;
+    left: 4%;
     border-bottom: 1px solid #ffffff;
     border-left: 1px solid #ffffff;
     text-align: right;
@@ -21,20 +21,29 @@ const MainGuideContainer = styled.div`
   .title-guide {
     position: fixed;
     width: 10%;
-    top: 5%;
-    left: 10%;
+    top: 6%;
+    left: 13%;
     border-bottom: 1px solid #ffffff;
     border-left: 1px solid #ffffff;
     text-align: right;
   }
 
+  .toggle-guide {
+    position: fixed;
+    width: 20%;
+    top: 1%;
+    right: 30%;
+    border-bottom: 1px solid #ffffff;
+  }
+
   .share-button-guide {
     position: fixed;
-    width: 23%;
+    width: 21%;
     top: 7%;
-    right: 19%;
+    right: 1%;
     border-bottom: 1px solid #ffffff;
-    border-right: 1px solid #ffffff;
+    border-left: 1px solid #ffffff;
+    text-align: right;
   }
 
   .user-list-guide {
@@ -64,6 +73,25 @@ const MainGuideContainer = styled.div`
     border-bottom: 1px solid #ffffff;
     text-align: left;
   }
+
+  .save-guide {
+    position: fixed;
+    width: 22%;
+    bottom: 13%;
+    left: 17%;
+    border-bottom: 1px solid #ffffff;
+    text-align: right;
+  }
+
+  .documents-guide {
+    position: fixed;
+    width: 23%;
+    bottom: 5%;
+    left: 11%;
+    border-left: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    text-align: right;
+  }
 `;
 
 function MainGuide() {
@@ -75,6 +103,10 @@ function MainGuide() {
         </span>
         <span className="title-guide">
           방 제목입니다.
+        </span>
+        <span className="toggle-guide">
+          코드 에디터와 화이트 보드의 토글 버튼입니다.<br />
+          클릭 시 에디터 모드가 변경됩니다.
         </span>
         <span className="share-button-guide">
           공유하기 버튼입니다.<br />
@@ -90,6 +122,14 @@ function MainGuide() {
         <span className="chat-guide">
           채팅창입니다.<br />
           채팅을 입력하시면 위 채팅창에 올라갑니다.
+        </span>
+        <span className="save-guide">
+          저장하기 버튼입니다.<br />
+          현재 작업한 코드 에디터 내용을 저장할 수 있습니다.
+        </span>
+        <span className="documents-guide">
+          내 저장 문서들을 불러오는 버튼입니다.<br />
+          문서를 클릭하면 현재 에디터에 내용이 적용됩니다.
         </span>
       </MainGuideContainer>
     </ModalBackground>

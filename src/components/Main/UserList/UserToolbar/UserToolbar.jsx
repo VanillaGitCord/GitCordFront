@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  AiFillCaretLeft,
-  AiFillSave
-} from "react-icons/ai";
+import { AiFillSave } from "react-icons/ai";
 import { BsFillMicFill } from "react-icons/bs";
 import { GiSpeaker } from "react-icons/gi";
 import { GrDocumentText } from "react-icons/gr";
@@ -50,10 +47,10 @@ function UserToolbar({
 
   return (
     <UserToolbarContainer>
+      {user.name}
       <article>
         <GiSpeaker size={25} className="toolbar-icon" />
         <BsFillMicFill size={25} className="toolbar-icon" />
-        <AiFillCaretLeft size={25} className="toolbar-icon" />
         <GrDocumentText
           size={25}
           className="toolbar-icon"

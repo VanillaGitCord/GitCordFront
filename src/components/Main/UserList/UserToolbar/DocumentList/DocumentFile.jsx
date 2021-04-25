@@ -9,7 +9,7 @@ const DocumentFileContainer = styled.div`
   display: block;
   width: 20%;
   height: auto;
-  font-size: 0.3rem;
+  font-size: 0.7rem;
   color: #000000;
 
   .close-icon {
