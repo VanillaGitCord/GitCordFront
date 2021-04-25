@@ -181,7 +181,7 @@ function WhiteBoard({ socket, roomId }) {
   }
 
   function handleButtonClick() {
-    socket.emit("deleteCanvas", roomId);
+    socket.emit("delete canvas", roomId);
   }
 
   function getColorpickerOrClearButton() {
