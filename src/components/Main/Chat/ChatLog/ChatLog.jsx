@@ -29,15 +29,15 @@ const ChatLogContainer = styled.div`
     max-width: 20em;
     height: auto;
     margin-left: 1em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    line-height: 3em;
+    padding: 0.5em 0.8em;
+    line-height: 20px;
     border-radius: 10px;
     background-color: ${(props) =>
       props.user.email === props.chatEmail ? "#BE79DF" : "#FBCFFC"
     };
     font-weight: bold;
-    word-wrap: break-word;
+    word-break: break-all;
+    text-align: left;
     color: ${(props) =>
       props.user.email === props.chatEmail ? "#ffffff" : "#000000"
     };
