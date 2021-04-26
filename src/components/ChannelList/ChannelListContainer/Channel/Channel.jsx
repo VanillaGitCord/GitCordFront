@@ -25,7 +25,7 @@ const ChannelStyle = styled.div`
     top: -10px;
     right: -10px;
     background-color: #ffffff;
-    border: 3px solid gold;
+    border: 3px solid #ffd700;
     border-radius: 50%;
   }
 

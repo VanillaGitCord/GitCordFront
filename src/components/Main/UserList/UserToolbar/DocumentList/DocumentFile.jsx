@@ -16,6 +16,7 @@ const DocumentFileContainer = styled.div`
   .close-icon {
     display: block;
     float: right;
+    cursor: pointer;
   }
 `;
 
