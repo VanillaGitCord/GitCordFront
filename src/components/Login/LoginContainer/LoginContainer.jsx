@@ -6,6 +6,11 @@ import { GoogleLogin } from "react-google-login";
 
 import { postGoogleLogin, putLogin } from "../../../api/userApi";
 import { loginUser } from "../../../actions/userActions";
+import {
+  NEED_EMAIL,
+  NEED_EMAIL_FORMAT,
+  NEED_PASSWORD
+} from "../../../constants/message";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -87,11 +92,11 @@ function LoginContainer() {
   }
 
   async function handleLoginClick() {
-    if (!email) return setEmailError("E-mail을 입력해주세요!");
+    if (!email) return setEmailError(NEED_EMAIL);
 
-    if (!isEmailValidate(email)) return setEmailError("E-mail 형식을 맞춰주세요! ex) 123@asd.com");
+    if (!isEmailValidate(email)) return setEmailError(NEED_EMAIL_FORMAT);
 
-    if (!password) return setPasswordError("Password를 입력해주세요!");
+    if (!password) return setPasswordError(NEED_PASSWORD);
 
     const loginInfo = {
       email,

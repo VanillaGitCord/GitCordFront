@@ -14,8 +14,7 @@ import {
   USER_LEFT,
   RECEIVING_RETURNED_SIGNAL,
   SENDING_SIGNAL,
-  RETURNING_SIGNAL,
-  STREAM_PAUSE
+  RETURNING_SIGNAL
 } from "../../../constants/socketEvents";
 
 const CamWindowContainer = styled.div`

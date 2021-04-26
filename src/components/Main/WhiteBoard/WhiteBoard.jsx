@@ -175,7 +175,7 @@ function WhiteBoard({ socket, roomId }) {
 
     socket.on(CLEAR_CANVAS, () => {
       setIsDrawing(false);
-      ctx.clearRect(0,0,width,height);
+      ctx.clearRect(0, 0, width, height);
       ctx.beginPath();
     });
 
@@ -213,7 +213,11 @@ function WhiteBoard({ socket, roomId }) {
         <div className="colorpicker-container-down">
           <span className="colorpicker-text">색 선택</span>
           <div className="colorpicker">
-            <input type="color" className="colorpicker-input" value={color} onChange={handleColorChange} />
+            <input type="color"
+              className="colorpicker-input"
+              value={color}
+              onChange={handleColorChange}
+            />
           </div>
         </div>
       </div>

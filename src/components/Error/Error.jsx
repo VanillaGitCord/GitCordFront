@@ -3,6 +3,8 @@ import { Redirect } from "react-router";
 import { FaExclamation } from "react-icons/fa";
 import styled from "styled-components";
 
+import { PAGE_NOT_FOUND } from "../../constants/message";
+
 import Background from "../publicComponents/Backgroud/Background";
 import MainIcon from "../publicComponents/MainIcon/MainIcon";
 
@@ -53,7 +55,7 @@ const ModalBackground = styled.div`
 
 function Error({ location }) {
   const [count, setCount] = useState(3);
-  const message = location.state ? location.state.message : "Page not Found";
+  const message = location.state ? location.state.message : PAGE_NOT_FOUND;
 
   useEffect(() => {
     setTimeout(() => {
