@@ -63,7 +63,7 @@ function CamWindow({
   roomId,
   isVideoStopped
 }) {
-  const [isStreaming, setIsStreaming] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [peers, setPeers] = useState([]);
   const userVideo = useRef();
   const peersRef = useRef([]);
@@ -115,28 +115,26 @@ function CamWindow({
   }, []);
 
   useEffect(() => {
-    if (!isStreaming) return;
+    if (!isReady) return;
 
     if (isVideoStopped) {
       localStream && localStream.getTracks().forEach(val => val.enabled = false);
-      socket.emit(STREAM_PAUSE);
 
       return;
     }
 
     localStream && localStream.getTracks().forEach(val => val.enabled = true);
-    socket.emit(STREAM_PAUSE);
-  }, [isVideoStopped, isStreaming]);
+  }, [isVideoStopped, isReady]);
 
   useEffect(() => {
-    if (isStreaming) return;
+    if (isReady) return;
 
     const user = participants.find(participant => participant.email === currentUser.email);
 
     if (!user) return;
 
     if (currentUser && participants.length) {
-      setIsStreaming(true);
+      setIsReady(true);
 
       navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
         localStream = stream;
@@ -211,7 +209,7 @@ function CamWindow({
         });
       });
     }
-  }, [currentUser, isStreaming, participants, isVideoStopped, roomId]);
+  }, [currentUser, isReady, participants, isVideoStopped, roomId]);
 
   useEffect(() => {
     return () => {
