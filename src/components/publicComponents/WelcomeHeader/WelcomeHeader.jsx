@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { logoutUser } from "../../../actions/userActions";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+import { Redirect } from "react-router";
 
 const WelComeHeaderStyle = styled.div`
   @keyframes spin {
@@ -51,7 +52,8 @@ const HeaderContainer = styled.div`
   }
 `;
 
-function WelComeHeader({ currentUser }) {
+function WelComeHeader({ currentUser, isLogin = true }) {
+  const [isLogout, setIsLogout] = useState(false);
   const dispatch = useDispatch();
 
   function handleLogoutIconClick() {
@@ -59,6 +61,29 @@ function WelComeHeader({ currentUser }) {
     localStorage.removeItem("refresh");
 
     dispatch(logoutUser());
+    setIsLogout(true);
+  }
+
+  function getLogoutButtonAndUserInfo() {
+    if (isLogin) {
+      return (
+        <>
+          <CgLogOut
+            size={30}
+            onClick={handleLogoutIconClick}
+            className="logout-icon"
+          />
+          <FaUserCircle size={30} />
+          {currentUser && currentUser.email}
+        </>
+      );
+    }
+  }
+
+  if (isLogout) {
+    return (
+      <Redirect to="/login" />
+    );
   }
 
   return (
@@ -73,13 +98,7 @@ function WelComeHeader({ currentUser }) {
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        <CgLogOut
-          size={30}
-          onClick={handleLogoutIconClick}
-          className="logout-icon"
-        />
-        <FaUserCircle size={30} />
-        {currentUser && currentUser.email}
+        {getLogoutButtonAndUserInfo()}
       </HeaderContainer>
     </WelComeHeaderStyle>
   );
