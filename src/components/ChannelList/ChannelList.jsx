@@ -17,6 +17,12 @@ import {
   INIT_ROOM_LIST,
   CREATE_ROOM
 } from "../../constants/socketEvents";
+import {
+  NEED_TITLE,
+  NEED_ROOM_ADDRESS,
+  NOT_EXIST_ROOM,
+  TOKEN_EIPIRED
+} from "../../constants/message";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
@@ -133,7 +139,7 @@ function ChannelList() {
 
   function handleCreateRoomClick() {
     if (!createRoomTitle) {
-      const alertMessage = "타이틀을 입력하셔야 합니다.";
+      const alertMessage = NEED_TITLE;
 
       return setModalMessages([...modalMessages, alertMessage]);
     }
@@ -150,7 +156,7 @@ function ChannelList() {
 
   function handleEnterRoomClick() {
     if (!enterRoomId) {
-      const alertMessage = "방 주소를 입력하셔아합니다.";
+      const alertMessage = NEED_ROOM_ADDRESS;
 
       return setModalMessages([...modalMessages, alertMessage]);
     }
@@ -160,7 +166,7 @@ function ChannelList() {
     });
 
     if (!isExistRoom) {
-      const alertMessage = "존재하지 않는 방입니다.";
+      const alertMessage = NOT_EXIST_ROOM;
 
       return setModalMessages([...modalMessages, alertMessage]);
     }
@@ -176,7 +182,7 @@ function ChannelList() {
     <Redirect
       to={{
         pathname: "/error",
-        state: { message: "Token has Expired!" }
+        state: { message: TOKEN_EIPIRED }
       }}
     />
   );
