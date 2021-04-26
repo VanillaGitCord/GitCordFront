@@ -134,7 +134,7 @@ function CamWindow({
     if (currentUser && participants.length) {
       setIsReady(true);
 
-      navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
+      navigator.mediaDevices.getUserMedia({ video: true , audio: true }).then(stream => {
         localStream = stream;
         userVideo.current.srcObject = stream;
         userVideo.current.className = user.isOwner ? "owner cam-video" : "participant cam-video";
