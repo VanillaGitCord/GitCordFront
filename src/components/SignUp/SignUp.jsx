@@ -23,7 +23,7 @@ function SignUp() {
   return (
     <Background>
       <SignUpOutter>
-        <WelcomeHeader />
+        <WelcomeHeader isLogin={false} />
         <div className="signup-buffer" />
         <SignUpContainer />
       </SignUpOutter>

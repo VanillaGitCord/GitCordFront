@@ -1,5 +1,6 @@
 import React from "react";
 import { FaCrown } from "react-icons/fa";
+import { SiDeno } from "react-icons/si";
 import styled from "styled-components";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
@@ -12,6 +13,27 @@ const UserListContainer = styled.div`
   border: 2px solid #C9D3DD;
   border-radius: 10px;
   text-align: center;
+  overflow-y: scroll;
+
+  .join-user {
+    display: flex;
+    align-items: center;
+    margin: 1em;
+
+    .crown-area {
+      width: 10%;
+      height: 100%;
+      margin-right: 1em;
+    }
+
+    span {
+      display: inline-block;
+      max-width: 10em;
+      margin-left: 0.5em;
+      word-break: break-all;
+      text-align: left;
+    }
+  }
 
   .userlist-title {
     display: flex;
@@ -48,9 +70,15 @@ function UserList({
       const { email, isOwner } = participant;
 
       return (
-        <div key={email}>
-          {isOwner && <FaCrown />} {email}
-        </div>
+        <article key={email} className="join-user">
+          <div className="crown-area">
+            {isOwner &&
+              <FaCrown color="gold" size={20} />
+            }
+          </div>
+          <SiDeno size={30} />
+          <span>{email}</span>
+        </article>
       );
     });
   }

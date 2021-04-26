@@ -102,23 +102,18 @@ function CamWindow({
   }, []);
 
   useEffect(() => {
+    if (!isStreaming) return;
+
     if (isVideoStopped) {
-      socket.emit("video off", roomId, currentUser.email);
-      socket.off("user joined");
-      socket.off("receiving returned signal");
-      socket.off("user left");
-      localStream && localStream.getTracks().forEach(val => val.stop());
-      debugger;
-      peers && peers.map(peer => {
-        peer.peer.removeAllListeners("signal");
-        peer.peer.destroy();
-      });
-      setPeers([]);
-      peersRef.current = [];
-      setIsStreaming(false);
+      localStream && localStream.getTracks().forEach(val => val.enabled = false);
       return;
     }
 
+    localStream && localStream.getTracks().forEach(val => val.enabled = true);
+
+  }, [isVideoStopped, isStreaming])
+
+  useEffect(() => {
     if (isStreaming) return;
 
     const user = participants.find(participant => participant.email === currentUser.email);

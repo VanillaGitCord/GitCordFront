@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { CgLogOut } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
+import { CgLogOut } from "react-icons/cg";
 import styled from "styled-components";
 
 import { logoutUser } from "../../../actions/userActions";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
+import { Redirect } from "react-router";
 
 const WelComeHeaderStyle = styled.div`
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   display: flex;
   justify-content: space-between;
   align-content: center;
@@ -28,9 +39,21 @@ const HeaderContainer = styled.div`
   .nav-title {
     font-size: 2.5rem;
   }
+
+  .logout-icon {
+    border-radius: 20%;
+    transition: all .5s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(72, 219, 251, 0.6);
+      box-shadow: 0px 0px 0px 5px rgba(72, 219, 251, 0.6);
+    }
+  }
 `;
 
-function WelComeHeader({ currentUser }) {
+function WelComeHeader({ currentUser, isLogin = true }) {
+  const [isLogout, setIsLogout] = useState(false);
   const dispatch = useDispatch();
 
   function handleLogoutIconClick() {
@@ -38,6 +61,29 @@ function WelComeHeader({ currentUser }) {
     localStorage.removeItem("refresh");
 
     dispatch(logoutUser());
+    setIsLogout(true);
+  }
+
+  function getLogoutButtonAndUserInfo() {
+    if (isLogin) {
+      return (
+        <>
+          <CgLogOut
+            size={30}
+            onClick={handleLogoutIconClick}
+            className="logout-icon"
+          />
+          <FaUserCircle size={30} />
+          {currentUser && currentUser.email}
+        </>
+      );
+    }
+  }
+
+  if (isLogout) {
+    return (
+      <Redirect to="/login" />
+    );
   }
 
   return (
@@ -52,13 +98,7 @@ function WelComeHeader({ currentUser }) {
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        <CgLogOut
-          size={30}
-          onClick={handleLogoutIconClick}
-          cursor="pointer"
-        />
-        <FaUserCircle size={30} />
-        {currentUser && currentUser.email}
+        {getLogoutButtonAndUserInfo()}
       </HeaderContainer>
     </WelComeHeaderStyle>
   );

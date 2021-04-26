@@ -1,23 +1,33 @@
 import React from "react";
-import { AiOutlineEnter } from "react-icons/ai";
 import styled from "styled-components";
 
-const ChatInputContainer = styled.div`
-  width: 100%;
+const ChatInputContainer = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 10%;
 
   .chat-input {
-    width: 50%;
-    margin: 0.8em;
-    border: 2px solid #c238eb;
-    border-radius: 5px;
+    display: block;
+    width: 70%;
+    padding: 1em;
+    border: none;
+    border-right: 1px solid #C9D3DD;
     outline: none;
   }
 
   .chat-button {
+    display: block;
+    width: 30%;
+    height: 100%;
+    margin: 0 auto;
     background: none;
-    border: 2px solid #c238eb;
-    border-radius: 10px;
+    border: none;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #c238eb;
+    outline: none;
     cursor: pointer;
   }
 `;
@@ -28,19 +38,17 @@ function ChatInput({
   handleChatSubmit
 }) {
   return (
-    <ChatInputContainer>
-      <form onSubmit={handleChatSubmit}>
-        <input
-          type="text"
-          placeholder="chat.."
-          value={chat}
-          onChange={handleChatChange}
-          className="chat-input"
-        />
-        <button className="chat-button">
-          <AiOutlineEnter />
-        </button>
-      </form>
+    <ChatInputContainer onSubmit={handleChatSubmit}>
+      <input
+        type="text"
+        placeholder="message.."
+        value={chat}
+        onChange={handleChatChange}
+        className="chat-input"
+      />
+      <button className="chat-button">
+        send
+      </button>
     </ChatInputContainer>
   );
 }

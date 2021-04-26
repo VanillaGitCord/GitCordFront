@@ -82,7 +82,8 @@ function CodeEditor({
           lint: true,
           mode: "javascript",
           theme: "material",
-          lineNumbers: true
+          lineNumbers: true,
+          extraKeys: { Enter: false }
         }}
       />
       <article className="typing-user">
