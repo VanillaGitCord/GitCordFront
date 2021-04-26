@@ -55,7 +55,11 @@ function UserToolbar({
       {user.name}
       <article>
         <GiSpeaker size={25} className="toolbar-icon" />
-        <BsFillMicFill size={25} className="toolbar-icon" />
+        <BsFillMicFill
+          onClick={handleVideoToggleButtonClick}
+          size={25}
+          className="toolbar-icon"
+        />
         <GrDocumentText
           size={25}
           className="toolbar-icon"

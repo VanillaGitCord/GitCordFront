@@ -72,13 +72,13 @@ function ChannelList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
+    socket.emit(INIT_ROOM_LIST);
   }, []);
 
   useEffect(() => {
-    socket.emit(INIT_ROOM_LIST);
+    subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
   }, []);
 
   useEffect(() => {

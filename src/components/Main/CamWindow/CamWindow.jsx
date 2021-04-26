@@ -20,18 +20,19 @@ import {
 
 const CamWindowContainer = styled.div`
   position: absolute;
-  top: 10%;
-  left: 33%;
-  background-color: #ffffff;
+  bottom: 20%;
+  right: 22%;
+  background: none;
   z-index: 9;
 
   .cam-video {
-    width: 600px;
-    height: 600px;
+    width: 15em;
+    height: 11.3em;
   }
 
   .participant {
     display: none;
+    background: none;
   }
 `;
 
@@ -49,9 +50,8 @@ function Video({ peer, isOwner }) {
   return (
     <video
       ref={ref}
-      playsInline
       autoPlay
-      className={`cam-video ${isOwner || "participans"}`}
+      className={`cam-video ${isOwner || "participant"}`}
     />
   );
 }
