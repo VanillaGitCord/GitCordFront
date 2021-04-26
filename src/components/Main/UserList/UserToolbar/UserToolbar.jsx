@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { AiFillSave } from "react-icons/ai";
-import { BsFillMicFill } from "react-icons/bs";
-import { GiSpeaker } from "react-icons/gi";
+import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+
+import { VIDEO_TOGGLE } from "../../../../constants/socketEvents";
 
 import SavingToolbar from "./SavingToolbar/SavingToolbar";
 import DocumentList from "./DocumentList/DocumentList";
@@ -32,6 +33,7 @@ function UserToolbar({
   setAlertMessages,
   socket,
   roomId,
+  isVideoStopped,
   videoToggle
 }) {
   const [isShowSavingToolbar, setIsShowSavingToolbar] = useState(false);
@@ -47,6 +49,7 @@ function UserToolbar({
   }
 
   function handleVideoToggleButtonClick() {
+    socket.emit(VIDEO_TOGGLE, roomId, user);
     videoToggle(isVideoStopped => !isVideoStopped);
   }
 
@@ -54,8 +57,19 @@ function UserToolbar({
     <UserToolbarContainer>
       {user.name}
       <article>
-        <GiSpeaker size={25} className="toolbar-icon" />
-        <BsFillMicFill size={25} className="toolbar-icon" />
+        {
+          isVideoStopped
+            ? <BsFillMicMuteFill
+                size={25}
+                className="toolbar-icon"
+                onClick={handleVideoToggleButtonClick}
+              />
+            : <BsFillMicFill
+                size={25}
+                className="toolbar-icon"
+                onClick={handleVideoToggleButtonClick}
+              />
+        }
         <GrDocumentText
           size={25}
           className="toolbar-icon"

@@ -174,6 +174,7 @@ function Main({ location }) {
             setAlertMessages={setModalMessages}
             roomId={roomId}
             socket={socket}
+            isVideoStopped={isVideoStopped}
             videoToggle={setIsVideoStopped}
           />
           {
