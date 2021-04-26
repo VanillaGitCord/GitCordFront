@@ -54,6 +54,7 @@ function Main({ location }) {
   const [modalMessages, setModalMessages] = useState([]);
   const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const [isShowGuide, setIsShowGuide] = useState(false);
+  const [isVideoStopped, setIsVideoStopped] = useState(false);
   const {
     title,
     participants,
@@ -173,6 +174,7 @@ function Main({ location }) {
             setAlertMessages={setModalMessages}
             roomId={roomId}
             socket={socket}
+            videoToggle={setIsVideoStopped}
           />
           {
             toggleMainBoard
@@ -194,12 +196,13 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          {/* <CamWindow
+          <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
-          /> */}
+            isVideoStopped={isVideoStopped}
+          />
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}

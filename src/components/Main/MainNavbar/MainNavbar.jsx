@@ -121,6 +121,7 @@ function MainNavbar({
   onToggleClick
 }) {
   const { email } = currentUser;
+  const [isLogout, setIsLogout] = useState(false);
   const [isOutRoom, setIsOutRoom] = useState(false);
   const [isShowShareWindow, setIsShowShareWindow] = useState(false);
   const dispatch = useDispatch();
@@ -132,6 +133,7 @@ function MainNavbar({
     localStorage.removeItem("refresh");
 
     dispatch(logoutUser());
+    setIsLogout(true);
   }
 
   function handleLeaveIconClick() {
@@ -140,6 +142,12 @@ function MainNavbar({
 
   function handleShareIconClick() {
     setIsShowShareWindow(!isShowShareWindow);
+  }
+
+  if (isLogout) {
+    return (
+      <Redirect to="/login" />
+    );
   }
 
   return (
@@ -157,7 +165,7 @@ function MainNavbar({
         <div className="navbar-right-toggle">
           <ToggleButton>
             <input type="checkbox" onClick={onToggleClick} />
-            <span class="slider round" />
+            <span className="slider round" />
           </ToggleButton>
         </div>
         <FaShareAltSquare

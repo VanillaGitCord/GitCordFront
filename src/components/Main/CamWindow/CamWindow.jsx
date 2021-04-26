@@ -36,7 +36,7 @@ const CamWindowContainer = styled.div`
 
 let localStream;
 
-const Video = ({ peer, isOwner }) => {
+function Video({ peer, isOwner }) {
   const ref = useRef();
 
   useEffect(() => {
@@ -58,7 +58,9 @@ const Video = ({ peer, isOwner }) => {
 function CamWindow({
   currentUser,
   participants,
-  socket
+  socket,
+  roomId,
+  isVideoStopped
 }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [peers, setPeers] = useState([]);
@@ -66,21 +68,30 @@ function CamWindow({
   const peersRef = useRef([]);
 
   window.addEventListener("beforeunload", () => {
+    socket.off("user joined");
+    socket.off("receiving returned signal");
+    socket.off("user left");
     peers && peers.forEach(peer => {
       peer.removeAllListeners("signal");
       peer.destroy();
     });
+    peersRef.current = [];
   });
 
-  const createPeer = useCallback((userToSignal, isUserOwner, callerID, stream) => {
+  const createPeer = useCallback((userToSignal, isOwner, callerID, stream) => {
     const peer = new Peer({
       initiator: true,
       trickle: false,
       stream
     });
 
-    peer.on(SIGNAL, signal => {
-      socket.emit(SENDING_SIGNAL, { userToSignal, isUserOwner, callerID, signal })
+    peer.on("signal", signal => {
+      socket.emit("sending signal", {
+        userToSignal,
+        isOwner,
+        callerID,
+        signal
+      });
     });
 
     return peer;
@@ -103,6 +114,20 @@ function CamWindow({
   }, []);
 
   useEffect(() => {
+    if (!isStreaming) return;
+
+    if (isVideoStopped) {
+      localStream && localStream.getTracks().forEach(val => val.enabled = false);
+      socket.emit("stream pause");
+
+      return;
+    }
+
+    localStream && localStream.getTracks().forEach(val => val.enabled = true);
+    socket.emit("stream pause");
+  }, [isVideoStopped, isStreaming]);
+
+  useEffect(() => {
     if (isStreaming) return;
 
     const user = participants.find(participant => participant.email === currentUser.email);
@@ -121,7 +146,7 @@ function CamWindow({
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
 
         participantsWithoutMe.forEach(userInfo => {
-          const peer = createPeer(userInfo.socketId, userInfo.isOwner, socket.id, stream);
+          const peer = createPeer(userInfo.socketId, user.isOwner, socket.id, stream);
 
           peersRef.current.push({
             peerID: userInfo.socketId,
@@ -147,7 +172,16 @@ function CamWindow({
               peer
             });
 
-            setPeers(peers => [...peers, { peerID: payload.socketId, isOwner: payload.isUserOwner, peer }]);
+            setPeers(peers => (
+              [
+                ...peers,
+                {
+                  peerID: payload.socketId,
+                  isOwner: payload.isOwner,
+                  peer
+                }
+              ]
+            ));
           }
         });
 
@@ -176,17 +210,19 @@ function CamWindow({
         });
       });
     }
-  }, [currentUser, isStreaming, participants]);
+  }, [currentUser, isStreaming, participants, isVideoStopped, roomId]);
 
   useEffect(() => {
     return () => {
-      socket.off(RECEIVING_RETURNED_SIGNAL);
-      socket.off(USER_LEFT);
+      socket.off("user joined");
+      socket.off("receiving returned signal");
+      socket.off("user left");
       localStream && localStream.getTracks().forEach(val => val.stop());
       peers && peers.forEach(peer => {
-        peer.removeAllListeners("signal");
-        peer.destroy();
+        peer.peer.removeAllListeners("signal");
+        peer.peer.destroy();
       });
+      peersRef.current = [];
     }
   }, []);
 

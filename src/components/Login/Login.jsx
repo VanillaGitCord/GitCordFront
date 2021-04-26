@@ -23,7 +23,7 @@ function Login() {
   return (
     <Background>
       <LoginOutter>
-        <WelcomeHeader />
+        <WelcomeHeader isLogin={false} />
         <div className="login-buffer" />
         <LoginContainer />
       </LoginOutter>
