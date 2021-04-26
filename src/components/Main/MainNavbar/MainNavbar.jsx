@@ -32,14 +32,14 @@ const MainNavbarContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 15vw;
+    min-width: 15vw;
   }
 
   .navbar-right {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 30vw;
+    min-width: 30vw;
 
     &-logout {
       cursor: pointer;

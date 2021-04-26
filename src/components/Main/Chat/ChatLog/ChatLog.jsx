@@ -51,7 +51,7 @@ function ChatLog({ chatLog, user }) {
     userChat,
     userEmail
   } = chatLog;
-  debugger;
+
   return (
     <ChatLogContainer
       user={user}

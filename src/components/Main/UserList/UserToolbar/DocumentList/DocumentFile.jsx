@@ -4,6 +4,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import styled from "styled-components";
 
 import { deleteDocument } from "../../../../../api/documentApi";
+import { SET_CONTENTS } from "../../../../../constants/socketEvents";
 
 const DocumentFileContainer = styled.div`
   display: block;
@@ -35,7 +36,7 @@ function DocumentFile({
       roomId
     };
 
-    socket.emit("set contents", contentsInfo);
+    socket.emit(SET_CONTENTS, contentsInfo);
     setAlertMessages([...alertMessages, uploadMessage]);
     hideDocumentList();
   }

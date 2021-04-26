@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { FaBook } from "react-icons/fa";
-import { ImEnter } from "react-icons/im";
+import { FaDoorOpen, FaBook } from "react-icons/fa";
 import styled from "styled-components";
 import { v1 as uuidv1 } from "uuid";
 
@@ -13,6 +12,10 @@ import {
   socket
 } from "../../config/socketConfig";
 import { postAuthToken } from "../../api/userApi";
+import {
+  INIT_ROOM_LIST,
+  CREATE_ROOM
+} from "../../constants/socketEvents";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
@@ -37,22 +40,6 @@ const ChannelListOutter = styled.div`
     width: 40%;
     height: 15%;
 
-    .shadow-icon {
-      border-radius: 20%;
-      transition: all .5s ease;
-      cursor: pointer;
-
-      &:hover {
-        background: rgba(72, 219, 251, 0.6);
-        box-shadow: 0px 0px 0px 5px rgba(72, 219, 251, 0.6);
-      }
-    }
-
-    .enter-icon {
-      margin-top: 2em;
-      cursor: pointer;
-    }
-
     &-icon {
       display: flex;
       justify-content: center;
@@ -76,16 +63,22 @@ function ChannelList() {
   const [roomId, setRoomId] = useState("");
   const [enterRoomId, setEnterRoomId] = useState("");
   const [createRoomTitle, setCreateRoomTitle] = useState("");
+  const [modalMessages, setModalMessages] = useState([]);
   const [isAuthuticate, setIsAuthuticate] = useState(true);
   const [isReady, setIsReady] = useState(false);
-  const [modalMessages, setModalMessages] = useState([]);
   const [isShowGuide, setIsShowGuide] = useState(false);
   const currentUser = useSelector((state) => state.userReducer.user);
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.emit("init roomList");
+    subscribeSocket(dispatch);
+
+    return () => cancelSocketSubscription();
+  }, []);
+
+  useEffect(() => {
+    socket.emit(INIT_ROOM_LIST);
   }, []);
 
   useEffect(() => {
@@ -106,16 +99,10 @@ function ChannelList() {
   }, []);
 
   useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
-  }, []);
-
-  useEffect(() => {
     if (currentUser) {
       setTimeout(() => {
         setIsReady(true);
-      }, 4000);
+      }, 1000);
     }
   }, [currentUser]);
 
@@ -141,7 +128,7 @@ function ChannelList() {
     };
 
     setRoomId(id);
-    socket.emit("create room", currentUser, roomInfo);
+    socket.emit(CREATE_ROOM, currentUser, roomInfo);
   }
 
   function handleEnterRoomClick() {
@@ -166,14 +153,6 @@ function ChannelList() {
 
   function handleGuideClick() {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
-
-  if (currentUser.isLogout) {
-    <Redirect
-      to={{
-        pathname: "/login"
-      }}
-    />
   }
 
   if (!isAuthuticate) return (
@@ -214,10 +193,10 @@ function ChannelList() {
             value={enterRoomId}
             type="text"
           />
-          <ImEnter
+          <FaDoorOpen
             size={40}
-            className="enter-icon shadow-icon"
             onClick={handleEnterRoomClick}
+            cursor="pointer"
           />
           <InputWithLabel
             width="40%"
@@ -228,10 +207,10 @@ function ChannelList() {
             value={createRoomTitle}
             type="text"
           />
-          <ImEnter
+          <FaDoorOpen
             size={40}
-            className="enter-icon shadow-icon"
             onClick={handleCreateRoomClick}
+            cursor="pointer"
           />
         </div>
         <ChannelListContainer

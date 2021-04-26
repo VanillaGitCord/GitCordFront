@@ -7,6 +7,16 @@ import React, {
 import styled from "styled-components";
 import Peer from "simple-peer";
 
+import {
+  STREAM,
+  SIGNAL,
+  USER_JOINED,
+  USER_LEFT,
+  RECEIVING_RETURNED_SIGNAL,
+  SENDING_SIGNAL,
+  RETURNING_SIGNAL
+} from "../../../constants/socketEvents";
+
 const CamWindowContainer = styled.div`
   position: absolute;
   top: 10%;
@@ -28,10 +38,9 @@ let localStream;
 
 const Video = ({ peer, isOwner }) => {
   const ref = useRef();
-  const className = isOwner ? "owner" : "participant";
 
   useEffect(() => {
-    peer.on("stream", stream => {
+    peer.on(STREAM, stream => {
       ref.current.srcObject = stream;
     });
   }, []);
@@ -41,7 +50,7 @@ const Video = ({ peer, isOwner }) => {
       ref={ref}
       playsInline
       autoPlay
-      className={`cam-video ${className}`}
+      className={`cam-video ${isOwner || "participans"}`}
     />
   );
 }
@@ -49,8 +58,7 @@ const Video = ({ peer, isOwner }) => {
 function CamWindow({
   currentUser,
   participants,
-  socket,
-  roomId
+  socket
 }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [peers, setPeers] = useState([]);
@@ -71,8 +79,8 @@ function CamWindow({
       stream
     });
 
-    peer.on("signal", signal => {
-      socket.emit("sending signal", { userToSignal, isUserOwner, callerID, signal })
+    peer.on(SIGNAL, signal => {
+      socket.emit(SENDING_SIGNAL, { userToSignal, isUserOwner, callerID, signal })
     });
 
     return peer;
@@ -85,8 +93,8 @@ function CamWindow({
       stream
     });
 
-    peer.on("signal", signal => {
-      socket.emit("returning signal", { signal, callerID })
+    peer.on(SIGNAL, signal => {
+      socket.emit(RETURNING_SIGNAL, { signal, callerID })
     });
 
     peer.signal(incomingSignal);
@@ -129,7 +137,7 @@ function CamWindow({
 
         setPeers(peers);
 
-        socket.on("user joined", payload => {
+        socket.on(USER_JOINED, payload => {
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
 
@@ -143,13 +151,13 @@ function CamWindow({
           }
         });
 
-        socket.on("receiving returned signal", payload => {
+        socket.on(RECEIVING_RETURNED_SIGNAL, payload => {
           const item = peersRef.current.find(p => p.peerID === payload.id);
 
           item.peer.signal(payload.signal);
         });
 
-        socket.on("user left", targetUser => {
+        socket.on(USER_LEFT, targetUser => {
           peersRef.current = peersRef.current.filter((peerObj) => (
             peerObj.peerID !== targetUser.socketId
           ));
@@ -172,8 +180,8 @@ function CamWindow({
 
   useEffect(() => {
     return () => {
-      socket.off("receiving returned signal");
-      socket.off("user left");
+      socket.off(RECEIVING_RETURNED_SIGNAL);
+      socket.off(USER_LEFT);
       localStream && localStream.getTracks().forEach(val => val.stop());
       peers && peers.forEach(peer => {
         peer.removeAllListeners("signal");

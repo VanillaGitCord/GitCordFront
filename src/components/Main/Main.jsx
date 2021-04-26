@@ -12,6 +12,7 @@ import {
 import { leaveRoom } from "../../actions/roomActions";
 import { loginUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
+import { JOIN, BYE } from "../../constants/socketEvents";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -68,7 +69,7 @@ function Main({ location }) {
   const authRouting = location.state && location.state.authRouting;
 
   useEffect(() => {
-    socket.emit("join", currentUser, roomId, true);
+    socket.emit(JOIN, currentUser, roomId, true);
 
     window && window.addEventListener("keydown", (event) => {
       if (event.key === "F5") {
@@ -80,7 +81,7 @@ function Main({ location }) {
     });
 
     return () => {
-      socket.emit("bye", currentUser.email, roomId);
+      socket.emit(BYE, currentUser.email, roomId);
       dispatch(leaveRoom());
     };
   }, []);
