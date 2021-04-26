@@ -30,7 +30,6 @@ const CamWindowContainer = styled.div`
   }
 
   .participant {
-    display: none;
     background: none;
   }
 `;
