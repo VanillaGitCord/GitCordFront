@@ -26,8 +26,7 @@ const CamWindowContainer = styled.div`
 
 let localStream;
 
-const Video = ({ peer, isOwner }) => {
-  debugger;
+function Video({ peer, isOwner }) {
   const ref = useRef();
   const className = isOwner ? "owner" : "participant";
 
@@ -71,7 +70,6 @@ function CamWindow({
   });
 
   const createPeer = useCallback((userToSignal, isOwner, callerID, stream) => {
-    debugger;
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -79,7 +77,12 @@ function CamWindow({
     });
 
     peer.on("signal", signal => {
-      socket.emit("sending signal", { userToSignal, isOwner, callerID, signal })
+      socket.emit("sending signal", {
+        userToSignal,
+        isOwner,
+        callerID,
+        signal
+      });
     });
 
     return peer;
@@ -107,12 +110,12 @@ function CamWindow({
     if (isVideoStopped) {
       localStream && localStream.getTracks().forEach(val => val.enabled = false);
       socket.emit("stream pause");
+
       return;
     }
 
     localStream && localStream.getTracks().forEach(val => val.enabled = true);
     socket.emit("stream pause");
-
   }, [isVideoStopped, isStreaming]);
 
   useEffect(() => {
@@ -133,7 +136,6 @@ function CamWindow({
         const peers = [];
         const participantsWithoutMe = participants.filter(participant => participant.email !== currentUser.email);
 
-        debugger;
         participantsWithoutMe.forEach(userInfo => {
           const peer = createPeer(userInfo.socketId, user.isOwner, socket.id, stream);
 
@@ -155,14 +157,22 @@ function CamWindow({
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
 
-          debugger;
           if (!isPeerExist) {
             peersRef.current.push({
               peerID: payload.callerID,
               peer
             });
 
-            setPeers(peers => [...peers, { peerID: payload.socketId, isOwner: payload.isOwner, peer }]);
+            setPeers(peers => (
+              [
+                ...peers,
+                {
+                  peerID: payload.socketId,
+                  isOwner: payload.isOwner,
+                  peer
+                }
+              ]
+            ));
           }
         });
 

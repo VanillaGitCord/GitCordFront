@@ -54,7 +54,6 @@ function Main({ location }) {
   const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const [isShowGuide, setIsShowGuide] = useState(false);
   const [isVideoStopped, setIsVideoStopped] = useState(false);
-  console.log(isVideoStopped);
   const {
     title,
     participants,
