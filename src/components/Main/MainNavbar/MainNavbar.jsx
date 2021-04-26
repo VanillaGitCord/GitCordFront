@@ -127,6 +127,7 @@ function MainNavbar({
   const dispatch = useDispatch();
 
   if (isOutRoom) return <Redirect to="/" />
+  if (isLogout) return <Redirect to="/login" />
 
   function handleLogoutIconClick() {
     localStorage.removeItem("access");
@@ -142,12 +143,6 @@ function MainNavbar({
 
   function handleShareIconClick() {
     setIsShowShareWindow(!isShowShareWindow);
-  }
-
-  if (isLogout) {
-    return (
-      <Redirect to="/login" />
-    );
   }
 
   return (

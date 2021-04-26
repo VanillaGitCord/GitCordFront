@@ -3,6 +3,7 @@ import { AiFillSave } from "react-icons/ai";
 import styled from "styled-components"
 
 import { postDocument } from "../../../../../api/documentApi";
+import { UNKNOWN_ERROR } from "../../../../../constants/message";
 
 import InputWithLabelStyle from "../../../../publicComponents/InputWithLabel/InputWithLabel";
 
@@ -52,7 +53,7 @@ function SavingToolbar({
 
       setAlertMessages([...alertMessages, saveResult.message]);
     } catch (err) {
-      setAlertMessages([...alertMessages, "문제가 발생했습니다"]);
+      setAlertMessages([...alertMessages, UNKNOWN_ERROR]);
     }
   }
 

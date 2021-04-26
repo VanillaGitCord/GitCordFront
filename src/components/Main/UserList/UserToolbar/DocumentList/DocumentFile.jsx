@@ -5,6 +5,10 @@ import styled from "styled-components";
 
 import { deleteDocument } from "../../../../../api/documentApi";
 import { SET_CONTENTS } from "../../../../../constants/socketEvents";
+import {
+  UPLOAD_DOCUMENT,
+  DELETE_FAIL
+} from "../../../../../constants/message";
 
 const DocumentFileContainer = styled.div`
   display: block;
@@ -31,7 +35,7 @@ function DocumentFile({
   hideDocumentList
 }) {
   function handleFileClick() {
-    const uploadMessage = "현재 방에 내용 업데이트를 했습니다.";
+    const uploadMessage = UPLOAD_DOCUMENT;
     const contentsInfo = {
       value: contents,
       roomId
@@ -48,7 +52,7 @@ function DocumentFile({
 
       setAlertMessages([...alertMessages, response.message]);
     } catch (err) {
-      const errorMessage = "삭제에 실패했습니다.";
+      const errorMessage = DELETE_FAIL;
 
       setAlertMessages([...alertMessages, errorMessage]);
     }

@@ -13,6 +13,11 @@ import { leaveRoom } from "../../actions/roomActions";
 import { loginUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
 import { JOIN, BYE } from "../../constants/socketEvents";
+import {
+  COPY_CLIPBOARD,
+  UNUSUAL_ACCESS,
+  TOKEN_EIPIRED
+} from "../../constants/message";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -119,7 +124,7 @@ function Main({ location }) {
   }, [currentUser]);
 
   function handleCopyButtonClick() {
-    const alertMessage = "클립보드에 복사되었습니다."
+    const alertMessage = COPY_CLIPBOARD;
 
     setModalMessages([...modalMessages, alertMessage]);
   }
@@ -136,7 +141,7 @@ function Main({ location }) {
     <Redirect
       to={{
         pathname: "/error",
-        state: { message: "정상적인 접근 방법이 아닙니다!" }
+        state: { message: UNUSUAL_ACCESS }
       }}
     />
   );
@@ -145,7 +150,7 @@ function Main({ location }) {
     <Redirect
       to={{
         pathname: "/error",
-        state: { message: "Token has Expired!" }
+        state: { message: TOKEN_EIPIRED }
       }}
     />
   );

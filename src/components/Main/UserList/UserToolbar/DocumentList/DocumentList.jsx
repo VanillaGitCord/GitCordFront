@@ -3,6 +3,10 @@ import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import { getDocuments } from "../../../../../api/documentApi";
+import {
+  UNKNOWN_ERROR,
+  NOT_EXIST_SAVE_DOCUMENT
+} from "../../../../../constants/message";
 
 import DocumentFile from "./DocumentFile";
 
@@ -56,7 +60,7 @@ function DocumentList({
     <Redirect
       to={{
         pathname: "/error",
-        state: { message: "알수 없는 에러가 발생했습니다" }
+        state: { message: UNKNOWN_ERROR }
       }}
     />
   );
@@ -88,7 +92,7 @@ function DocumentList({
     <DocumentListContainer>
       {0 < documents.length
         ? renderMyDocuments()
-        : "저장한 문서가 없습니다."
+        : NOT_EXIST_SAVE_DOCUMENT
       }
     </DocumentListContainer>
   );
