@@ -4,10 +4,14 @@ import {
 } from "react-codemirror2";
 import styled from "styled-components";
 import { throttle } from "lodash";
-
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript"
+
+import {
+  START_TYPING,
+  STOP_TYPING
+} from "../../../constants/socketEvents";
 
 const CodeEditorContainer = styled.div`
   position: relative;
@@ -48,7 +52,7 @@ function CodeEditor({
       roomId
     };
 
-    socket.emit("stop typing", typingInfo);
+    socket.emit(STOP_TYPING, typingInfo);
   }, [currentUser, roomId, socket]);
 
   const throllingRefreshTypingUser = useMemo(() =>
@@ -69,7 +73,7 @@ function CodeEditor({
     };
 
     setCode(value);
-    socket.emit("start typing", typingInfo);
+    socket.emit(START_TYPING, typingInfo);
   }
 
   return (
@@ -82,7 +86,8 @@ function CodeEditor({
           lint: true,
           mode: "javascript",
           theme: "material",
-          lineNumbers: true
+          lineNumbers: true,
+          extraKeys: { Enter: false }
         }}
       />
       <article className="typing-user">

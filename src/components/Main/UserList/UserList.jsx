@@ -1,5 +1,6 @@
 import React from "react";
-import { FaCrown } from "react-icons/fa";
+import { FaCrown, FaMicrophoneSlash } from "react-icons/fa";
+import { SiDeno } from "react-icons/si";
 import styled from "styled-components";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
@@ -12,6 +13,41 @@ const UserListContainer = styled.div`
   border: 2px solid #C9D3DD;
   border-radius: 10px;
   text-align: center;
+  overflow-y: scroll;
+
+  .join-user {
+    display: flex;
+    align-items: center;
+    margin: 0.7em;
+
+    .crown-area {
+      position: left;
+      width: 10%;
+      height: 100%;
+      margin-right: 1em;
+    }
+
+    .user-area {
+      display: flex;
+      align-items: center;
+      width: 80%;
+      height: 100%;
+    }
+
+    span {
+      display: inline-block;
+      max-width: 10em;
+      margin-left: 0.5em;
+      word-break: break-all;
+      text-align: left;
+    }
+
+    .streaming-status {
+      position: right;
+      width: 10%;
+      height: 100%;
+    }
+  }
 
   .userlist-title {
     display: flex;
@@ -39,17 +75,33 @@ function UserList({
   alertMessages,
   setAlertMessages,
   socket,
-  roomId
+  roomId,
+  isVideoStopped,
+  videoToggle
 }) {
-
   function renderJoinUsers() {
     return userList.map((participant) => {
-      const { email, isOwner } = participant;
+      const { email, name, isOwner, isStreaming } = participant;
 
       return (
-        <div key={email}>
-          {isOwner && <FaCrown />} {email}
-        </div>
+        <article key={email} className="join-user">
+          <div className="crown-area">
+            {isOwner &&
+              <FaCrown color="gold" size={20} />
+            }
+          </div>
+          <div className="user-area">
+            <div>
+              <SiDeno size={30} />
+            </div>
+            <div>
+              <span>{name}</span>
+            </div>
+          </div>
+          <div class="streaming-status">
+            { isStreaming || <FaMicrophoneSlash /> }
+          </div>
+        </article>
       );
     });
   }
@@ -68,6 +120,8 @@ function UserList({
         alertMessages={alertMessages}
         setAlertMessages={setAlertMessages}
         socket={socket}
+        isVideoStopped={isVideoStopped}
+        videoToggle={videoToggle}
       />
     </UserListContainer>
   );

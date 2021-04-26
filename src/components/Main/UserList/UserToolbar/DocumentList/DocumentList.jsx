@@ -7,6 +7,16 @@ import { getDocuments } from "../../../../../api/documentApi";
 import DocumentFile from "./DocumentFile";
 
 const DocumentListContainer = styled.div`
+  @keyframes slide {
+    from {
+      transform: translateX(-400%);
+    }
+
+    to {
+      transform: translateX(0%);
+    }
+  }
+
   position: fixed;
   bottom: 23%;
   display: flex;
@@ -16,6 +26,7 @@ const DocumentListContainer = styled.div`
   padding: 1em;
   background-color: #EEADCC;
   border-radius: 10px;
+  animation: slide 1.5s ease-in;
 `;
 
 function DocumentList({
@@ -75,7 +86,10 @@ function DocumentList({
 
   return (
     <DocumentListContainer>
-      {renderMyDocuments()}
+      {0 < documents.length
+        ? renderMyDocuments()
+        : "저장한 문서가 없습니다."
+      }
     </DocumentListContainer>
   );
 }

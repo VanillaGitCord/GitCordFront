@@ -12,6 +12,7 @@ import {
 import { leaveRoom } from "../../actions/roomActions";
 import { loginUser } from "../../actions/userActions";
 import { postAuthToken } from "../../api/userApi";
+import { JOIN, BYE } from "../../constants/socketEvents";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -53,6 +54,7 @@ function Main({ location }) {
   const [modalMessages, setModalMessages] = useState([]);
   const [toggleMainBoard, setToggleMainBoard] = useState(false);
   const [isShowGuide, setIsShowGuide] = useState(false);
+  const [isVideoStopped, setIsVideoStopped] = useState(false);
   const {
     title,
     participants,
@@ -68,7 +70,7 @@ function Main({ location }) {
   const authRouting = location.state && location.state.authRouting;
 
   useEffect(() => {
-    socket.emit("join", currentUser, roomId, true);
+    socket.emit(JOIN, currentUser, roomId, true);
 
     window && window.addEventListener("keydown", (event) => {
       if (event.key === "F5") {
@@ -80,7 +82,7 @@ function Main({ location }) {
     });
 
     return () => {
-      socket.emit("bye", currentUser.email, roomId);
+      socket.emit(BYE, currentUser.email, roomId);
       dispatch(leaveRoom());
     };
   }, []);
@@ -172,6 +174,8 @@ function Main({ location }) {
             setAlertMessages={setModalMessages}
             roomId={roomId}
             socket={socket}
+            isVideoStopped={isVideoStopped}
+            videoToggle={setIsVideoStopped}
           />
           {
             toggleMainBoard
@@ -193,12 +197,13 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          {/* <CamWindow
+          <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
-          /> */}
+            isVideoStopped={isVideoStopped}
+          />
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}

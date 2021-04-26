@@ -9,7 +9,8 @@ const initialState = {
   user: {
     email: "",
     name: ""
-  }
+  },
+  isLogout: false
 };
 
 function userReducer(state = initialState, action) {
@@ -17,12 +18,14 @@ function userReducer(state = initialState, action) {
     case USER_LOGIN: {
       return produce(state, draft => {
         draft.user = action.payload;
+        draft.isLogout = false;
       });
     }
 
     case USER_LOGOUT: {
       return {
-        ...initialState
+        ...initialState,
+        isLogout: true
       };
     }
 

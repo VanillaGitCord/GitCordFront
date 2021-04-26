@@ -4,17 +4,19 @@ import { IoIosCloseCircle } from "react-icons/io";
 import styled from "styled-components";
 
 import { deleteDocument } from "../../../../../api/documentApi";
+import { SET_CONTENTS } from "../../../../../constants/socketEvents";
 
 const DocumentFileContainer = styled.div`
   display: block;
   width: 20%;
   height: auto;
-  font-size: 0.3rem;
+  font-size: 0.7rem;
   color: #000000;
 
   .close-icon {
     display: block;
     float: right;
+    cursor: pointer;
   }
 `;
 
@@ -35,7 +37,7 @@ function DocumentFile({
       roomId
     };
 
-    socket.emit("set contents", contentsInfo);
+    socket.emit(SET_CONTENTS, contentsInfo);
     setAlertMessages([...alertMessages, uploadMessage]);
     hideDocumentList();
   }
