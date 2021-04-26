@@ -26,7 +26,7 @@ const AlertModalOuter = styled.div`
   margin: 0 0 1em 0;
   background-color: rgb(250, 250, 250, 0.9);
   border-radius: 10px;
-  animation: slide .4s ease-in-out;
+  animation: slide .6s ease-in-out;
 
   .alert-message {
     display: flex;

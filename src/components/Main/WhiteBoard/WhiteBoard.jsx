@@ -175,7 +175,7 @@ function WhiteBoard({ socket, roomId }) {
 
     socket.on(CLEAR_CANVAS, () => {
       setIsDrawing(false);
-      ctx.clearRect(0,0,width,height);
+      ctx.clearRect(0, 0, width, height);
       ctx.beginPath();
     });
 

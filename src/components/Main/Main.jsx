@@ -202,13 +202,13 @@ function Main({ location }) {
             roomId={roomId}
             socket={socket}
           />
-          <CamWindow
+          {/* <CamWindow
             currentUser={currentUser}
             participants={participants}
             socket={socket}
             roomId={roomId}
             isVideoStopped={isVideoStopped}
-          />
+          /> */}
           {0 < modalMessages.length &&
             <AlertModal
               handleAlertDelete={setModalMessages}
