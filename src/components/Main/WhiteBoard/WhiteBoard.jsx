@@ -6,6 +6,17 @@ import React, {
 import styled from "styled-components";
 import { throttle } from "lodash";
 
+import {
+  SEND_DRAW,
+  SEND_DRAW_START,
+  CHANGE_COLOR,
+  DELETE_CANVAS,
+  RECEIVE_COLOR,
+  DRAWING,
+  DRAW_START,
+  CLEAR_CANVAS
+} from "../../../constants/socketEvents";
+
 const WhiteBoardCanvas = styled.div`
   position: relative;
   width: 59%;
@@ -121,14 +132,14 @@ function WhiteBoard({ socket, roomId }) {
     function initDraw(event) {
       pos = { drawable: true, ...getPosition(event) };
 
-      socket.emit("send draw Start", roomId, pos);
+      socket.emit(SEND_DRAW_START, roomId, pos);
     }
 
     function draw(event) {
       if (pos.drawable) {
         pos = { drawable: pos.drawable, ...getPosition(event) };
 
-        socket.emit("send draw", roomId, pos);
+        socket.emit(SEND_DRAW, roomId, pos);
       }
     }
 
@@ -147,41 +158,41 @@ function WhiteBoard({ socket, roomId }) {
       }
     }
 
-    socket.on("receive color", (color) => {
+    socket.on(RECEIVE_COLOR, (color) => {
       setColor(color);
       ctx.strokeStyle = color;
     });
 
-    socket.on("draw start", (receivedPos) => {
+    socket.on(DRAW_START, (receivedPos) => {
       isDrawing || setIsDrawing(true);
       ctx.moveTo(receivedPos.X, receivedPos.Y);
     });
 
-    socket.on("drawing", (receivedPos) => {
+    socket.on(DRAWING, (receivedPos) => {
       ctx.lineTo(receivedPos.X, receivedPos.Y);
       ctx.stroke();
     });
 
-    socket.on("clear canvas", () => {
+    socket.on(CLEAR_CANVAS, () => {
       setIsDrawing(false);
       ctx.clearRect(0,0,width,height);
       ctx.beginPath();
     });
 
     return () => {
-      socket.off("draw start");
-      socket.off("drawing");
-      socket.off("clear canvas");
-      socket.off("receive color");
+      socket.off(DRAW_START);
+      socket.off(DRAWING);
+      socket.off(CLEAR_CANVAS);
+      socket.off(RECEIVE_COLOR);
     };
   }, [canvasRef, canvasouter, roomId, color, isDrawing]);
 
   function handleColorChange(e) {
-    socket.emit("change color", roomId, e.target.value);
+    socket.emit(CHANGE_COLOR, roomId, e.target.value);
   }
 
   function handleButtonClick() {
-    socket.emit("delete canvas", roomId);
+    socket.emit(DELETE_CANVAS, roomId);
   }
 
   function getColorpickerOrClearButton() {

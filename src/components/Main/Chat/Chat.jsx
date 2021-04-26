@@ -6,6 +6,7 @@ import React, {
 import styled from "styled-components";
 
 import getDate from "../../../utils/date";
+import { SEND_CHAT } from "../../../constants/socketEvents";
 
 import ChatInput from "./ChatInput/ChatInput";
 import ChatLog from "./ChatLog/ChatLog";
@@ -74,7 +75,7 @@ function Chat({
       roomId
     };
 
-    socket.emit("send chat", chatlogs);
+    socket.emit(SEND_CHAT, chatlogs);
     setChat("");
   }
 
