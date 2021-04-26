@@ -5,6 +5,8 @@ import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
+import { VIDEO_TOGGLE } from "../../../../constants/socketEvents";
+
 import SavingToolbar from "./SavingToolbar/SavingToolbar";
 import DocumentList from "./DocumentList/DocumentList";
 
@@ -47,7 +49,7 @@ function UserToolbar({
   }
 
   function handleVideoToggleButtonClick() {
-    socket.emit("video toggle", roomId, user);
+    socket.emit(VIDEO_TOGGLE, roomId, user);
     videoToggle(isVideoStopped => !isVideoStopped);
   }
 

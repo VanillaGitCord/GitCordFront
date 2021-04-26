@@ -37,4 +37,4 @@ export const RECEIVING_RETURNED_SIGNAL = "receiving returned signal";
 
 export const SENDING_SIGNAL = "sending signal";
 export const RETURNING_SIGNAL = "returning signal";
-export const STREAM_PAUSE = "stream pause";
+export const VIDEO_TOGGLE = "video toggle";
