@@ -61,7 +61,8 @@ function UserList({
   alertMessages,
   setAlertMessages,
   socket,
-  roomId
+  roomId,
+  videoToggle
 }) {
 
   function renderJoinUsers() {
@@ -96,6 +97,7 @@ function UserList({
         alertMessages={alertMessages}
         setAlertMessages={setAlertMessages}
         socket={socket}
+        videoToggle={videoToggle}
       />
     </UserListContainer>
   );

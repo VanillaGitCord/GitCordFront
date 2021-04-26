@@ -31,7 +31,8 @@ function UserToolbar({
   alertMessages,
   setAlertMessages,
   socket,
-  roomId
+  roomId,
+  videoToggle
 }) {
   const [isShowSavingToolbar, setIsShowSavingToolbar] = useState(false);
   const [isShowDocumentList, setIsShowDocumentList] = useState(false);
@@ -43,6 +44,10 @@ function UserToolbar({
 
   function handleDocumentListButtonClick() {
     setIsShowDocumentList((isShowDocumentList) => !isShowDocumentList);
+  }
+
+  function handleVideoToggleButtonClick() {
+    videoToggle(isVideoStopped => !isVideoStopped);
   }
 
   return (
