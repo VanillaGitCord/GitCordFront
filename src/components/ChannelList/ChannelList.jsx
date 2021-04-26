@@ -21,7 +21,7 @@ import {
   NEED_TITLE,
   NEED_ROOM_ADDRESS,
   NOT_EXIST_ROOM,
-  TOKEN_EIPIRED
+  TOKEN_EXPIRED
 } from "../../constants/message";
 
 import Loading from "../Loading/Loading";
@@ -182,7 +182,7 @@ function ChannelList() {
     <Redirect
       to={{
         pathname: "/error",
-        state: { message: TOKEN_EIPIRED }
+        state: { message: TOKEN_EXPIRED }
       }}
     />
   );

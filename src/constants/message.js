@@ -7,8 +7,8 @@ export const NOT_EXIST_SAVE_DOCUMENT = "저장한 문서가 없습니다.";
 export const UNKNOWN_ERROR = "문제가 발생했습니다.";
 export const COPY_CLIPBOARD = "클립보드에 복사되었습니다.";
 
-export const TOKEN_EIPIRED = "Token has Expired!";
-export const NOT_FOUND_PAGE = "Page not Found";
+export const TOKEN_EXPIRED = "Token has Expired!";
+export const PAGE_NOT_FOUND = "Page not Found";
 export const UNUSUAL_ACCESS = "정상적인 접근 방법이 아닙니다!";
 
 export const NEED_EMAIL = "E-mail을 입력해주세요!";
