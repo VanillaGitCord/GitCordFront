@@ -14,7 +14,8 @@ import {
   USER_LEFT,
   RECEIVING_RETURNED_SIGNAL,
   SENDING_SIGNAL,
-  RETURNING_SIGNAL
+  RETURNING_SIGNAL,
+  STREAM_PAUSE
 } from "../../../constants/socketEvents";
 
 const CamWindowContainer = styled.div`
@@ -68,11 +69,11 @@ function CamWindow({
   const peersRef = useRef([]);
 
   window.addEventListener("beforeunload", () => {
-    socket.off("user joined");
-    socket.off("receiving returned signal");
-    socket.off("user left");
+    socket.off(USER_JOINED);
+    socket.off(RECEIVING_RETURNED_SIGNAL);
+    socket.off(USER_LEFT);
     peers && peers.forEach(peer => {
-      peer.removeAllListeners("signal");
+      peer.removeAllListeners(SIGNAL);
       peer.destroy();
     });
     peersRef.current = [];
@@ -85,8 +86,8 @@ function CamWindow({
       stream
     });
 
-    peer.on("signal", signal => {
-      socket.emit("sending signal", {
+    peer.on(SIGNAL, signal => {
+      socket.emit(SENDING_SIGNAL, {
         userToSignal,
         isOwner,
         callerID,
@@ -118,13 +119,13 @@ function CamWindow({
 
     if (isVideoStopped) {
       localStream && localStream.getTracks().forEach(val => val.enabled = false);
-      socket.emit("stream pause");
+      socket.emit(STREAM_PAUSE);
 
       return;
     }
 
     localStream && localStream.getTracks().forEach(val => val.enabled = true);
-    socket.emit("stream pause");
+    socket.emit(STREAM_PAUSE);
   }, [isVideoStopped, isStreaming]);
 
   useEffect(() => {
@@ -201,7 +202,7 @@ function CamWindow({
             const restPeers = peers.filter(peerObj => peerObj.peerID !== targetUser.socketId);
 
             if (targetPeer) {
-              targetPeer.peer.removeAllListeners("signal");
+              targetPeer.peer.removeAllListeners(SIGNAL);
               targetPeer.peer.destroy();
             }
 
@@ -214,12 +215,12 @@ function CamWindow({
 
   useEffect(() => {
     return () => {
-      socket.off("user joined");
-      socket.off("receiving returned signal");
-      socket.off("user left");
+      socket.off(USER_JOINED);
+      socket.off(RECEIVING_RETURNED_SIGNAL);
+      socket.off(USER_LEFT);
       localStream && localStream.getTracks().forEach(val => val.stop());
       peers && peers.forEach(peer => {
-        peer.peer.removeAllListeners("signal");
+        peer.peer.removeAllListeners(SIGNAL);
         peer.peer.destroy();
       });
       peersRef.current = [];
