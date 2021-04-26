@@ -106,12 +106,14 @@ function CamWindow({
 
     if (isVideoStopped) {
       localStream && localStream.getTracks().forEach(val => val.enabled = false);
+      socket.emit("stream pause");
       return;
     }
 
     localStream && localStream.getTracks().forEach(val => val.enabled = true);
+    socket.emit("stream pause");
 
-  }, [isVideoStopped, isStreaming])
+  }, [isVideoStopped, isStreaming]);
 
   useEffect(() => {
     if (isStreaming) return;
