@@ -36,7 +36,7 @@ function DocumentList({
   roomId,
   hideDocumentList
 }) {
-  const [isDocumentReady, setIsDOcumentReady] = useState(false);
+  const [isDocumentReady, setIsDocumentReady] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [isError, setIsError] = useState(false);
 
@@ -49,8 +49,9 @@ function DocumentList({
       } catch (err) {
         setIsError(true);
       }
+
       setTimeout(() => {
-        setIsDOcumentReady(true);
+        setIsDocumentReady(true);
       }, 2000);
     })();
   }, []);

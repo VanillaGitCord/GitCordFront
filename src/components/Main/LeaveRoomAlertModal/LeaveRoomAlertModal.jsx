@@ -48,6 +48,7 @@ function LeaveRoomAlertModal() {
 
   if (count <= 0) {
     dispatch(leaveOnwerRoom());
+
     return <Redirect to="/" />;
   }
 

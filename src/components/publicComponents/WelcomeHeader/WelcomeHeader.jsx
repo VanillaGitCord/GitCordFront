@@ -89,7 +89,7 @@ function WelComeHeader({ currentUser, isLogin = true }) {
                 className="logout-icon"
               />
               <FaUserCircle size={30} />
-              {currentUser && currentUser.email}
+              { currentUser && currentUser.email }
             </div>
         }
       </HeaderContainer>
