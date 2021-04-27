@@ -7,12 +7,7 @@ import styled from "styled-components";
 import { v1 as uuidv1 } from "uuid";
 
 import { loginUser } from "../../actions/userActions";
-import {
-  subscribeSocket,
-  cancelSocketSubscription,
-  socket
-} from "../../config/socketConfig";
-import { postAuthToken } from "../../api/userApi";
+import { socket } from "../../config/socketConfig";
 import {
   INIT_ROOM_LIST,
   CREATE_ROOM
@@ -23,6 +18,10 @@ import {
   NOT_EXIST_ROOM,
   TOKEN_EXPIRED
 } from "../../constants/message";
+
+import useAuth from "../customHooks/auth";
+import useInitSocket from "../customHooks/initSocket";
+import useLoading from "../customHooks/loading";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
@@ -94,40 +93,13 @@ function ChannelList() {
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
 
+  useAuth(dispatch, loginUser, setIsAuthuticate);
+  useInitSocket(dispatch);
+  useLoading(currentUser, setIsReady);
+
   useEffect(() => {
     socket.emit(INIT_ROOM_LIST);
   }, []);
-
-  useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
-  }, []);
-
-  useEffect(() => {
-    const token = {
-      accessToken: localStorage.getItem("access"),
-      refreshToken: localStorage.getItem("refresh")
-    };
-
-    (async function checkUserInfo() {
-      const response = await postAuthToken(token);
-
-      if (response.message) return setIsAuthuticate(false);
-
-      const { user } = response;
-
-      dispatch(loginUser(user));
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 1000);
-    }
-  }, [currentUser]);
 
   function handleCreateRoomChange(event) {
     setCreateRoomTitle(event.target.value);
@@ -236,10 +208,7 @@ function ChannelList() {
             className="enter-icon shadow-icon"
           />
         </div>
-        <ChannelListContainer
-          activedRooms={activedRooms}
-          setRoomId={setRoomId}
-        />
+        <ChannelListContainer activedRooms={activedRooms} />
         {0 < modalMessages.length &&
           <AlertModal
             handleAlertDelete={setModalMessages}

@@ -4,20 +4,19 @@ import { Redirect, useParams } from "react-router";
 import { FaBook } from "react-icons/fa";
 import styled from "styled-components";
 
-import {
-  subscribeSocket,
-  cancelSocketSubscription,
-  socket
-} from "../../config/socketConfig";
+import { socket } from "../../config/socketConfig";
 import { leaveRoom } from "../../actions/roomActions";
 import { loginUser } from "../../actions/userActions";
-import { postAuthToken } from "../../api/userApi";
 import { JOIN, BYE } from "../../constants/socketEvents";
 import {
   COPY_CLIPBOARD,
   UNUSUAL_ACCESS,
   TOKEN_EXPIRED
 } from "../../constants/message";
+
+import useAuth from "../customHooks/auth";
+import useInitSocket from "../customHooks/initSocket";
+import useLoading from "../customHooks/loading";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -74,6 +73,10 @@ function Main({ location }) {
 
   const authRouting = location.state && location.state.authRouting;
 
+  useAuth(dispatch, loginUser, setIsAuthuticate);
+  useInitSocket(dispatch);
+  useLoading(currentUser, setIsReady);
+
   useEffect(() => {
     socket.emit(JOIN, currentUser, roomId, true);
 
@@ -91,37 +94,6 @@ function Main({ location }) {
       dispatch(leaveRoom());
     };
   }, []);
-
-  useEffect(() => {
-    const token = {
-      accessToken: localStorage.getItem("access"),
-      refreshToken: localStorage.getItem("refresh")
-    };
-
-    (async function checkUserInfo() {
-      const response = await postAuthToken(token);
-
-      if (response.message) return setIsAuthuticate(false);
-
-      const { user } = response;
-
-      dispatch(loginUser(user));
-    })();
-  }, []);
-
-  useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser.email) {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 4000);
-    }
-  }, [currentUser]);
 
   function handleCopyButtonClick() {
     const alertMessage = COPY_CLIPBOARD;

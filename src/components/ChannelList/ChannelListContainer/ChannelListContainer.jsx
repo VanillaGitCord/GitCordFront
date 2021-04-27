@@ -31,19 +31,15 @@ const ChannelListContainerStyle = styled.div`
   }
 `;
 
-function ChannelListContainer({ activedRooms, setRoomId }) {
+function ChannelListContainer({ activedRooms }) {
   function renderActivedRooms() {
     return activedRooms.map((activedRoom) => {
       const [roomId, roomInfo] = activedRoom;
 
-      function handleChannelClick() {
-        setRoomId(roomId);
-      }
-
       return (
         <Channel
           roomInfo={roomInfo}
-          onClick={handleChannelClick}
+          roomId={roomId}
         />
       );
     });

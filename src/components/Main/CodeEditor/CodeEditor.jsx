@@ -44,8 +44,6 @@ function CodeEditor({
   roomId,
   contents
 }) {
-  const [code, setCode] = useState("");
-
   const refreshTypingUser = useCallback(() => {
     const typingInfo = {
       typingUser: currentUser,
@@ -61,32 +59,35 @@ function CodeEditor({
   );
 
   useEffect(() => {
-    setCode(contents);
     throllingRefreshTypingUser();
   }, [contents, throllingRefreshTypingUser]);
 
-  function handleChange(editor, data, value) {
+  const handleChange = useCallback((editor, data, value) => {
     const typingInfo = {
       value,
       typingUser: currentUser,
       roomId
     };
 
-    setCode(value);
     socket.emit(START_TYPING, typingInfo);
-  }
+  }, [currentUser, roomId, socket]);
+
+  const throllingTypingUser = useMemo(() =>
+    throttle(handleChange, 75),
+    [handleChange]
+  );
 
   return (
     <CodeEditorContainer>
       <ControlledEditor
-        onBeforeChange={handleChange}
-        value={code}
+        onBeforeChange={throllingTypingUser}
+        value={contents}
         options={{
           lineWrapping: true,
+          lineNumbers: true,
           lint: true,
           mode: "javascript",
           theme: "material",
-          lineNumbers: true,
           extraKeys: { Enter: false }
         }}
       />

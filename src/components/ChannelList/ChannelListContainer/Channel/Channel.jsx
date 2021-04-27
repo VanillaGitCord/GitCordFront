@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { GiMushroomHouse } from "react-icons/gi";
 import styled from "styled-components";
 
@@ -41,12 +42,15 @@ const ChannelStyle = styled.div`
   .enter-button {
     width: 10em;
     height: 2em;
-    line-height: 1em;
+    line-height: 2em;
     margin: 1em;
     background: #ffffff;
     border: 2px solid #ffffff;
     border-radius: 3px;
+    text-align: center;
+    text-decoration: none;
     font-weight: bold;
+    color: #000000;
     float: right;
     cursor: pointer;
     transition: all .5s ease-in-out;
@@ -63,7 +67,7 @@ const ChannelStyle = styled.div`
   }
 `;
 
-function Channel({ roomInfo, onClick }) {
+function Channel({ roomInfo, roomId }) {
   const { roomTitle, owner } = roomInfo;
 
   return (
@@ -73,12 +77,15 @@ function Channel({ roomInfo, onClick }) {
         <span>{roomTitle}</span>
         <br />
         <span>owner: {owner.email}</span>
-        <button
-          onClick={onClick}
+        <Link
+          to={{
+            pathname: `/main/${roomId}`,
+            state: { authRouting: true }
+          }}
           className="enter-button"
         >
-          입장하기
-        </button>
+          테스트
+        </Link>
       </div>
     </ChannelStyle>
   );
