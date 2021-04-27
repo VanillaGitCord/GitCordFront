@@ -10,5 +10,5 @@ export default function useInitSocket(dispatch) {
     subscribeSocket(dispatch);
 
     return () => cancelSocketSubscription();
-  }, []);
+  }, [dispatch]);
 }

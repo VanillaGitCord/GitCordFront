@@ -22,5 +22,5 @@ export default function useAuth(
 
       dispatch(loginUser(user));
     })();
-  }, []);
+  }, [dispatch, loginUser, setIsAuthuticate]);
 }

@@ -6,7 +6,7 @@ import { CgLogOut } from "react-icons/cg";
 import { FaUserCircle, FaShareAltSquare } from "react-icons/fa";
 import styled from "styled-components";
 
-import { logoutUser } from "../../../actions/userActions";
+import useLogout from "../../customHooks/useLogout";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 import ShareWindow from "./ShareWindow/ShareWindow";
@@ -126,14 +126,7 @@ function MainNavbar({
   const [isOutRoom, setIsOutRoom] = useState(false);
   const [isShowShareWindow, setIsShowShareWindow] = useState(false);
   const dispatch = useDispatch();
-
-  const handleLogoutIconClick = useCallback(() => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-
-    dispatch(logoutUser());
-    setIsLogout(true);
-  }, [dispatch]);
+  const handleLogoutIconClick = useLogout(dispatch, setIsLogout);
 
   const handleLeaveIconClick = useCallback(() => {
     setIsOutRoom(true);

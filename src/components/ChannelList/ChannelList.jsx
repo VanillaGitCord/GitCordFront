@@ -23,7 +23,7 @@ import {
   TOKEN_EXPIRED
 } from "../../constants/message";
 
-import useAuth from "../customHooks/auth";
+import useAuth from "../customHooks/useAuth";
 import useInitSocket from "../customHooks/initSocket";
 import useLoading from "../customHooks/loading";
 
