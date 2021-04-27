@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import { throttle } from "lodash";
+import PropTypes from "prop-types";
 
 import {
   SEND_DRAW,
@@ -162,5 +163,10 @@ function WhiteBoard({ socket, roomId }) {
     </WhiteBoardCanvas>
   );
 }
+
+WhiteBoard.propTypes = {
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired
+};
 
 export default React.memo(WhiteBoard);

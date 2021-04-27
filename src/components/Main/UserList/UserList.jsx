@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import UserToolbar from "./UserToolbar/UserToolbar";
 import UserInfo from "./UserInfo/UserInfo";
@@ -71,5 +72,19 @@ function UserList({
     </UserListContainer>
   );
 }
+
+UserList.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  userList: PropTypes.array.isRequired,
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  isVideoStopped: PropTypes.bool.isRequired,
+  videoToggle: PropTypes.func.isRequired
+};
 
 export default React.memo(UserList);

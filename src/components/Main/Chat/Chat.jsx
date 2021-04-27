@@ -117,13 +117,7 @@ Chat.propTypes = {
     name: PropTypes.string.isRequired
   }),
   roomId: PropTypes.string.isRequired,
-  chatLogs: PropTypes.shape({
-    chatTime: PropTypes.string.isRequired,
-    roomId: PropTypes.string.isRequired,
-    userChat: PropTypes.string.isRequired,
-    userEmail: PropTypes.string.isRequired,
-    userName: PropTypes.string.isRequired
-  }),
+  chatLogs: PropTypes.array.isRequired,
   socket: PropTypes.object.isRequired
 };
 

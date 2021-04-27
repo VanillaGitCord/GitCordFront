@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ButtonStyle = styled.div`
   display: flex;
@@ -30,9 +31,10 @@ const ButtonStyle = styled.div`
 function Button({
   width = "100%",
   height = "100%",
-  onClick, content,
-  backgroundColor = "white",
-  color
+  onClick,
+  content,
+  backgroundColor = "#ffffff",
+  color = "#000000"
 }) {
   return (
     <ButtonStyle
@@ -45,5 +47,14 @@ function Button({
     </ButtonStyle>
   );
 }
+
+Button.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+  content: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string
+};
 
 export default React.memo(Button);

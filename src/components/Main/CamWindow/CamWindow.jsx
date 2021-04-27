@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import Peer from "simple-peer";
+import PropTypes from "prop-types";
 
 import {
   STREAM,
@@ -241,5 +242,16 @@ function CamWindow({
     </CamWindowContainer>
   );
 }
+
+CamWindow.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  participants: PropTypes.array.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  isVideoStopped: PropTypes.bool.isRequired
+};
 
 export default React.memo(CamWindow);
