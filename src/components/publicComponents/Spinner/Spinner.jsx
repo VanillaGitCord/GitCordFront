@@ -55,7 +55,6 @@ const SpinnerContainer = styled.div`
       transform: rotate(1440deg);
       border-left: 8px solid deeppink;
     }
-
   }
 `;
 
