@@ -2,6 +2,7 @@ import React from "react";
 import { FaCrown, FaMicrophoneSlash } from "react-icons/fa";
 import { SiDeno } from "react-icons/si";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const UserInfoContainer = styled.article`
   display: flex;
@@ -60,11 +61,19 @@ function UserInfo({ participant }) {
           <span>{name}</span>
         </div>
       </div>
-      <div class="streaming-status">
+      <div className="streaming-status">
         { isStreaming || <FaMicrophoneSlash /> }
       </div>
     </UserInfoContainer>
   );
 }
+
+UserInfo.propTypes = {
+  participant: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    isOwner: PropTypes.bool.isRequired,
+    isStreaming: PropTypes.bool.isRequired
+  })
+};
 
 export default React.memo(UserInfo);

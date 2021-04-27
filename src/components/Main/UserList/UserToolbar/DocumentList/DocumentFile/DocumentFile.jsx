@@ -2,6 +2,7 @@ import React from "react";
 import { FcFile } from "react-icons/fc";
 import { IoIosCloseCircle } from "react-icons/io";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { deleteDocument } from "../../../../../../api/documentApi";
 import { SET_CONTENTS } from "../../../../../../constants/socketEvents";
@@ -76,5 +77,16 @@ function DocumentFile({
     </DocumentFileContainer>
   );
 }
+
+DocumentFile.propTypes = {
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  contents: PropTypes.string.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  documentId: PropTypes.string.isRequired,
+  hideDocumentList: PropTypes.func.isRequired
+};
 
 export default DocumentFile;

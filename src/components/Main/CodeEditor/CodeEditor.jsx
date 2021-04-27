@@ -9,6 +9,7 @@ import {
 import styled from "styled-components";
 import { throttle } from "lodash";
 import PropTypes from "prop-types";
+
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
@@ -108,7 +109,7 @@ CodeEditor.propTypes = {
     email: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }),
-  typingUser: PropTypes.array.isRequired,
+  typingUser: PropTypes.array,
   socket: PropTypes.object.isRequired,
   roomId: PropTypes.string.isRequired,
   contents: PropTypes.string.isRequired

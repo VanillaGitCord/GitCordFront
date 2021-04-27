@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { getDocuments } from "../../../../../api/documentApi";
 import {
@@ -97,5 +98,17 @@ function DocumentList({
     </DocumentListContainer>
   );
 }
+
+DocumentList.propTypes = {
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired
+  }),
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  hideDocumentList: PropTypes.func.isRequired
+};
 
 export default DocumentList;
