@@ -222,8 +222,6 @@ function CamWindow({
     }
   }, []);
 
-  console.log(peers);
-
   return (
     <CamWindowContainer>
       <video
