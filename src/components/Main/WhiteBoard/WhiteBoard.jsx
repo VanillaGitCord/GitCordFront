@@ -131,8 +131,8 @@ function WhiteBoard({ socket, roomId }) {
     };
   }, [canvasRef, canvasouter, roomId, color, isDrawing]);
 
-  const handleColorChange = useCallback((e) => {
-    socket.emit(CHANGE_COLOR, roomId, e.target.value);
+  const handleColorChange = useCallback((event) => {
+    socket.emit(CHANGE_COLOR, roomId, event.target.value);
   }, []);
 
   const handleButtonClick = useCallback(() => {

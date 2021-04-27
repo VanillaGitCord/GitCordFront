@@ -209,22 +209,24 @@ function Main({ location }) {
             roomId={roomId}
             isVideoStopped={isVideoStopped}
           />
-          {0 < modalMessages.length &&
-            <AlertModal
-              handleAlertDelete={setModalMessages}
-              alertMessages={modalMessages}
-            />
+          {
+            0 < modalMessages.length &&
+              <AlertModal
+                handleAlertDelete={setModalMessages}
+                alertMessages={modalMessages}
+              />
           }
           <FaBook
             size={40}
             className="guide"
             onClick={handleGuideClick}
           />
-          {isShowGuide && <MainGuide />}
-          {isOwnerClosed &&
-            <ModalBackground>
-              <LeaveRoomAlertModal />
-            </ModalBackground>
+          { isShowGuide && <MainGuide /> }
+          {
+            isOwnerClosed &&
+              <ModalBackground>
+                <LeaveRoomAlertModal />
+              </ModalBackground>
           }
         </MainContainer>
       </MainOuter>

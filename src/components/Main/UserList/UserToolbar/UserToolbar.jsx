@@ -81,24 +81,26 @@ function UserToolbar({
           onClick={handleSaveButtonClick}
         />
       </article>
-      {isShowSavingToolbar &&
-        <SavingToolbar
-          alertMessages={alertMessages}
-          setAlertMessages={setAlertMessages}
-          contents={contents}
-          user={user}
-          hideToolbar={handleSaveButtonClick}
-        />
+      {
+        isShowSavingToolbar &&
+          <SavingToolbar
+            alertMessages={alertMessages}
+            setAlertMessages={setAlertMessages}
+            contents={contents}
+            user={user}
+            hideToolbar={handleSaveButtonClick}
+          />
       }
-      {isShowDocumentList &&
-        <DocumentList
-          alertMessages={alertMessages}
-          setAlertMessages={setAlertMessages}
-          user={user}
-          socket={socket}
-          roomId={roomId}
-          hideDocumentList={handleDocumentListButtonClick}
-        />
+      {
+        isShowDocumentList &&
+          <DocumentList
+            alertMessages={alertMessages}
+            setAlertMessages={setAlertMessages}
+            user={user}
+            socket={socket}
+            roomId={roomId}
+            hideDocumentList={handleDocumentListButtonClick}
+          />
       }
     </UserToolbarContainer>
   );

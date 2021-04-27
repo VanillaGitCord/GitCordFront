@@ -38,13 +38,18 @@ const UserInfoContainer = styled.article`
 `;
 
 function UserInfo({ participant }) {
-  const { name, isOwner, isStreaming } = participant;
+  const {
+    name,
+    isOwner,
+    isStreaming
+  } = participant;
 
   return (
     <UserInfoContainer>
       <div className="crown-area">
-        {isOwner &&
-          <FaCrown color="gold" size={20} />
+        {
+          isOwner &&
+            <FaCrown color="gold" size={20} />
         }
       </div>
       <div className="user-area">
