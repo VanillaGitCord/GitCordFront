@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback
+} from "react";
 import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBook } from "react-icons/fa";
@@ -7,12 +11,7 @@ import styled from "styled-components";
 import { v1 as uuidv1 } from "uuid";
 
 import { loginUser } from "../../actions/userActions";
-import {
-  subscribeSocket,
-  cancelSocketSubscription,
-  socket
-} from "../../config/socketConfig";
-import { postAuthToken } from "../../api/userApi";
+import { socket } from "../../config/socketConfig";
 import {
   INIT_ROOM_LIST,
   CREATE_ROOM
@@ -23,6 +22,10 @@ import {
   NOT_EXIST_ROOM,
   TOKEN_EXPIRED
 } from "../../constants/message";
+
+import useAuth from "../customHooks/useAuth";
+import useInitSocket from "../customHooks/useInitSocket";
+import useLoading from "../customHooks/useLoading";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
@@ -94,50 +97,23 @@ function ChannelList() {
   const { activedRooms } = useSelector((state) => state.roomReducer);
   const dispatch = useDispatch();
 
+  useAuth(dispatch, loginUser, setIsAuthuticate);
+  useInitSocket(dispatch);
+  useLoading(currentUser, setIsReady);
+
   useEffect(() => {
     socket.emit(INIT_ROOM_LIST);
   }, []);
 
-  useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
-  }, []);
-
-  useEffect(() => {
-    const token = {
-      accessToken: localStorage.getItem("access"),
-      refreshToken: localStorage.getItem("refresh")
-    };
-
-    (async function checkUserInfo() {
-      const response = await postAuthToken(token);
-
-      if (response.message) return setIsAuthuticate(false);
-
-      const { user } = response;
-
-      dispatch(loginUser(user));
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 1000);
-    }
-  }, [currentUser]);
-
-  function handleCreateRoomChange(event) {
+  const handleCreateRoomChange = useCallback((event) => {
     setCreateRoomTitle(event.target.value);
-  }
+  }, []);
 
-  function handleEnterRoomIdChange(event) {
+  const handleEnterRoomIdChange = useCallback((event) => {
     setEnterRoomId(event.target.value);
-  }
+  }, []);
 
-  function handleCreateRoomClick() {
+  const handleCreateRoomClick = useCallback(() => {
     if (!createRoomTitle) {
       const alertMessage = NEED_TITLE;
 
@@ -152,9 +128,9 @@ function ChannelList() {
 
     setRoomId(id);
     socket.emit(CREATE_ROOM, currentUser, roomInfo);
-  }
+  }, [createRoomTitle, modalMessages, currentUser]);
 
-  function handleEnterRoomClick() {
+  const handleEnterRoomClick = useCallback(() => {
     if (!enterRoomId) {
       const alertMessage = NEED_ROOM_ADDRESS;
 
@@ -172,11 +148,11 @@ function ChannelList() {
     }
 
     setRoomId(enterRoomId);
-  }
+  }, [activedRooms, enterRoomId, modalMessages]);
 
-  function handleGuideClick() {
+  const handleGuideClick = useCallback(() => {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
+  }, []);
 
   if (!isAuthuticate) return (
     <Redirect
@@ -206,7 +182,7 @@ function ChannelList() {
     <Background>
       <ChannelListOutter>
         <WelcomeHeader currentUser={currentUser} />
-        <div className="channel-enterroominput">
+        <article className="channel-enterroominput">
           <InputWithLabel
             width="40%"
             height="60%"
@@ -235,23 +211,21 @@ function ChannelList() {
             onClick={handleCreateRoomClick}
             className="enter-icon shadow-icon"
           />
-        </div>
-        <ChannelListContainer
-          activedRooms={activedRooms}
-          setRoomId={setRoomId}
-        />
-        {0 < modalMessages.length &&
-          <AlertModal
-            handleAlertDelete={setModalMessages}
-            alertMessages={modalMessages}
-          />
+        </article>
+        <ChannelListContainer activedRooms={activedRooms} />
+        {
+          0 < modalMessages.length &&
+            <AlertModal
+              handleAlertDelete={setModalMessages}
+              alertMessages={modalMessages}
+            />
         }
         <FaBook
           size={40}
           className="guide"
           onClick={handleGuideClick}
         />
-        {isShowGuide && <ChannelListGuide />}
+        { isShowGuide && <ChannelListGuide /> }
       </ChannelListOutter>
     </Background>
   );

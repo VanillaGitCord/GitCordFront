@@ -50,14 +50,14 @@ function AlertModal({
 
         return [...alertMessages];
       });
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(deleteAlert);
   }, [alertMessages, handleAlertDelete]);
 
   function renderMessages() {
-    return alertMessages.map((message) => (
-      <AlertModalOuter color={color}>
+    return alertMessages.map((message, index) => (
+      <AlertModalOuter key={index} color={color}>
         <AiFillAlert size={20} />
         <span className="alert-message">
           {message}
@@ -73,4 +73,4 @@ function AlertModal({
   );
 }
 
-export default React.memo(AlertModal);
+export default AlertModal;
