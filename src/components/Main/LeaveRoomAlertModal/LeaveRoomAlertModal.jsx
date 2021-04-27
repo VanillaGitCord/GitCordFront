@@ -46,9 +46,10 @@ function LeaveRoomAlertModal() {
     return () => clearTimeout(loadgingCount);
   }, [count]);
 
-  if (count <= 0) dispatch(leaveOnwerRoom());
-
-  if (count <= 0) return <Redirect to="/" />;
+  if (count <= 0) {
+    dispatch(leaveOnwerRoom());
+    return <Redirect to="/" />;
+  }
 
   return (
     <LeaveRoomAlertModalContainer>

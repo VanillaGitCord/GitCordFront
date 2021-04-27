@@ -60,7 +60,7 @@ function UserInfo({ participant }) {
           <span>{name}</span>
         </div>
       </div>
-      <div class="streaming-status">
+      <div className="streaming-status">
         { isStreaming || <FaMicrophoneSlash /> }
       </div>
     </UserInfoContainer>

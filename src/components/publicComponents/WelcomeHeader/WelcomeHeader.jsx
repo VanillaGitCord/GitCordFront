@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
@@ -7,7 +8,6 @@ import styled from "styled-components";
 import useLogout from "../../customHooks/useLogout";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
-import { Redirect } from "react-router";
 
 const WelComeHeaderStyle = styled.div`
   @keyframes spin {
@@ -31,13 +31,21 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 20%;
+  width: 30%;
   height: 100%;
   font-size: 1.3rem;
   font-weight: bold;
 
   .nav-title {
     font-size: 2.5rem;
+  }
+
+  .nav-right {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .logout-icon {
@@ -57,22 +65,6 @@ function WelComeHeader({ currentUser, isLogin = true }) {
   const dispatch = useDispatch();
   const handleLogoutIconClick = useLogout(dispatch, setIsLogout);
 
-  const getLogoutButtonAndUserInfo = useCallback(() => {
-    if (isLogin) {
-      return (
-        <>
-          <CgLogOut
-            size={30}
-            onClick={handleLogoutIconClick}
-            className="logout-icon"
-          />
-          <FaUserCircle size={30} />
-          {currentUser && currentUser.email}
-        </>
-      );
-    }
-  }, [isLogin, handleLogoutIconClick, currentUser]);
-
   if (isLogout) return <Redirect to="/login" />;
 
   return (
@@ -87,7 +79,18 @@ function WelComeHeader({ currentUser, isLogin = true }) {
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        { getLogoutButtonAndUserInfo() }
+        {
+          isLogin &&
+            <div className="nav-right">
+              <CgLogOut
+                size={30}
+                onClick={handleLogoutIconClick}
+                className="logout-icon"
+              />
+              <FaUserCircle size={30} />
+              {currentUser && currentUser.email}
+            </div>
+        }
       </HeaderContainer>
     </WelComeHeaderStyle>
   );
