@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ClearButtonContainer = styled.div`
   .colorpicker-container-up {
@@ -40,5 +41,10 @@ function ClearButton({ className, buttonClickEvent }) {
     </ClearButtonContainer>
   );
 }
+
+ClearButton.propTypes = {
+  className: PropTypes.string.isRequired,
+  buttonClickEvent: PropTypes.func.isRequired
+};
 
 export default React.memo(ClearButton);

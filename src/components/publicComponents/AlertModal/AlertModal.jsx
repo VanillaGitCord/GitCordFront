@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { AiFillAlert } from "react-icons/ai";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const AlertModalWrapper = styled.div`
   position: fixed;
@@ -50,7 +51,7 @@ function AlertModal({
 
         return [...alertMessages];
       });
-    }, 1000);
+    }, 2500);
 
     return () => clearTimeout(deleteAlert);
   }, [alertMessages, handleAlertDelete]);
@@ -72,5 +73,11 @@ function AlertModal({
     </AlertModalWrapper>
   );
 }
+
+AlertModal.propTypes = {
+  alertMessages: PropTypes.array.isRequired,
+  handleAlertDelete: PropTypes.func.isRequired,
+  color: PropTypes.string
+};
 
 export default AlertModal;

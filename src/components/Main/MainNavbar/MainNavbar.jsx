@@ -5,6 +5,7 @@ import { ImArrowLeft } from "react-icons/im";
 import { CgLogOut } from "react-icons/cg";
 import { FaUserCircle, FaShareAltSquare } from "react-icons/fa";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import useLogout from "../../customHooks/useLogout";
 
@@ -182,5 +183,16 @@ function MainNavbar({
     </MainNavbarContainer>
   );
 }
+
+MainNavbar.propTypes = {
+  handleCopyButtonClick: PropTypes.func.isRequired,
+  onToggleClick: PropTypes.func.isRequired,
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  roomTitle: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired
+};
 
 export default React.memo(MainNavbar);

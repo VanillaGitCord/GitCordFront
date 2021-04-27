@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import useLogout from "../../customHooks/useLogout";
 
@@ -95,5 +96,13 @@ function WelComeHeader({ currentUser, isLogin = true }) {
     </WelComeHeaderStyle>
   );
 }
+
+WelComeHeader.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  isLogin: PropTypes.bool
+};
 
 export default React.memo(WelComeHeader);

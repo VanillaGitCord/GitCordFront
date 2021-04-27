@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const InputWithLabelStyle = styled.div`
   display: flex;
@@ -50,5 +51,15 @@ function InputWithLabel({
     </InputWithLabelStyle>
   );
 }
+
+InputWithLabel.propTypes = {
+  width: PropTypes.string,
+  height: PropTypes.string,
+  labelContent: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+};
 
 export default React.memo(InputWithLabel);

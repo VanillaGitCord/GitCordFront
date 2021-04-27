@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from "prop-types";
 
 import mainImage from "../../../assets/images/mainIcon.png";
 
@@ -22,5 +23,10 @@ function MainIcon({ width, height }) {
     </MainIconWrapper>
   );
 }
+
+MainIcon.propTypes = {
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired
+};
 
 export default MainIcon;
