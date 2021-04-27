@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { SiDatadog } from "react-icons/si";
 import styled from "styled-components";
 
@@ -69,4 +69,4 @@ function ChannelListContainer({ activedRooms }) {
   );
 }
 
-export default ChannelListContainer;
+export default React.memo(ChannelListContainer);

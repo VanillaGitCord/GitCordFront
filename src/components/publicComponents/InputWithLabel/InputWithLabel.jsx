@@ -51,4 +51,4 @@ function InputWithLabel({
   );
 }
 
-export default InputWithLabel;
+export default React.memo(InputWithLabel);

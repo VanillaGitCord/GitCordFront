@@ -87,7 +87,7 @@ function WelComeHeader({ currentUser, isLogin = true }) {
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        {getLogoutButtonAndUserInfo()}
+        { getLogoutButtonAndUserInfo() }
       </HeaderContainer>
     </WelComeHeaderStyle>
   );
