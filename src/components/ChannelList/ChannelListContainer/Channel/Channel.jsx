@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { GiMushroomHouse } from "react-icons/gi";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import mainIcon from "../../../../assets/images/mainIcon.png";
 
@@ -90,5 +91,16 @@ function Channel({ roomInfo, roomId }) {
     </ChannelStyle>
   );
 }
+
+Channel.propTypes = {
+  roomInfo: PropTypes.shape({
+    roomTitle: PropTypes.string.isRequired,
+    owner: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      socketId: PropTypes.string.isRequired
+    })
+  }),
+  roomId: PropTypes.string.isRequired
+};
 
 export default Channel;

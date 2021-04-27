@@ -19,8 +19,8 @@ import {
 } from "../../constants/message";
 
 import useAuth from "../customHooks/useAuth";
-import useInitSocket from "../customHooks/initSocket";
-import useLoading from "../customHooks/loading";
+import useInitSocket from "../customHooks/useInitSocket";
+import useLoading from "../customHooks/useLoading";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";

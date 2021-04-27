@@ -4,6 +4,7 @@ import React, {
   useEffect
 } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import getDate from "../../../utils/date";
 import { SEND_CHAT } from "../../../constants/socketEvents";
@@ -107,5 +108,21 @@ function Chat({
     </ChatContainer>
   );
 }
+
+Chat.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  roomId: PropTypes.string.isRequired,
+  chatLogs: PropTypes.shape({
+    chatTime: PropTypes.string.isRequired,
+    roomId: PropTypes.string.isRequired,
+    userChat: PropTypes.string.isRequired,
+    userEmail: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired
+  }),
+  socket: PropTypes.object.isRequired
+};
 
 export default React.memo(Chat);

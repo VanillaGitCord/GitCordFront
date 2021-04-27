@@ -1,6 +1,7 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { SiDatadog } from "react-icons/si";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import Channel from "./Channel/Channel";
 
@@ -38,6 +39,7 @@ function ChannelListContainer({ activedRooms }) {
 
       return (
         <Channel
+          key={roomId}
           roomInfo={roomInfo}
           roomId={roomId}
         />
@@ -67,6 +69,13 @@ function ChannelListContainer({ activedRooms }) {
       }
     </ChannelListContainerStyle>
   );
+}
+
+ChannelListContainer.propTypes = {
+  activedRooms: PropTypes.shape({
+    roomId: PropTypes.string.isRequired,
+    roomInfo: PropTypes.object.isRequired
+  })
 }
 
 export default React.memo(ChannelListContainer);

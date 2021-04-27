@@ -1,14 +1,14 @@
 import React, {
   useCallback,
   useEffect,
-  useMemo,
-  useState
+  useMemo
 } from "react";
 import {
   Controlled as ControlledEditor
 } from "react-codemirror2";
 import styled from "styled-components";
 import { throttle } from "lodash";
+import PropTypes from "prop-types";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
@@ -102,5 +102,16 @@ function CodeEditor({
     </CodeEditorContainer>
   );
 }
+
+CodeEditor.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  typingUser: PropTypes.array.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  contents: PropTypes.string.isRequired
+};
 
 export default React.memo(CodeEditor);

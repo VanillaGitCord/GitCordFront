@@ -24,8 +24,8 @@ import {
 } from "../../constants/message";
 
 import useAuth from "../customHooks/useAuth";
-import useInitSocket from "../customHooks/initSocket";
-import useLoading from "../customHooks/loading";
+import useInitSocket from "../customHooks/useInitSocket";
+import useLoading from "../customHooks/useLoading";
 
 import Loading from "../Loading/Loading";
 import Background from "../publicComponents/Backgroud/Background";
