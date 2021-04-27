@@ -5,6 +5,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { v1 as uuidv1 } from "uuid";
 
 import getDate from "../../../utils/date";
 import { SEND_CHAT } from "../../../constants/socketEvents";
@@ -83,6 +84,7 @@ function Chat({
   function renderChatLogs() {
     return chatLogs.map((chatLog) => (
       <ChatLog
+        key={uuidv1()}
         user={currentUser}
         chatLog={chatLog}
       />

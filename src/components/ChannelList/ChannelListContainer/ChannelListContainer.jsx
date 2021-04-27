@@ -72,10 +72,7 @@ function ChannelListContainer({ activedRooms }) {
 }
 
 ChannelListContainer.propTypes = {
-  activedRooms: PropTypes.shape({
-    roomId: PropTypes.string.isRequired,
-    roomInfo: PropTypes.object.isRequired
-  })
+  activedRooms: PropTypes.array.isRequired
 }
 
 export default React.memo(ChannelListContainer);
