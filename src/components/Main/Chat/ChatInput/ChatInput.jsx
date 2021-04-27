@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ChatInputContainer = styled.form`
   display: flex;
@@ -52,5 +53,11 @@ function ChatInput({
     </ChatInputContainer>
   );
 }
+
+ChatInput.propTypes = {
+  chat: PropTypes.string.isRequired,
+  handleChatChange: PropTypes.func.isRequired,
+  handleChatSubmit: PropTypes.func.isRequired
+};
 
 export default ChatInput;

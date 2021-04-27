@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AiFillSave } from "react-icons/ai";
 import styled from "styled-components"
 
@@ -35,9 +35,9 @@ function SavingToolbar({
 }) {
   const [documentTitle, setDocumentTitle] = useState("");
 
-  function handleDocumentTitleChange(event) {
+  const handleDocumentTitleChange = useCallback((event) => {
     setDocumentTitle(event.target.value);
-  }
+  }, []);
 
   async function handleSaveIconClick() {
     const documentInfo = {

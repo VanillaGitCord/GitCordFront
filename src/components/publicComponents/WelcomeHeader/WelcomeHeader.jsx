@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { CgLogOut } from "react-icons/cg";
 import styled from "styled-components";
 
-import { logoutUser } from "../../../actions/userActions";
+import useLogout from "../../customHooks/useLogout";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 import { Redirect } from "react-router";
@@ -55,16 +55,9 @@ const HeaderContainer = styled.div`
 function WelComeHeader({ currentUser, isLogin = true }) {
   const [isLogout, setIsLogout] = useState(false);
   const dispatch = useDispatch();
+  const handleLogoutIconClick = useLogout(dispatch, setIsLogout);
 
-  function handleLogoutIconClick() {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-
-    dispatch(logoutUser());
-    setIsLogout(true);
-  }
-
-  function getLogoutButtonAndUserInfo() {
+  const getLogoutButtonAndUserInfo = useCallback(() => {
     if (isLogin) {
       return (
         <>
@@ -78,13 +71,9 @@ function WelComeHeader({ currentUser, isLogin = true }) {
         </>
       );
     }
-  }
+  }, [isLogin, handleLogoutIconClick, currentUser]);
 
-  if (isLogout) {
-    return (
-      <Redirect to="/login" />
-    );
-  }
+  if (isLogout) return <Redirect to="/login" />;
 
   return (
     <WelComeHeaderStyle>
@@ -98,10 +87,10 @@ function WelComeHeader({ currentUser, isLogin = true }) {
         </span>
       </HeaderContainer>
       <HeaderContainer>
-        {getLogoutButtonAndUserInfo()}
+        { getLogoutButtonAndUserInfo() }
       </HeaderContainer>
     </WelComeHeaderStyle>
   );
 }
 
-export default WelComeHeader;
+export default React.memo(WelComeHeader);

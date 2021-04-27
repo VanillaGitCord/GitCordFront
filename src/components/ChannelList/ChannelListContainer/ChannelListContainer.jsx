@@ -1,6 +1,7 @@
 import React from "react";
 import { SiDatadog } from "react-icons/si";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import Channel from "./Channel/Channel";
 
@@ -31,19 +32,16 @@ const ChannelListContainerStyle = styled.div`
   }
 `;
 
-function ChannelListContainer({ activedRooms, setRoomId }) {
+function ChannelListContainer({ activedRooms }) {
   function renderActivedRooms() {
     return activedRooms.map((activedRoom) => {
       const [roomId, roomInfo] = activedRoom;
 
-      function handleChannelClick() {
-        setRoomId(roomId);
-      }
-
       return (
         <Channel
+          key={roomId}
           roomInfo={roomInfo}
-          onClick={handleChannelClick}
+          roomId={roomId}
         />
       );
     });
@@ -73,4 +71,8 @@ function ChannelListContainer({ activedRooms, setRoomId }) {
   );
 }
 
-export default ChannelListContainer;
+ChannelListContainer.propTypes = {
+  activedRooms: PropTypes.array.isRequired
+}
+
+export default React.memo(ChannelListContainer);

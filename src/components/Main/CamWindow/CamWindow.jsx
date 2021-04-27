@@ -162,7 +162,6 @@ function CamWindow({
         socket.on(USER_JOINED, payload => {
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
-
           if (!isPeerExist) {
             peersRef.current.push({
               peerID: payload.callerID,
@@ -173,7 +172,7 @@ function CamWindow({
               [
                 ...peers,
                 {
-                  peerID: payload.socketId,
+                  peerID: payload.callerID,
                   isOwner: payload.isOwner,
                   peer
                 }

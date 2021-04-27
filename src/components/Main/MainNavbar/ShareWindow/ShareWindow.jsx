@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import { RiFileCopyLine } from "react-icons/ri";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ShareWindowContainer = styled.div`
   width: 100%;
@@ -34,13 +35,13 @@ function ShareWindow({
 }) {
   const textInput = useRef();
 
-  function copyUrl() {
+  const copyUrl = useCallback(() => {
     const urlText = textInput.current;
 
     urlText.select();
     document.execCommand("copy");
     handleCopyButtonClick();
-  }
+  }, [textInput, handleCopyButtonClick]);
 
   return (
     <ShareWindowContainer>
@@ -61,4 +62,9 @@ function ShareWindow({
   );
 }
 
-export default ShareWindow;
+ShareWindow.propTypes = {
+  url: PropTypes.string.isRequired,
+  handleCopyButtonClick: PropTypes.func.isRequired
+};
+
+export default React.memo(ShareWindow);

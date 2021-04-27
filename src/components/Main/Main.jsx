@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { FaBook } from "react-icons/fa";
 import styled from "styled-components";
 
-import {
-  subscribeSocket,
-  cancelSocketSubscription,
-  socket
-} from "../../config/socketConfig";
+import { socket } from "../../config/socketConfig";
 import { leaveRoom } from "../../actions/roomActions";
 import { loginUser } from "../../actions/userActions";
-import { postAuthToken } from "../../api/userApi";
 import { JOIN, BYE } from "../../constants/socketEvents";
 import {
   COPY_CLIPBOARD,
   UNUSUAL_ACCESS,
   TOKEN_EXPIRED
 } from "../../constants/message";
+
+import useAuth from "../customHooks/useAuth";
+import useInitSocket from "../customHooks/useInitSocket";
+import useLoading from "../customHooks/useLoading";
 
 import MainNavbar from "./MainNavbar/MainNavbar";
 import UserList from "./UserList/UserList";
@@ -74,6 +77,10 @@ function Main({ location }) {
 
   const authRouting = location.state && location.state.authRouting;
 
+  useAuth(dispatch, loginUser, setIsAuthuticate);
+  useInitSocket(dispatch);
+  useLoading(currentUser, setIsReady);
+
   useEffect(() => {
     socket.emit(JOIN, currentUser, roomId, true);
 
@@ -92,50 +99,19 @@ function Main({ location }) {
     };
   }, []);
 
-  useEffect(() => {
-    const token = {
-      accessToken: localStorage.getItem("access"),
-      refreshToken: localStorage.getItem("refresh")
-    };
-
-    (async function checkUserInfo() {
-      const response = await postAuthToken(token);
-
-      if (response.message) return setIsAuthuticate(false);
-
-      const { user } = response;
-
-      dispatch(loginUser(user));
-    })();
-  }, []);
-
-  useEffect(() => {
-    subscribeSocket(dispatch);
-
-    return () => cancelSocketSubscription();
-  }, []);
-
-  useEffect(() => {
-    if (currentUser.email) {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 4000);
-    }
-  }, [currentUser]);
-
-  function handleCopyButtonClick() {
+  const handleCopyButtonClick = useCallback(() => {
     const alertMessage = COPY_CLIPBOARD;
 
     setModalMessages([...modalMessages, alertMessage]);
-  }
+  }, [modalMessages]);
 
-  function handleToggleButtonClick() {
-    setToggleMainBoard(beforeState => !beforeState);
-  }
+  const handleToggleButtonClick = useCallback(() => {
+    setToggleMainBoard((beforeState) => !beforeState);
+  }, []);
 
-  function handleGuideClick() {
+  const handleGuideClick = useCallback(() => {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
+  }, []);
 
   if (!authRouting) return (
     <Redirect
@@ -209,22 +185,24 @@ function Main({ location }) {
             roomId={roomId}
             isVideoStopped={isVideoStopped}
           />
-          {0 < modalMessages.length &&
-            <AlertModal
-              handleAlertDelete={setModalMessages}
-              alertMessages={modalMessages}
-            />
+          {
+            0 < modalMessages.length &&
+              <AlertModal
+                handleAlertDelete={setModalMessages}
+                alertMessages={modalMessages}
+              />
           }
           <FaBook
             size={40}
             className="guide"
             onClick={handleGuideClick}
           />
-          {isShowGuide && <MainGuide />}
-          {isOwnerClosed &&
-            <ModalBackground>
-              <LeaveRoomAlertModal />
-            </ModalBackground>
+          { isShowGuide && <MainGuide /> }
+          {
+            isOwnerClosed &&
+              <ModalBackground>
+                <LeaveRoomAlertModal />
+              </ModalBackground>
           }
         </MainContainer>
       </MainOuter>

@@ -1,12 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo
+} from "react";
 import {
   Controlled as ControlledEditor
 } from "react-codemirror2";
 import styled from "styled-components";
 import { throttle } from "lodash";
+import PropTypes from "prop-types";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
-import "codemirror/mode/javascript/javascript"
+import "codemirror/mode/javascript/javascript";
 
 import {
   START_TYPING,
@@ -44,8 +49,6 @@ function CodeEditor({
   roomId,
   contents
 }) {
-  const [code, setCode] = useState("");
-
   const refreshTypingUser = useCallback(() => {
     const typingInfo = {
       typingUser: currentUser,
@@ -61,40 +64,54 @@ function CodeEditor({
   );
 
   useEffect(() => {
-    setCode(contents);
     throllingRefreshTypingUser();
   }, [contents, throllingRefreshTypingUser]);
 
-  function handleChange(editor, data, value) {
+  const handleChange = useCallback((editor, data, value) => {
     const typingInfo = {
       value,
       typingUser: currentUser,
       roomId
     };
 
-    setCode(value);
     socket.emit(START_TYPING, typingInfo);
-  }
+  }, [currentUser, roomId, socket]);
+
+  const throllingTypingUser = useMemo(() =>
+    throttle(handleChange, 75),
+    [handleChange]
+  );
 
   return (
     <CodeEditorContainer>
       <ControlledEditor
-        onBeforeChange={handleChange}
-        value={code}
+        onBeforeChange={throllingTypingUser}
+        value={contents}
         options={{
           lineWrapping: true,
+          lineNumbers: true,
           lint: true,
           mode: "javascript",
           theme: "material",
-          lineNumbers: true,
           extraKeys: { Enter: false }
         }}
       />
       <article className="typing-user">
-        {typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...`}
+        { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
       </article>
     </CodeEditorContainer>
   );
 }
+
+CodeEditor.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  typingUser: PropTypes.array.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  contents: PropTypes.string.isRequired
+};
 
 export default React.memo(CodeEditor);

@@ -54,4 +54,4 @@ function ChannelListGuide() {
   );
 }
 
-export default ChannelListGuide;
+export default React.memo(ChannelListGuide);

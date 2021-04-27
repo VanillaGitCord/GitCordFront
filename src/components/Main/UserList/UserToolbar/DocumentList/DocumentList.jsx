@@ -8,7 +8,7 @@ import {
   NOT_EXIST_SAVE_DOCUMENT
 } from "../../../../../constants/message";
 
-import DocumentFile from "./DocumentFile";
+import DocumentFile from "./DocumentFile/DocumentFile";
 
 const DocumentListContainer = styled.div`
   @keyframes slide {
@@ -30,7 +30,7 @@ const DocumentListContainer = styled.div`
   padding: 1em;
   background-color: #EEADCC;
   border-radius: 10px;
-  animation: slide 1.5s ease-in;
+  animation: slide .5s ease-in;
 `;
 
 function DocumentList({

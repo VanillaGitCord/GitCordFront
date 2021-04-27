@@ -1,6 +1,7 @@
 import React from "react";
 import { v1 as uuidv1 } from "uuid";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import MainIcon from "../../../publicComponents/MainIcon/MainIcon";
 
@@ -71,5 +72,18 @@ function ChatLog({ chatLog, user }) {
     </ChatLogContainer>
   );
 }
+
+ChatLog.propTypes = {
+  chatLog: PropTypes.shape({
+    chatTime: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
+    userChat: PropTypes.string.isRequired,
+    userEmail: PropTypes.string.isRequired
+  }),
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  })
+};
 
 export default ChatLog;
