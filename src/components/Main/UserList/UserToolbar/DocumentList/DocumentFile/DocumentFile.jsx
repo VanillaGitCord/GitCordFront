@@ -3,12 +3,12 @@ import { FcFile } from "react-icons/fc";
 import { IoIosCloseCircle } from "react-icons/io";
 import styled from "styled-components";
 
-import { deleteDocument } from "../../../../../api/documentApi";
-import { SET_CONTENTS } from "../../../../../constants/socketEvents";
+import { deleteDocument } from "../../../../../../api/documentApi";
+import { SET_CONTENTS } from "../../../../../../constants/socketEvents";
 import {
   UPLOAD_DOCUMENT,
   DELETE_FAIL
-} from "../../../../../constants/message";
+} from "../../../../../../constants/message";
 
 const DocumentFileContainer = styled.div`
   display: block;

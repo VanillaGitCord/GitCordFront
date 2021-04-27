@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { FaBook } from "react-icons/fa";
@@ -123,19 +127,19 @@ function Main({ location }) {
     }
   }, [currentUser]);
 
-  function handleCopyButtonClick() {
+  const handleCopyButtonClick = useCallback(() => {
     const alertMessage = COPY_CLIPBOARD;
 
     setModalMessages([...modalMessages, alertMessage]);
-  }
+  }, [modalMessages]);
 
-  function handleToggleButtonClick() {
-    setToggleMainBoard(beforeState => !beforeState);
-  }
+  const handleToggleButtonClick = useCallback(() => {
+    setToggleMainBoard((beforeState) => !beforeState);
+  }, []);
 
-  function handleGuideClick() {
+  const handleGuideClick = useCallback(() => {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
+  }, []);
 
   if (!authRouting) return (
     <Redirect
@@ -209,22 +213,24 @@ function Main({ location }) {
             roomId={roomId}
             isVideoStopped={isVideoStopped}
           />
-          {0 < modalMessages.length &&
-            <AlertModal
-              handleAlertDelete={setModalMessages}
-              alertMessages={modalMessages}
-            />
+          {
+            0 < modalMessages.length &&
+              <AlertModal
+                handleAlertDelete={setModalMessages}
+                alertMessages={modalMessages}
+              />
           }
           <FaBook
             size={40}
             className="guide"
             onClick={handleGuideClick}
           />
-          {isShowGuide && <MainGuide />}
-          {isOwnerClosed &&
-            <ModalBackground>
-              <LeaveRoomAlertModal />
-            </ModalBackground>
+          { isShowGuide && <MainGuide /> }
+          {
+            isOwnerClosed &&
+              <ModalBackground>
+                <LeaveRoomAlertModal />
+              </ModalBackground>
           }
         </MainContainer>
       </MainOuter>

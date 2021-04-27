@@ -8,7 +8,7 @@ import {
   NOT_EXIST_SAVE_DOCUMENT
 } from "../../../../../constants/message";
 
-import DocumentFile from "./DocumentFile";
+import DocumentFile from "./DocumentFile/DocumentFile";
 
 const DocumentListContainer = styled.div`
   @keyframes slide {
