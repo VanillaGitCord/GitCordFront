@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import {
   Controlled as ControlledEditor
 } from "react-codemirror2";
@@ -6,7 +11,7 @@ import styled from "styled-components";
 import { throttle } from "lodash";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
-import "codemirror/mode/javascript/javascript"
+import "codemirror/mode/javascript/javascript";
 
 import {
   START_TYPING,
@@ -92,7 +97,7 @@ function CodeEditor({
         }}
       />
       <article className="typing-user">
-        {typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...`}
+        { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
       </article>
     </CodeEditorContainer>
   );

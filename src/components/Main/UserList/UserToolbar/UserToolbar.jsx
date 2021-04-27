@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AiFillSave } from "react-icons/ai";
 import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { GrDocumentText } from "react-icons/gr";
@@ -40,18 +40,18 @@ function UserToolbar({
   const [isShowDocumentList, setIsShowDocumentList] = useState(false);
   const { contents } = useSelector((state) => state.roomReducer);
 
-  function handleSaveButtonClick() {
+  const handleSaveButtonClick = useCallback(() => {
     setIsShowSavingToolbar((isShowSavingToolbar) => !isShowSavingToolbar);
-  }
+  }, []);
 
-  function handleDocumentListButtonClick() {
+  const handleDocumentListButtonClick = useCallback(() => {
     setIsShowDocumentList((isShowDocumentList) => !isShowDocumentList);
-  }
+  }, []);
 
-  function handleVideoToggleButtonClick() {
+  const handleVideoToggleButtonClick = useCallback(() => {
     socket.emit(VIDEO_TOGGLE, roomId, user);
     videoToggle(isVideoStopped => !isVideoStopped);
-  }
+  }, [roomId, user]);
 
   return (
     <UserToolbarContainer>
@@ -81,27 +81,29 @@ function UserToolbar({
           onClick={handleSaveButtonClick}
         />
       </article>
-      {isShowSavingToolbar &&
-        <SavingToolbar
-          alertMessages={alertMessages}
-          setAlertMessages={setAlertMessages}
-          contents={contents}
-          user={user}
-          hideToolbar={handleSaveButtonClick}
-        />
+      {
+        isShowSavingToolbar &&
+          <SavingToolbar
+            alertMessages={alertMessages}
+            setAlertMessages={setAlertMessages}
+            contents={contents}
+            user={user}
+            hideToolbar={handleSaveButtonClick}
+          />
       }
-      {isShowDocumentList &&
-        <DocumentList
-          alertMessages={alertMessages}
-          setAlertMessages={setAlertMessages}
-          user={user}
-          socket={socket}
-          roomId={roomId}
-          hideDocumentList={handleDocumentListButtonClick}
-        />
+      {
+        isShowDocumentList &&
+          <DocumentList
+            alertMessages={alertMessages}
+            setAlertMessages={setAlertMessages}
+            user={user}
+            socket={socket}
+            roomId={roomId}
+            hideDocumentList={handleDocumentListButtonClick}
+          />
       }
     </UserToolbarContainer>
   );
 }
 
-export default UserToolbar;
+export default React.memo(UserToolbar);
