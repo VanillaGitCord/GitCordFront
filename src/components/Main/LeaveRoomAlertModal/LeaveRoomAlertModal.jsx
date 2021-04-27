@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 import { FaDog } from "react-icons/fa";
 import styled from "styled-components";
 
-import { leaveOnwerRoom } from "../../../actions/roomActions";
+import { leaveOwnerRoom } from "../../../actions/roomActions";
 
 const LeaveRoomAlertModalContainer = styled.div`
   @keyframes slide {
@@ -47,7 +47,7 @@ function LeaveRoomAlertModal() {
   }, [count]);
 
   if (count <= 0) {
-    dispatch(leaveOnwerRoom());
+    dispatch(leaveOwnerRoom());
 
     return <Redirect to="/" />;
   }
