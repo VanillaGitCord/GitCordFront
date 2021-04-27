@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback
+} from "react";
 import { Redirect } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBook } from "react-icons/fa";
@@ -101,15 +105,15 @@ function ChannelList() {
     socket.emit(INIT_ROOM_LIST);
   }, []);
 
-  function handleCreateRoomChange(event) {
+  const handleCreateRoomChange = useCallback((event) => {
     setCreateRoomTitle(event.target.value);
-  }
+  }, []);
 
-  function handleEnterRoomIdChange(event) {
+  const handleEnterRoomIdChange = useCallback((event) => {
     setEnterRoomId(event.target.value);
-  }
+  }, []);
 
-  function handleCreateRoomClick() {
+  const handleCreateRoomClick = useCallback(() => {
     if (!createRoomTitle) {
       const alertMessage = NEED_TITLE;
 
@@ -124,9 +128,9 @@ function ChannelList() {
 
     setRoomId(id);
     socket.emit(CREATE_ROOM, currentUser, roomInfo);
-  }
+  }, [createRoomTitle, modalMessages, currentUser]);
 
-  function handleEnterRoomClick() {
+  const handleEnterRoomClick = useCallback(() => {
     if (!enterRoomId) {
       const alertMessage = NEED_ROOM_ADDRESS;
 
@@ -144,11 +148,11 @@ function ChannelList() {
     }
 
     setRoomId(enterRoomId);
-  }
+  }, [activedRooms, enterRoomId, modalMessages]);
 
-  function handleGuideClick() {
+  const handleGuideClick = useCallback(() => {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
+  }, []);
 
   if (!isAuthuticate) return (
     <Redirect
@@ -178,7 +182,7 @@ function ChannelList() {
     <Background>
       <ChannelListOutter>
         <WelcomeHeader currentUser={currentUser} />
-        <div className="channel-enterroominput">
+        <article className="channel-enterroominput">
           <InputWithLabel
             width="40%"
             height="60%"
@@ -207,20 +211,21 @@ function ChannelList() {
             onClick={handleCreateRoomClick}
             className="enter-icon shadow-icon"
           />
-        </div>
+        </article>
         <ChannelListContainer activedRooms={activedRooms} />
-        {0 < modalMessages.length &&
-          <AlertModal
-            handleAlertDelete={setModalMessages}
-            alertMessages={modalMessages}
-          />
+        {
+          0 < modalMessages.length &&
+            <AlertModal
+              handleAlertDelete={setModalMessages}
+              alertMessages={modalMessages}
+            />
         }
         <FaBook
           size={40}
           className="guide"
           onClick={handleGuideClick}
         />
-        {isShowGuide && <ChannelListGuide />}
+        { isShowGuide && <ChannelListGuide /> }
       </ChannelListOutter>
     </Background>
   );
