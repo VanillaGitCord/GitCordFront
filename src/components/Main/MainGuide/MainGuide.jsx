@@ -136,4 +136,4 @@ function MainGuide() {
   );
 }
 
-export default MainGuide;
+export default React.memo(MainGuide);

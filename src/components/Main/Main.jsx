@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useParams } from "react-router";
 import { FaBook } from "react-icons/fa";
@@ -123,19 +123,19 @@ function Main({ location }) {
     }
   }, [currentUser]);
 
-  function handleCopyButtonClick() {
+  const handleCopyButtonClick = useCallback(() => {
     const alertMessage = COPY_CLIPBOARD;
 
     setModalMessages([...modalMessages, alertMessage]);
-  }
+  }, [modalMessages]);
 
-  function handleToggleButtonClick() {
-    setToggleMainBoard(beforeState => !beforeState);
-  }
+  const handleToggleButtonClick = useCallback(() => {
+    setToggleMainBoard((beforeState) => !beforeState);
+  }, []);
 
-  function handleGuideClick() {
+  const handleGuideClick = useCallback(() => {
     setIsShowGuide((isShowGuide) => !isShowGuide);
-  }
+  }, []);
 
   if (!authRouting) return (
     <Redirect

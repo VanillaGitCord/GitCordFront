@@ -162,7 +162,7 @@ function CamWindow({
         socket.on(USER_JOINED, payload => {
           const peer = addPeer(payload.signal, payload.callerID, stream);
           const isPeerExist = peersRef.current.some(peerObj => peerObj.peerID === payload.callerID);
-
+          debugger;
           if (!isPeerExist) {
             peersRef.current.push({
               peerID: payload.callerID,
@@ -173,7 +173,7 @@ function CamWindow({
               [
                 ...peers,
                 {
-                  peerID: payload.socketId,
+                  peerID: payload.callerID,
                   isOwner: payload.isOwner,
                   peer
                 }
@@ -183,12 +183,14 @@ function CamWindow({
         });
 
         socket.on(RECEIVING_RETURNED_SIGNAL, payload => {
+          debugger;
           const item = peersRef.current.find(p => p.peerID === payload.id);
 
           item.peer.signal(payload.signal);
         });
 
         socket.on(USER_LEFT, targetUser => {
+          debugger;
           peersRef.current = peersRef.current.filter((peerObj) => (
             peerObj.peerID !== targetUser.socketId
           ));
@@ -222,6 +224,8 @@ function CamWindow({
       peersRef.current = [];
     }
   }, []);
+
+  console.log(peers);
 
   return (
     <CamWindowContainer>

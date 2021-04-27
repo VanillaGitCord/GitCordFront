@@ -1,4 +1,5 @@
 import React, {
+  useCallback,
   useEffect,
   useRef,
   useState
@@ -16,6 +17,9 @@ import {
   DRAW_START,
   CLEAR_CANVAS
 } from "../../../constants/socketEvents";
+
+import ClearButton from "./ClearButton/ClearButton";
+import ColorPicker from "./ColorPicker/ColorPicker";
 
 const WhiteBoardCanvas = styled.div`
   position: relative;
@@ -35,66 +39,6 @@ const WhiteBoardCanvas = styled.div`
     justify-content: space-around;
     align-items: center;
     transform: translateX(-50%);
-
-    &-up {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-100%);
-    }
-
-    &-down {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      transform: translateY(50%);
-    }
-  }
-
-  .clearbutton {
-    width: 50px;
-    height: 30px;
-    border-radius: 13%;
-    border: solid 0px;
-    cursor: pointer;
-    background-color: #5C377F;
-    font-weight: bold;
-    color: #FFFFFF;
-    transition: all .5s ease;
-
-    &:hover {
-      box-shadow: 0px 0px 0px 7px rgba(92, 55, 127, 0.6);
-    }
-  }
-
-  .colorpicker-text {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .colorpicker {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: all .5s ease;
-
-    &:hover {
-      box-shadow: 0px 0px 0px 7px rgba(121, 119, 119, 0.6);
-    }
-
-    &-input {
-      width: 100px;
-      height: 100px;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-    }
   }
 `;
 
@@ -187,47 +131,27 @@ function WhiteBoard({ socket, roomId }) {
     };
   }, [canvasRef, canvasouter, roomId, color, isDrawing]);
 
-  function handleColorChange(e) {
+  const handleColorChange = useCallback((e) => {
     socket.emit(CHANGE_COLOR, roomId, e.target.value);
-  }
+  }, []);
 
-  function handleButtonClick() {
+  const handleButtonClick = useCallback(() => {
     socket.emit(DELETE_CANVAS, roomId);
-  }
-
-  function getColorpickerOrClearButton() {
-    if (isDrawing) {
-      return (
-        <div className="colorpicker-container">
-          <div className="colorpicker-container-up">
-            <button className="clearbutton" onClick={handleButtonClick}>
-              Clear!
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="colorpicker-container">
-        <div className="colorpicker-container-down">
-          <span className="colorpicker-text">색 선택</span>
-          <div className="colorpicker">
-            <input type="color"
-              className="colorpicker-input"
-              value={color}
-              onChange={handleColorChange}
-            />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  }, []);
 
   return (
     <WhiteBoardCanvas ref={canvasouter}>
       {
-        getColorpickerOrClearButton()
+        isDrawing
+          ? <ClearButton
+              className="colorpicker-container"
+              buttonClickEvent={handleButtonClick}
+            />
+          : <ColorPicker
+              className="colorpicker-container"
+              color={color}
+              colorPickerClickEvent={handleColorChange}
+            />
       }
       <canvas
         ref={canvasRef}
@@ -239,4 +163,4 @@ function WhiteBoard({ socket, roomId }) {
   );
 }
 
-export default WhiteBoard;
+export default React.memo(WhiteBoard);

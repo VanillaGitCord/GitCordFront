@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { ImArrowLeft } from "react-icons/im";
@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { logoutUser } from "../../../actions/userActions";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
-import ShareWindow from "../../ShareWindow/ShareWindow";
+import ShareWindow from "./ShareWindow/ShareWindow";
 
 const MainNavbarContainer = styled.div`
   display: flex;
@@ -90,6 +90,7 @@ const ToggleButton = styled.label`
       transition: .4s;
     }
   }
+
   input:checked + .slider {
     background-color: #2196F3;
   }
@@ -126,24 +127,24 @@ function MainNavbar({
   const [isShowShareWindow, setIsShowShareWindow] = useState(false);
   const dispatch = useDispatch();
 
-  if (isOutRoom) return <Redirect to="/" />
-  if (isLogout) return <Redirect to="/login" />
-
-  function handleLogoutIconClick() {
+  const handleLogoutIconClick = useCallback(() => {
     localStorage.removeItem("access");
     localStorage.removeItem("refresh");
 
     dispatch(logoutUser());
     setIsLogout(true);
-  }
+  }, [dispatch]);
 
-  function handleLeaveIconClick() {
+  const handleLeaveIconClick = useCallback(() => {
     setIsOutRoom(true);
-  }
+  }, []);
 
-  function handleShareIconClick() {
-    setIsShowShareWindow(!isShowShareWindow);
-  }
+  const handleShareIconClick = useCallback(() => {
+    setIsShowShareWindow(isShowShareWindow => !isShowShareWindow);
+  }, []);
+
+  if (isOutRoom) return <Redirect to="/" />;
+  if (isLogout) return <Redirect to="/login" />;
 
   return (
     <MainNavbarContainer>
@@ -175,13 +176,14 @@ function MainNavbar({
         />
         <FaUserCircle size={30} />
         {email}
-        {isShowShareWindow &&
-          <div className="share-window">
-            <ShareWindow
-              url={roomId}
-              handleCopyButtonClick={handleCopyButtonClick}
-            />
-          </div>
+        {
+          isShowShareWindow &&
+            <div className="share-window">
+              <ShareWindow
+                url={roomId}
+                handleCopyButtonClick={handleCopyButtonClick}
+              />
+            </div>
         }
       </div>
     </MainNavbarContainer>
