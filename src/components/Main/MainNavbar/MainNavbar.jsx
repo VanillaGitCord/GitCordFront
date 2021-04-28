@@ -8,6 +8,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import useLogout from "../../customHooks/useLogout";
+import route from "../../../constants/routes";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 import ShareWindow from "./ShareWindow/ShareWindow";
@@ -138,8 +139,8 @@ function MainNavbar({
     setIsShowShareWindow(isShowShareWindow => !isShowShareWindow);
   }, []);
 
-  if (isOutRoom) return <Redirect to="/" />;
-  if (isLogout) return <Redirect to="/login" />;
+  if (isOutRoom) return <Redirect to={route.HOME} />;
+  if (isLogout) return <Redirect to={route.LOGIN} />;
 
   return (
     <MainNavbarContainer>

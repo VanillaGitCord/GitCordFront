@@ -11,6 +11,7 @@ import {
   INVALIDATE_PASSWORD_CONDITION,
   NEED_NAME
 } from "../../../constants/message";
+import route from "../../../constants/routes";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -133,7 +134,7 @@ function SignUpContainer() {
       if (response.staus >= 400) {
         <Redirect
           to={{
-            pathname: "/error",
+            pathname: route.ERROR,
             state: { message: response.message }
           }}
         />
@@ -194,12 +195,12 @@ function SignUpContainer() {
           height="10%"
           onClick={handleButtonClick}
         />
-        <Link to="/login" className="login-button">
+        <Link to={route.LOGIN} className="login-button">
           로그인 페이지로
         </Link>
       </section>
-      { isJoinSuccess && <Redirect to="/login" /> }
-      { isError && <Redirect to="/error" /> }
+      { isJoinSuccess && <Redirect to={route.LOGIN} /> }
+      { isError && <Redirect to={route.ERROR} /> }
     </SignUpContainerStyle>
   );
 }

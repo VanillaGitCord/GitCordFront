@@ -4,6 +4,7 @@ import { FaExclamation } from "react-icons/fa";
 import styled from "styled-components";
 
 import { PAGE_NOT_FOUND } from "../../constants/message";
+import route from "../../constants/routes";
 
 import Background from "../publicComponents/Backgroud/Background";
 import MainIcon from "../publicComponents/MainIcon/MainIcon";
@@ -63,7 +64,7 @@ function Error({ location }) {
     }, 1000);
   }, [count]);
 
-  if (count <= 0) return <Redirect to="/login" />;
+  if (count <= 0) return <Redirect to={route.LOGIN} />;
 
   return (
     <Background>
