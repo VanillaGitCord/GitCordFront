@@ -6,6 +6,8 @@ import SignUp from "./SignUp/SignUp";
 import Main from "./Main/Main";
 import Error from "./Error/Error";
 
+import Loading from "./Loading/Loading";
+
 function App() {
   return (
     <Switch>
@@ -14,6 +16,7 @@ function App() {
       <Route path="/signup" component={SignUp} />
       <Route path="/main/:roomId" component={Main} />
       <Route path="/error" component={Error} />
+      <Route path="/loading" component={Loading} />
       <Redirect
         from="/*"
         to={{

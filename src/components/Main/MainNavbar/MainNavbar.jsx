@@ -24,8 +24,9 @@ const MainNavbarContainer = styled.div`
     cursor: pointer;
 
     &:hover {
-      background: rgba(255, 107, 107, 0.6);
-      box-shadow: 0px 0px 0px 5px rgba(255, 107, 107, 0.6);
+      color: #ffffff;
+      background: rgba(52, 31, 151, 0.6);
+      box-shadow: 0px 0px 0px 5px rgba(52, 31, 151, 0.6);
     }
   }
 
