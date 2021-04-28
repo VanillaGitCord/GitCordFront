@@ -4,7 +4,7 @@ import styled from "styled-components"
 import PropTypes from "prop-types";
 
 import { postDocument } from "../../../../../api/documentApi";
-import { UNKNOWN_ERROR } from "../../../../../constants/message";
+import { UNKNOWN_ERROR, NEED_DOCUMENT_TITLE } from "../../../../../constants/message";
 
 import InputWithLabelStyle from "../../../../publicComponents/InputWithLabel/InputWithLabel";
 
@@ -41,6 +41,11 @@ function SavingToolbar({
   }, []);
 
   async function handleSaveIconClick() {
+    if (!documentTitle.trim()) {
+      setAlertMessages([...alertMessages, NEED_DOCUMENT_TITLE]);
+      return;
+    }
+
     const documentInfo = {
       title: documentTitle,
       contents,
