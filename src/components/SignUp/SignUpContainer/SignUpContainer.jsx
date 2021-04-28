@@ -134,7 +134,7 @@ function SignUpContainer() {
       if (response.staus >= 400) {
         <Redirect
           to={{
-            pathname: "/error",
+            pathname: route.ERROR,
             state: { message: response.message }
           }}
         />
@@ -195,7 +195,7 @@ function SignUpContainer() {
           height="10%"
           onClick={handleButtonClick}
         />
-        <Link to="/login" className="login-button">
+        <Link to={route.LOGIN} className="login-button">
           로그인 페이지로
         </Link>
       </section>
