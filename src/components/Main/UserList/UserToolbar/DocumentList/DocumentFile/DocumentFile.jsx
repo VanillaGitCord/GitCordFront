@@ -15,6 +15,7 @@ const DocumentFileContainer = styled.div`
   display: block;
   width: 20%;
   height: auto;
+  margin-right: 0.5em;
   font-size: 0.7rem;
   color: #000000;
 

@@ -66,7 +66,7 @@ function DocumentList({
   );
 
   function renderMyDocuments() {
-    if (!document.length) return NOT_EXIST_SAVE_DOCUMENT;
+    if (!documents.length) return NOT_EXIST_SAVE_DOCUMENT;
 
     return documents.map((document) => {
       const {
@@ -77,6 +77,7 @@ function DocumentList({
 
       return (
         <DocumentFile
+          key={_id}
           alertMessages={alertMessages}
           setAlertMessages={setAlertMessages}
           title={title}
