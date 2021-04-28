@@ -7,6 +7,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import useLogout from "../../customHooks/useLogout";
+import route from "../../../constants/routes";
 
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 
@@ -82,7 +83,7 @@ function WelComeHeader({ currentUser, isLogin = true }) {
   const dispatch = useDispatch();
   const handleLogoutIconClick = useLogout(dispatch, setIsLogout);
 
-  if (isLogout) return <Redirect to="/login" />;
+  if (isLogout) return <Redirect to={route.LOGIN} />;
 
   return (
     <WelComeHeaderStyle>

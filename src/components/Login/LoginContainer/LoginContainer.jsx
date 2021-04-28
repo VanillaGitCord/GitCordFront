@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
@@ -11,6 +12,7 @@ import {
   NEED_EMAIL_FORMAT,
   NEED_PASSWORD
 } from "../../../constants/message";
+import route from "../../../constants/routes";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -190,10 +192,10 @@ function LoginContainer() {
             onSuccess={handleGoogleLoginClick}
           />
         </div>
-        <a className="login-signup" href="/signup">Sign up</a>
+        <Link className="login-signup" to={route.SIGNUP}>Sign up</Link>
       </section>
-      { isLoginSuccess && <Redirect to="/" /> }
-      { isError && <Redirect to="/error" /> }
+      { isLoginSuccess && <Redirect to={route.HOME} /> }
+      { isError && <Redirect to={route.ERROR} /> }
     </LoginContainerStyle>
   );
 }

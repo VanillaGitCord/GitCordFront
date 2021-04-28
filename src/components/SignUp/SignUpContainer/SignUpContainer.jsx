@@ -3,6 +3,7 @@ import { Redirect } from "react-router";
 import styled from "styled-components";
 
 import { sendNewUser } from "../../../api/userApi";
+import route from "../../../constants/routes";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -165,8 +166,8 @@ function SignUpContainer() {
           onClick={handleButtonClick}
         />
       </section>
-      { isJoinSuccess && <Redirect to="/login" /> }
-      { isError && <Redirect to="/error" /> }
+      { isJoinSuccess && <Redirect to={route.LOGIN} /> }
+      { isError && <Redirect to={route.ERROR} /> }
     </SignUpContainerStyle>
   );
 }

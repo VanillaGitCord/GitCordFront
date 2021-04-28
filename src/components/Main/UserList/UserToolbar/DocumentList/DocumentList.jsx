@@ -8,6 +8,7 @@ import {
   UNKNOWN_ERROR,
   NOT_EXIST_SAVE_DOCUMENT
 } from "../../../../../constants/message";
+import route from "../../../../../constants/routes";
 
 import DocumentFile from "./DocumentFile/DocumentFile";
 import Spinner from "../../../../publicComponents/Spinner/Spinner";
@@ -59,7 +60,7 @@ function DocumentList({
   if (isError) return (
     <Redirect
       to={{
-        pathname: "/error",
+        pathname: route.ERROR,
         state: { message: UNKNOWN_ERROR }
       }}
     />
