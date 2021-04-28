@@ -85,7 +85,7 @@ function Channel({ roomInfo, roomId }) {
           }}
           className="enter-button"
         >
-          테스트
+          입장하기
         </Link>
       </div>
     </ChannelStyle>

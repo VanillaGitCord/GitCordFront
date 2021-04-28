@@ -56,8 +56,9 @@ const ChannelListOutter = styled.div`
       cursor: pointer;
 
       &:hover {
-        background: rgba(72, 219, 251, 0.6);
-        box-shadow: 0px 0px 0px 5px rgba(72, 219, 251, 0.6);
+        color: #ffffff;
+        background: rgba(52, 31, 151, 0.6);
+        box-shadow: 0px 0px 0px 5px rgba(52, 31, 151, 0.6);
       }
     }
 
@@ -81,7 +82,14 @@ const ChannelListOutter = styled.div`
     bottom: 1em;
     color: #ffffff;
     z-index: 11;
+    transition: all .5s ease;
     cursor: pointer;
+
+    &:hover {
+      background: rgba(72, 219, 251, 0.6);
+      border-radius: 3px;
+      box-shadow: 0px 0px 0px 5px rgba(72, 219, 251, 0.6);
+    }
   }
 `;
 
@@ -99,7 +107,7 @@ function ChannelList() {
 
   useAuth(dispatch, loginUser, setIsAuthuticate);
   useInitSocket(dispatch);
-  useLoading(currentUser, setIsReady);
+  useLoading(currentUser, setIsReady, isReady);
 
   useEffect(() => {
     socket.emit(INIT_ROOM_LIST);

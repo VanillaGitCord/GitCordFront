@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 
-export default function useLoading(currentUser, setIsReady) {
+export default function useLoading(currentUser, setIsReady, isReady) {
   useEffect(() => {
-    if (currentUser) {
-      setTimeout(() => {
-        setIsReady(true);
-      }, 3000);
+    const loadingCount = () => setTimeout(() => {
+      setIsReady(true);
+    }, 3000);
+
+    if (currentUser && !isReady) {
+      loadingCount();
     }
+
+    return () => clearTimeout(loadingCount());
   }, [currentUser]);
 }
