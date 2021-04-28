@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import Peer from "simple-peer";
+import PropTypes from "prop-types";
 
 import {
   STREAM,
@@ -30,6 +31,9 @@ const CamWindowContainer = styled.div`
   }
 
   .participant {
+    display: none;
+    position: absolute;
+    z-index: -3;
     background: none;
   }
 `;
@@ -49,7 +53,7 @@ function Video({ peer, isOwner }) {
     <video
       ref={ref}
       autoPlay
-      className={`cam-video ${isOwner || "participant"}`}
+      className={`${isOwner || "participant"} cam-video`}
     />
   );
 }
@@ -241,5 +245,16 @@ function CamWindow({
     </CamWindowContainer>
   );
 }
+
+CamWindow.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  participants: PropTypes.array.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  isVideoStopped: PropTypes.bool.isRequired
+};
 
 export default React.memo(CamWindow);

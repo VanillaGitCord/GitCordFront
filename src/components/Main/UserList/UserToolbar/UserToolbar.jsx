@@ -4,6 +4,7 @@ import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
 import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { VIDEO_TOGGLE } from "../../../../constants/socketEvents";
 
@@ -105,5 +106,18 @@ function UserToolbar({
     </UserToolbarContainer>
   );
 }
+
+UserToolbar.propTypes = {
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  isVideoStopped: PropTypes.bool.isRequired,
+  videoToggle: PropTypes.func.isRequired
+};
 
 export default React.memo(UserToolbar);

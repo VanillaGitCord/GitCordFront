@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { AiFillSave } from "react-icons/ai";
 import styled from "styled-components"
+import PropTypes from "prop-types";
 
 import { postDocument } from "../../../../../api/documentApi";
 import { UNKNOWN_ERROR } from "../../../../../constants/message";
@@ -75,5 +76,16 @@ function SavingToolbar({
     </SavingToolbarContainer>
   );
 }
+
+SavingToolbar.propTypes = {
+  contents: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  hideToolbar: PropTypes.func.isRequired,
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired
+};
 
 export default SavingToolbar;

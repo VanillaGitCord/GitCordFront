@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 import { getDocuments } from "../../../../../api/documentApi";
 import {
@@ -9,28 +10,22 @@ import {
 } from "../../../../../constants/message";
 
 import DocumentFile from "./DocumentFile/DocumentFile";
+import Spinner from "../../../../publicComponents/Spinner/Spinner";
 
 const DocumentListContainer = styled.div`
-  @keyframes slide {
-    from {
-      transform: translateX(-400%);
-    }
-
-    to {
-      transform: translateX(0%);
-    }
-  }
-
   position: fixed;
+  left: 10%;
   bottom: 23%;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   width: 16%;
   padding: 1em;
-  background-color: #EEADCC;
+  background-color: #FFFFFF;
+  border: 5px solid #54a0ff;
   border-radius: 10px;
-  animation: slide .5s ease-in;
+  box-shadow: 0px 3px 5px #414141;
+  z-index: 9;
 `;
 
 function DocumentList({
@@ -41,6 +36,7 @@ function DocumentList({
   roomId,
   hideDocumentList
 }) {
+  const [isDocumentReady, setIsDocumentReady] = useState(false);
   const [documents, setDocuments] = useState([]);
   const [isError, setIsError] = useState(false);
 
@@ -53,6 +49,10 @@ function DocumentList({
       } catch (err) {
         setIsError(true);
       }
+
+      setTimeout(() => {
+        setIsDocumentReady(true);
+      }, 2000);
     })();
   }, []);
 
@@ -66,6 +66,8 @@ function DocumentList({
   );
 
   function renderMyDocuments() {
+    if (!documents.length) return NOT_EXIST_SAVE_DOCUMENT;
+
     return documents.map((document) => {
       const {
         title,
@@ -75,6 +77,7 @@ function DocumentList({
 
       return (
         <DocumentFile
+          key={_id}
           alertMessages={alertMessages}
           setAlertMessages={setAlertMessages}
           title={title}
@@ -90,12 +93,25 @@ function DocumentList({
 
   return (
     <DocumentListContainer>
-      {0 < documents.length
-        ? renderMyDocuments()
-        : NOT_EXIST_SAVE_DOCUMENT
+      {
+        isDocumentReady
+          ? renderMyDocuments()
+          : <Spinner />
       }
     </DocumentListContainer>
   );
 }
+
+DocumentList.propTypes = {
+  alertMessages: PropTypes.array.isRequired,
+  setAlertMessages: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired
+  }),
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  hideDocumentList: PropTypes.func.isRequired
+};
 
 export default DocumentList;

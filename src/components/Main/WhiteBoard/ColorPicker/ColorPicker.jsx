@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ColorPickerContainer = styled.div`
   .colorpicker-container-down {
@@ -57,5 +58,11 @@ function ColorPicker({
     </ColorPickerContainer>
   );
 }
+
+ColorPicker.propTypes = {
+  color: PropTypes.string.isRequired,
+  colorPickerClickEvent: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired
+};
 
 export default React.memo(ColorPicker);
