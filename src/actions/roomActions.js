@@ -58,7 +58,7 @@ export function leaveRoom() {
   };
 }
 
-export function leaveOnwerRoom() {
+export function leaveOwnerRoom() {
   return {
     type: LEAVE_OWNER_ROOM
   };

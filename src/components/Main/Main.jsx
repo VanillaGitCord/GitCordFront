@@ -52,7 +52,14 @@ const MainContainer = styled.div`
     bottom: 1em;
     color: #ffffff;
     z-index: 11;
+    transition: all .5s ease;
     cursor: pointer;
+
+    &:hover {
+      background: rgba(72, 219, 251, 0.6);
+      border-radius: 3px;
+      box-shadow: 0px 0px 0px 5px rgba(72, 219, 251, 0.6);
+    }
   }
 `;
 
