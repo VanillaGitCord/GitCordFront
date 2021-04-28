@@ -31,9 +31,8 @@ const CamWindowContainer = styled.div`
   }
 
   .participant {
-    width: 0px;
-    height: 0px;
-    visibility: hidden;
+    display: none;
+    position: absolute;
     z-index: -3;
     background: none;
   }
@@ -54,7 +53,7 @@ function Video({ peer, isOwner }) {
     <video
       ref={ref}
       autoPlay
-      className={`cam-video ${isOwner || "participant"}`}
+      className={`${isOwner || "participant"} cam-video`}
     />
   );
 }
@@ -139,7 +138,7 @@ function CamWindow({
     if (currentUser && participants.length) {
       setIsReady(true);
 
-      navigator.mediaDevices.getUserMedia({ video: user.isOwner , audio: true }).then(stream => {
+      navigator.mediaDevices.getUserMedia({ video: true , audio: true }).then(stream => {
         localStream = stream;
         userVideo.current.srcObject = stream;
         userVideo.current.className = user.isOwner ? "owner cam-video" : "participant cam-video";
