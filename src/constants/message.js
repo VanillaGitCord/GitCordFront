@@ -14,3 +14,5 @@ export const UNUSUAL_ACCESS = "정상적인 접근 방법이 아닙니다!";
 export const NEED_EMAIL = "E-mail을 입력해주세요!";
 export const NEED_EMAIL_FORMAT = "E-mail 형식을 맞춰주세요! ex) 123@asd.com";
 export const NEED_PASSWORD = "Password를 입력해주세요!";
+export const INVALIDATE_PASSWORD_CONDITION = "4~16자 영소문자, 숫자, 특수문자 필수!";
+export const NEED_NAME = "Name을 입력해주세요!";

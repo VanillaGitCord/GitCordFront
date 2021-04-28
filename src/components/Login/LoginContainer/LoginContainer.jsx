@@ -60,12 +60,13 @@ const LoginContainerStyle = styled.div`
   }
 
   .login-signup {
-    color: white;
+    text-decoration: none;
     font-weight: bold;
+    color: white;
     cursor: pointer;
 
     &:hover {
-      opacity: 0.7;
+      opacity: 0.6;
     }
   }
 `;
