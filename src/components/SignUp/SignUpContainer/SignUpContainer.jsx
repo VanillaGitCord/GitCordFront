@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { sendNewUser } from "../../../api/userApi";
+import {
+  NEED_EMAIL,
+  NEED_EMAIL_FORMAT,
+  NEED_PASSWORD,
+  INVALIDATE_PASSWORD_CONDITION,
+  NEED_NAME
+} from "../../../constants/message";
+import route from "../../../constants/routes";
 
 import InputWithLabel from "../../publicComponents/InputWithLabel/InputWithLabel";
 import Button from "../../publicComponents/Button/Button";
@@ -50,6 +59,21 @@ const SignUpContainerStyle = styled.div`
     }
   }
 
+  .login-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #ffffff;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+
   .error {
     color: red;
     font-size: 15px;
@@ -88,15 +112,15 @@ function SignUpContainer() {
   }
 
   async function handleButtonClick() {
-    if (!email) return setEmailError("E-mail을 입력해주세요!");
+    if (!email) return setEmailError(NEED_EMAIL);
 
-    if (!isEmailValidate(email)) return setEmailError("E-mail 형식을 맞춰주세요! ex) 123@asd.com");
+    if (!isEmailValidate(email)) return setEmailError(NEED_EMAIL_FORMAT);
 
-    if (!password) return setPasswordError("Password를 입력해주세요!");
+    if (!password) return setPasswordError(NEED_PASSWORD);
 
-    if (!isPasswordValidate(password)) return setPasswordError("4~16자 영소문자, 숫자, 특수문자 필수!");
+    if (!isPasswordValidate(password)) return setPasswordError(INVALIDATE_PASSWORD_CONDITION);
 
-    if (!name) return setNameError("Name을 입력해주세요!");
+    if (!name) return setNameError(NEED_NAME);
 
     const newUser = {
       email,
@@ -107,7 +131,14 @@ function SignUpContainer() {
     try {
       const response = await sendNewUser(newUser);
 
-      if (response.staus >= 400) throw new Error(response.message);
+      if (response.staus >= 400) {
+        <Redirect
+          to={{
+            pathname: route.ERROR,
+            state: { message: response.message }
+          }}
+        />
+      }
 
       if (response.message) return setEmailError(response.message);
 
@@ -164,9 +195,12 @@ function SignUpContainer() {
           height="10%"
           onClick={handleButtonClick}
         />
+        <Link to={route.LOGIN} className="login-button">
+          로그인 페이지로
+        </Link>
       </section>
-      { isJoinSuccess && <Redirect to="/login" /> }
-      { isError && <Redirect to="/error" /> }
+      { isJoinSuccess && <Redirect to={route.LOGIN} /> }
+      { isError && <Redirect to={route.ERROR} /> }
     </SignUpContainerStyle>
   );
 }

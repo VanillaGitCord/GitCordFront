@@ -15,8 +15,9 @@ const InputWithLabelStyle = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    margin-bottom: 4px;
-    color: #000000;
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
+    color: #ffffff;
     font-weight: bold;
   }
 

@@ -22,6 +22,7 @@ import {
   NOT_EXIST_ROOM,
   TOKEN_EXPIRED
 } from "../../constants/message";
+import route from "../../constants/routes";
 
 import useAuth from "../customHooks/useAuth";
 import useInitSocket from "../customHooks/useInitSocket";
@@ -165,7 +166,7 @@ function ChannelList() {
   if (!isAuthuticate) return (
     <Redirect
       to={{
-        pathname: "/error",
+        pathname: route.ERROR,
         state: { message: TOKEN_EXPIRED }
       }}
     />
@@ -174,7 +175,7 @@ function ChannelList() {
   if (roomId) return (
     <Redirect
       to={{
-        pathname: `/main/${roomId}`,
+        pathname: `${route.MAIN}/${roomId}`,
         state: { authRouting: true }
       }}
     />

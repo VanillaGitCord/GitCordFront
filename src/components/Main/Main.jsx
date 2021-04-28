@@ -17,6 +17,7 @@ import {
   UNUSUAL_ACCESS,
   TOKEN_EXPIRED
 } from "../../constants/message";
+import route from "../../constants/routes";
 
 import useAuth from "../customHooks/useAuth";
 import useInitSocket from "../customHooks/useInitSocket";
@@ -123,7 +124,7 @@ function Main({ location }) {
   if (!authRouting) return (
     <Redirect
       to={{
-        pathname: "/error",
+        pathname: route.ERROR,
         state: { message: UNUSUAL_ACCESS }
       }}
     />
@@ -132,7 +133,7 @@ function Main({ location }) {
   if (!isAuthuticate) return (
     <Redirect
       to={{
-        pathname: "/error",
+        pathname: route.ERROR,
         state: { message: TOKEN_EXPIRED }
       }}
     />

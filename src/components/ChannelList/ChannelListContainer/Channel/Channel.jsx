@@ -5,6 +5,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import mainIcon from "../../../../assets/images/mainIcon.png";
+import route from "../../../../constants/routes";
 
 const ChannelStyle = styled.div`
   position: relative;
@@ -80,7 +81,7 @@ function Channel({ roomInfo, roomId }) {
         <span>owner: {owner.email}</span>
         <Link
           to={{
-            pathname: `/main/${roomId}`,
+            pathname: `${route.MAIN}/${roomId}`,
             state: { authRouting: true }
           }}
           className="enter-button"
