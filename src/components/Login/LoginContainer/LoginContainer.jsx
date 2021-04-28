@@ -29,7 +29,7 @@ const LoginContainerStyle = styled.div`
 
   .login-title {
     height: 10%;
-    color: white;
+    color: #ffffff;
     font-size: 30px;
     font-weight: bold;
   }
@@ -62,7 +62,7 @@ const LoginContainerStyle = styled.div`
   .login-signup {
     text-decoration: none;
     font-weight: bold;
-    color: white;
+    color: #ffffff;
     cursor: pointer;
 
     &:hover {
