@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { AiFillSave } from "react-icons/ai";
 import { BsFillMicFill, BsFillMicMuteFill } from "react-icons/bs";
-import { GrDocumentText } from "react-icons/gr";
+import { RiFileList3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -24,7 +24,15 @@ const UserToolbarContainer = styled.div`
 
   .toolbar-icon {
     margin: 10px;
+    border-radius: 50%;
+    transition: all .5s ease;
     cursor: pointer;
+
+    &:hover {
+      color: #ffffff;
+      background: rgba(52, 31, 151, 0.6);
+      box-shadow: 0px 0px 0px 5px rgba(52, 31, 151, 0.6);
+    }
   }
 `;
 
@@ -71,7 +79,7 @@ function UserToolbar({
                 onClick={handleVideoToggleButtonClick}
               />
         }
-        <GrDocumentText
+        <RiFileList3Fill
           size={25}
           className="toolbar-icon"
           onClick={handleDocumentListButtonClick}
