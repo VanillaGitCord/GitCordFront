@@ -43,6 +43,7 @@ function SavingToolbar({
   async function handleSaveIconClick() {
     if (!documentTitle.trim()) {
       setAlertMessages([...alertMessages, NEED_DOCUMENT_TITLE]);
+
       return;
     }
 
