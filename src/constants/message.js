@@ -6,6 +6,7 @@ export const DELETE_FAIL = "삭제에 실패했습니다.";
 export const NOT_EXIST_SAVE_DOCUMENT = "저장한 문서가 없습니다.";
 export const UNKNOWN_ERROR = "문제가 발생했습니다.";
 export const COPY_CLIPBOARD = "클립보드에 복사되었습니다.";
+export const NEED_DOCUMENT_TITLE = "문서의 이름을 입력해주세요!";
 
 export const TOKEN_EXPIRED = "Token has Expired!";
 export const PAGE_NOT_FOUND = "Page not Found";
