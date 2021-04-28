@@ -232,6 +232,7 @@ function CamWindow({
         ref={userVideo}
         autoPlay
         playsInline
+        muted="muted"
       />
       {peers.map((peerObj) => {
         return (
