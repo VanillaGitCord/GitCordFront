@@ -29,7 +29,7 @@ const LoginContainerStyle = styled.div`
 
   .login-title {
     height: 10%;
-    color: white;
+    color: #ffffff;
     font-size: 30px;
     font-weight: bold;
   }
@@ -60,12 +60,13 @@ const LoginContainerStyle = styled.div`
   }
 
   .login-signup {
-    color: white;
+    text-decoration: none;
     font-weight: bold;
+    color: #ffffff;
     cursor: pointer;
 
     &:hover {
-      opacity: 0.7;
+      opacity: 0.6;
     }
   }
 `;
