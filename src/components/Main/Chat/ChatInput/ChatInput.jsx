@@ -37,7 +37,6 @@ const ChatInputContainer = styled.form`
     color: #ffffff;
     background: rgba(52, 31, 151, 0.6);
     border-radius: 10px;
-    box-shadow: 0px 0px 0px 5px rgba(52, 31, 151, 0.6);
   }
 `;
 

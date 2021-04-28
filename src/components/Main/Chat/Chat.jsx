@@ -69,6 +69,8 @@ function Chat({
   function handleChatSubmit(event) {
     event.preventDefault();
 
+    if (!chat.trim()) return;
+
     const chatlogs = {
       chatTime: getDate(),
       userChat: chat,

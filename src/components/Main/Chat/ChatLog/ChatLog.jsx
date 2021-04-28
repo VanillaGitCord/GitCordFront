@@ -29,6 +29,7 @@ const ChatLogContainer = styled.div`
     min-width: 10em;
     max-width: 20em;
     height: auto;
+    min-height: 1.5em;
     margin-left: 1em;
     padding: 0.5em 0.8em;
     line-height: 20px;
