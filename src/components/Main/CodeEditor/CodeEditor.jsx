@@ -1,14 +1,25 @@
-import React, { useEffect, useRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback
+} from "react";
 import * as Y from "yjs";
 import { CodemirrorBinding } from "y-codemirror";
 import { WebrtcProvider } from "y-webrtc";
 import CodeMirror from "codemirror";
 import styled from "styled-components";
+import { throttle } from "lodash";
 
 import "codemirror/";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
+
+import {
+  START_TYPING,
+  STOP_TYPING
+} from "../../../constants/socketEvents";
 
 const CodeEditorContainer = styled.div`
   position: relative;
@@ -65,6 +76,39 @@ function CodeEditor({
 }) {
   const ref = useRef();
 
+  const refreshTypingUser = useCallback(() => {
+    const typingInfo = {
+      typingUser: currentUser,
+      roomId
+    };
+
+    socket.emit(STOP_TYPING, typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingRefreshTypingUser = useMemo(() =>
+    throttle(refreshTypingUser, 3000),
+    [refreshTypingUser]
+  );
+
+  useEffect(() => {
+    throllingRefreshTypingUser();
+  }, []);
+
+  const handleChange = useCallback((editor, data, value) => {
+    const typingInfo = {
+      value,
+      typingUser: currentUser,
+      roomId
+    };
+
+    socket.emit(START_TYPING, typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingTypingUser = useMemo(() =>
+    throttle(handleChange, 75),
+    [handleChange]
+  );
+
   useEffect(() => {
     let provider;
 
@@ -77,6 +121,16 @@ function CodeEditor({
         lineNumbers: true,
         theme: "material",
         lint: true
+      });
+
+      editor.on("keypress", () => {
+        throllingTypingUser();
+
+        setTimeout(() => {
+          throllingRefreshTypingUser();
+        }, 2000);
+
+        return () => throllingRefreshTypingUser;
       });
 
       provider = new WebrtcProvider(
@@ -102,7 +156,12 @@ function CodeEditor({
 
   return (
     <CodeEditorContainer>
-      <textarea ref={ref}></textarea>
+      <textarea
+        ref={ref}
+      />
+      <article className="typing-user">
+        { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
+      </article>
     </CodeEditorContainer>
   );
 }
