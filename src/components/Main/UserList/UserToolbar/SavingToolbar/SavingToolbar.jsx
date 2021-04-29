@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { AiFillSave } from "react-icons/ai";
-import styled from "styled-components"
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { postDocument } from "../../../../../api/documentApi";

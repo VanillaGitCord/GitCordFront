@@ -59,7 +59,7 @@ function ChatLog({ chatLog, user }) {
       user={user}
       chatEmail={userEmail}
       key={uuidv1()}
-      >
+    >
       <div className="chat-log-title">
         <MainIcon width="30px" height="30px" />
         <div>

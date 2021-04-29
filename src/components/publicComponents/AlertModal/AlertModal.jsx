@@ -12,15 +12,6 @@ const AlertModalWrapper = styled.div`
 `;
 
 const AlertModalOuter = styled.div`
-  @keyframes slide {
-    from {
-      transform: translateX(-300px);
-    }
-    to {
-      transform: translateX(0px);
-    }
-  }
-
   width: 100%;
   height: 7%;
   padding: 0.5em;
@@ -37,6 +28,15 @@ const AlertModalOuter = styled.div`
     font-weight: bold;
     color: ${props => props.color};
   }
+
+  @keyframes slide {
+    from {
+      transform: translateX(-300px);
+    }
+    to {
+      transform: translateX(0px);
+    }
+  }
 `;
 
 function AlertModal({
@@ -45,7 +45,7 @@ function AlertModal({
   color = "#000000"
 }) {
   useEffect(() => {
-    const deleteAlert = setTimeout(() => {
+    const deleteMessage = setTimeout(() => {
       handleAlertDelete((alertMessages) => {
         alertMessages.shift();
 
@@ -53,23 +53,21 @@ function AlertModal({
       });
     }, 2500);
 
-    return () => clearTimeout(deleteAlert);
+    return () => clearTimeout(deleteMessage);
   }, [alertMessages, handleAlertDelete]);
-
-  function renderMessages() {
-    return alertMessages.map((message, index) => (
-      <AlertModalOuter key={index} color={color}>
-        <AiFillAlert size={20} />
-        <span className="alert-message">
-          {message}
-        </span>
-      </AlertModalOuter>
-    ));
-  }
 
   return (
     <AlertModalWrapper>
-      {renderMessages()}
+      {
+        alertMessages.map((message, index) => (
+          <AlertModalOuter key={index} color={color}>
+            <AiFillAlert size={20} />
+            <span className="alert-message">
+              {message}
+            </span>
+          </AlertModalOuter>
+        ))
+      }
     </AlertModalWrapper>
   );
 }

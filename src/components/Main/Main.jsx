@@ -194,7 +194,7 @@ function Main({ location }) {
             isVideoStopped={isVideoStopped}
           />
           {
-            0 < modalMessages.length &&
+            (modalMessages.length > 0) &&
               <AlertModal
                 handleAlertDelete={setModalMessages}
                 alertMessages={modalMessages}

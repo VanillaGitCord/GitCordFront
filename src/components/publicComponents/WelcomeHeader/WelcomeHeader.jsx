@@ -12,16 +12,6 @@ import route from "../../../constants/routes";
 import MainIcon from "../../publicComponents/MainIcon/MainIcon";
 
 const WelComeHeaderStyle = styled.div`
-  @keyframes spin {
-    0% {
-      transform: rotate(0);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
   display: flex;
   justify-content: space-between;
   align-content: center;
