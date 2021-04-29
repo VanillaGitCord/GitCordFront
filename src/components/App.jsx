@@ -8,7 +8,6 @@ import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Main from "./Main/Main";
 import Error from "./Error/Error";
-import Test from "./Test";
 
 function App() {
   return (

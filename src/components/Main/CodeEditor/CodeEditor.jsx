@@ -67,26 +67,28 @@ function CodeEditor({
 
   useEffect(() => {
     let provider;
+
     if (ref) {
       const ydoc = new Y.Doc();
-      provider = new WebrtcProvider(roomId, ydoc, {signaling: ["ws://localhost:4444"]});
-      provider.awareness.states.set(ydoc.clientID, { user: {color: "red"} });
-
-      const yText = ydoc.getText('codemirror');
+      const yText = ydoc.getText("codemirror");
       const yUndoManager = new Y.UndoManager(yText);
       const editor = CodeMirror.fromTextArea(ref.current, {
-        mode: 'javascript',
+        mode: "javascript",
         lineNumbers: true,
         theme: "material",
         lint: true
       });
 
-      provider.awareness.setLocalState({ user: {
-        color: "yellow",
-        name: currentUser.name
-      }});
+      provider = new WebrtcProvider(roomId, ydoc, {signaling: ["ws://localhost:4444"]});
 
-      const binding = new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
+      provider.awareness.setLocalState({
+        user: {
+          color: "yellow",
+          name: currentUser.name
+        }
+      });
+
+      new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
     }
 
     return () => provider.destroy();
