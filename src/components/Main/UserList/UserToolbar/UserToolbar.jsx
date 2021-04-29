@@ -50,10 +50,12 @@ function UserToolbar({
   const { contents } = useSelector((state) => state.roomReducer);
 
   const handleSaveButtonClick = useCallback(() => {
+    setIsShowDocumentList(false);
     setIsShowSavingToolbar((isShowSavingToolbar) => !isShowSavingToolbar);
   }, []);
 
   const handleDocumentListButtonClick = useCallback(() => {
+    setIsShowSavingToolbar(false);
     setIsShowDocumentList((isShowDocumentList) => !isShowDocumentList);
   }, []);
 
@@ -91,7 +93,7 @@ function UserToolbar({
         />
       </article>
       {
-        isShowSavingToolbar &&
+        (isShowSavingToolbar && !isShowDocumentList) &&
           <SavingToolbar
             alertMessages={alertMessages}
             setAlertMessages={setAlertMessages}
@@ -101,7 +103,7 @@ function UserToolbar({
           />
       }
       {
-        isShowDocumentList &&
+        (isShowDocumentList && !isShowSavingToolbar) &&
           <DocumentList
             alertMessages={alertMessages}
             setAlertMessages={setAlertMessages}

@@ -1,7 +1,8 @@
 import React, {
   useState,
   useRef,
-  useEffect
+  useEffect,
+  useCallback
 } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -60,11 +61,9 @@ function Chat({
     scrollToBottom();
   }, [chatLogs]);
 
-  function handleChatChange(event) {
-    const { value } = event.target;
-
-    setChat(value);
-  }
+  const handleChatChange = useCallback((event) => {
+    setChat(event.target.value);
+  }, []);
 
   function handleChatSubmit(event) {
     event.preventDefault();
@@ -83,16 +82,6 @@ function Chat({
     setChat("");
   }
 
-  function renderChatLogs() {
-    return chatLogs.map((chatLog) => (
-      <ChatLog
-        key={uuidv1()}
-        user={currentUser}
-        chatLog={chatLog}
-      />
-    ));
-  }
-
   return (
     <ChatContainer>
       <article className="chat-title">
@@ -102,7 +91,15 @@ function Chat({
         ref={scrollRef}
         className="chat-area"
       >
-        {renderChatLogs()}
+        {
+          chatLogs.map((chatLog) => (
+            <ChatLog
+              key={uuidv1()}
+              user={currentUser}
+              chatLog={chatLog}
+            />
+          ))
+        }
       </article>
       <ChatInput
         chat={chat}

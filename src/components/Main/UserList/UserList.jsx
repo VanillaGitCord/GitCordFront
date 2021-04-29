@@ -52,7 +52,7 @@ function UserList({
       </article>
       <article className="userlist-participants">
         {
-          userList.map(participant =>
+          userList.map((participant) =>
             <UserInfo
               key={participant.email}
               participant={participant}

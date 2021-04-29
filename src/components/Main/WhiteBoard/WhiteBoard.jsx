@@ -51,12 +51,6 @@ function WhiteBoard({ socket, roomId }) {
   const canvasRef = useRef();
   const canvasouter = useRef();
 
-  let pos = {
-    drawable: false,
-    X: -1,
-    Y: -1
-  };
-
   useEffect(() => {
     if (!canvasRef || !canvasouter) return;
 
@@ -73,6 +67,12 @@ function WhiteBoard({ socket, roomId }) {
     canvas.addEventListener("mousemove", throttle(draw, 50));
     canvas.addEventListener("mouseup", finishDraw);
     canvas.addEventListener("mouseout", finishDraw);
+
+    let pos = {
+      drawable: false,
+      X: -1,
+      Y: -1
+    };
 
     function initDraw(event) {
       pos = { drawable: true, ...getPosition(event) };
@@ -100,7 +100,7 @@ function WhiteBoard({ socket, roomId }) {
       return {
         X: event.offsetX,
         Y: event.offsetY
-      }
+      };
     }
 
     socket.on(RECEIVE_COLOR, (color) => {

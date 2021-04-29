@@ -19,9 +19,9 @@ const SpinnerContainer = styled.div`
     left: calc(50% - 12.5px);
     width: 25px;
     height: 25px;
-    border-top: 8px solid aliceblue;
-    border-right: 8px solid aliceblue;
-    border-bottom: 8px solid aliceblue;
+    border-top: 8px solid #f0f8ff;
+    border-right: 8px solid #f0f8ff;
+    border-bottom: 8px solid #f0f8ff;
     border-left: 8px solid #8c618d;
     border-radius: 50%;
     animation-name: spin;
@@ -33,27 +33,27 @@ const SpinnerContainer = styled.div`
   @keyframes spin {
     0% {
       transform: rotate(0deg);
-      border-left: 8px solid deeppink;
+      border-left: 8px solid #ff1493;
     }
 
     25% {
       transform: rotate(360deg);
-      border-left: 8px solid gold;
+      border-left: 8px solid #ffd700;
     }
 
     50% {
       transform: rotate(720deg);
-      border-left: 8px solid palegreen;
+      border-left: 8px solid #98fb98;
     }
 
     75% {
       transform: rotate(1080deg);
-      border-left: 8px solid aqua;
+      border-left: 8px solid #00ffff;
     }
 
     100% {
       transform: rotate(1440deg);
-      border-left: 8px solid deeppink;
+      border-left: 8px solid #ff1493;
     }
   }
 `;

@@ -8,16 +8,6 @@ import { leaveOwnerRoom } from "../../../actions/roomActions";
 import route from "../../../constants/routes";
 
 const LeaveRoomAlertModalContainer = styled.div`
-  @keyframes slide {
-    from {
-      transform: translateX(-400%);
-    }
-
-    to {
-      transform: translateX(400%);
-    }
-  }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,6 +22,16 @@ const LeaveRoomAlertModalContainer = styled.div`
 
   .leave-count {
     font-size: 1rem;
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(-400%);
+    }
+
+    to {
+      transform: translateX(400%);
+    }
   }
 `;
 
