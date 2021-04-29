@@ -8,7 +8,6 @@ import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Main from "./Main/Main";
 import Error from "./Error/Error";
-import Test from "./Test";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
       <Route path={route.SIGNUP} component={SignUp} />
       <Route path={`${route.MAIN}/:roomId`} component={Main} />
       <Route path={route.ERROR} component={Error} />
-      <Route path={"/test"} component={Test} />
       <Redirect
         from="/*"
         to={{
