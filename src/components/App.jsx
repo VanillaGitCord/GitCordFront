@@ -18,7 +18,6 @@ function App() {
       <Route path={route.SIGNUP} component={SignUp} />
       <Route path={`${route.MAIN}/:roomId`} component={Main} />
       <Route path={route.ERROR} component={Error} />
-      <Route path={"/test"} component={Test} />
       <Redirect
         from="/*"
         to={{

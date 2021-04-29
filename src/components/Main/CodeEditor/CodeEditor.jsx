@@ -1,23 +1,14 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo
-} from "react";
-import {
-  Controlled as ControlledEditor
-} from "react-codemirror2";
+import React, { useEffect, useRef } from "react";
+import * as Y from "yjs";
+import { CodemirrorBinding } from "y-codemirror";
+import { WebrtcProvider } from "y-webrtc";
+import CodeMirror from "codemirror";
 import styled from "styled-components";
-import { throttle } from "lodash";
-import PropTypes from "prop-types";
 
+import "codemirror/";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
-
-import {
-  START_TYPING,
-  STOP_TYPING
-} from "../../../constants/socketEvents";
 
 const CodeEditorContainer = styled.div`
   position: relative;
@@ -41,6 +32,28 @@ const CodeEditorContainer = styled.div`
     color: #ffffff;
     z-index: 4;
   }
+
+  .remote-caret {
+    position: absolute;
+    border-left: black;
+    border-left-style: solid;
+    border-left-width: 2px;
+    height: 1em;
+  }
+
+  .remote-caret > div {
+    position: relative;
+    font-size: 13px;
+    font-family: serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    user-select: none;
+    color: black;
+    padding-left: 2px;
+    padding-right: 2px;
+    z-index: 3;
+  }
 `;
 
 function CodeEditor({
@@ -50,69 +63,40 @@ function CodeEditor({
   roomId,
   contents
 }) {
-  const refreshTypingUser = useCallback(() => {
-    const typingInfo = {
-      typingUser: currentUser,
-      roomId
-    };
-
-    socket.emit(STOP_TYPING, typingInfo);
-  }, [currentUser, roomId, socket]);
-
-  const throllingRefreshTypingUser = useMemo(() =>
-    throttle(refreshTypingUser, 3000),
-    [refreshTypingUser]
-  );
+  const ref = useRef();
 
   useEffect(() => {
-    throllingRefreshTypingUser();
-  }, [contents, throllingRefreshTypingUser]);
+    let provider;
+    if (ref) {
+      const ydoc = new Y.Doc();
+      provider = new WebrtcProvider(roomId, ydoc, {signaling: ["ws://localhost:4444"]});
+      provider.awareness.states.set(ydoc.clientID, { user: {color: "red"} });
 
-  const handleChange = useCallback((editor, data, value) => {
-    const typingInfo = {
-      value,
-      typingUser: currentUser,
-      roomId
-    };
+      const yText = ydoc.getText('codemirror');
+      const yUndoManager = new Y.UndoManager(yText);
+      const editor = CodeMirror.fromTextArea(ref.current, {
+        mode: 'javascript',
+        lineNumbers: true,
+        theme: "material",
+        lint: true
+      });
 
-    socket.emit(START_TYPING, typingInfo);
-  }, [currentUser, roomId, socket]);
+      provider.awareness.setLocalState({ user: {
+        color: "yellow",
+        name: currentUser.name
+      }});
 
-  const throllingTypingUser = useMemo(() =>
-    throttle(handleChange, 75),
-    [handleChange]
-  );
+      const binding = new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
+    }
+
+    return () => provider.destroy();
+  }, [ref]);
 
   return (
     <CodeEditorContainer>
-      <ControlledEditor
-        onBeforeChange={throllingTypingUser}
-        value={contents}
-        options={{
-          lineWrapping: true,
-          lineNumbers: true,
-          lint: true,
-          mode: "javascript",
-          theme: "material",
-          extraKeys: { Enter: false }
-        }}
-      />
-      <article className="typing-user">
-        { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
-      </article>
+      <textarea ref={ref}></textarea>
     </CodeEditorContainer>
   );
 }
-
-CodeEditor.propTypes = {
-  currentUser: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  }),
-  typingUser: PropTypes.array,
-  socket: PropTypes.object.isRequired,
-  roomId: PropTypes.string.isRequired,
-  contents: PropTypes.string.isRequired
-};
 
 export default React.memo(CodeEditor);
