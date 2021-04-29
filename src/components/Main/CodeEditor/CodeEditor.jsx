@@ -79,7 +79,13 @@ function CodeEditor({
         lint: true
       });
 
-      provider = new WebrtcProvider(roomId, ydoc, {signaling: ["ws://localhost:4444"]});
+      provider = new WebrtcProvider(
+        roomId,
+        ydoc,
+        {
+          signaling: [process.env.REACT_APP_Y_SERVER_URL]
+        }
+      );
 
       provider.awareness.setLocalState({
         user: {
