@@ -9,15 +9,6 @@ import "codemirror/theme/base16-light.css";
 import "codemirror/mode/javascript/javascript";
 
 const EditCodeEditorContainer = styled.div`
-  @keyframes upSlide {
-    from {
-      transform: translateY(1000px);
-    }
-    to {
-      transform: translateY(0px);
-    }
-  }
-
   position: relative;
   width: 40%;
   height: 50%;
@@ -33,6 +24,15 @@ const EditCodeEditorContainer = styled.div`
     overflow: hidden;
     z-index: 4;
     animation: upSlide .5s ease-in-out;
+  }
+
+  @keyframes upSlide {
+    from {
+      transform: translateY(1000px);
+    }
+    to {
+      transform: translateY(0px);
+    }
   }
 `;
 

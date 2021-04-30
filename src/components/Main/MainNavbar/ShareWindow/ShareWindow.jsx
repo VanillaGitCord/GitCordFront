@@ -4,15 +4,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const ShareWindowContainer = styled.div`
-  @keyframes fadeOn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
   width: 100%;
   height: 8%;
   padding: 10px;
@@ -39,6 +30,15 @@ const ShareWindowContainer = styled.div`
 
     &:hover {
       color: white;
+    }
+  }
+
+  @keyframes fadeOn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 `;

@@ -12,15 +12,6 @@ const AlertModalWrapper = styled.div`
 `;
 
 const AlertModalOuter = styled.div`
-  @keyframes slide {
-    from {
-      transform: translateX(-300px);
-    }
-    to {
-      transform: translateX(0px);
-    }
-  }
-
   width: 100%;
   height: 7%;
   padding: 0.5em;
@@ -36,6 +27,15 @@ const AlertModalOuter = styled.div`
     font-size: 0.8rem;
     font-weight: bold;
     color: ${props => props.color};
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(-300px);
+    }
+    to {
+      transform: translateX(0px);
+    }
   }
 `;
 
