@@ -66,7 +66,7 @@ function ChatLog({ chatLog, user }) {
     return (
       <SystemLogContainer key={uuidv1()}>
         <span>
-          {chatLog.systemLog}
+          <RiRunLine />{chatLog.systemLog}
         </span>
       </SystemLogContainer>
     );
