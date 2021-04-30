@@ -46,6 +46,13 @@ const ChatLogContainer = styled.div`
   }
 `;
 
+const SystemLogContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 0.8rem;
+`;
+
 function ChatLog({ chatLog, user }) {
   const {
     chatTime,
@@ -53,6 +60,16 @@ function ChatLog({ chatLog, user }) {
     userChat,
     userEmail
   } = chatLog;
+
+  if (!chatTime) {
+    return (
+      <SystemLogContainer key={uuidv1()}>
+        <span>
+          {userName}님이 입장하셨습니다.
+        </span>
+      </SystemLogContainer>
+    );
+  }
 
   return (
     <ChatLogContainer

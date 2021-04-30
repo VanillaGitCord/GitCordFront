@@ -1,14 +1,25 @@
-import React, { useEffect, useRef } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback
+} from "react";
 import * as Y from "yjs";
 import { CodemirrorBinding } from "y-codemirror";
 import { WebrtcProvider } from "y-webrtc";
 import CodeMirror from "codemirror";
 import styled from "styled-components";
+import { throttle } from "lodash";
 
 import "codemirror/";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
+
+import {
+  START_TYPING,
+  STOP_TYPING
+} from "../../../constants/socketEvents";
 
 const CodeEditorContainer = styled.div`
   position: relative;
@@ -35,23 +46,16 @@ const CodeEditorContainer = styled.div`
 
   .remote-caret {
     position: absolute;
-    border-left: black;
-    border-left-style: solid;
-    border-left-width: 2px;
-    height: 1em;
   }
 
   .remote-caret > div {
     position: relative;
     font-size: 13px;
-    font-family: serif;
-    font-style: normal;
-    font-weight: normal;
+    font-weight: bold;
     line-height: normal;
     user-select: none;
     color: black;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 2px;
     z-index: 3;
   }
 `;
@@ -65,6 +69,39 @@ function CodeEditor({
 }) {
   const ref = useRef();
 
+  const refreshTypingUser = useCallback(() => {
+    const typingInfo = {
+      typingUser: currentUser,
+      roomId
+    };
+
+    socket.emit(STOP_TYPING, typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingRefreshTypingUser = useMemo(() =>
+    throttle(refreshTypingUser, 3000),
+    [refreshTypingUser]
+  );
+
+  useEffect(() => {
+    throllingRefreshTypingUser();
+  }, []);
+
+  const handleChange = useCallback(() => {
+    const typingInfo = {
+      value: "",
+      typingUser: currentUser,
+      roomId
+    };
+
+    socket.emit(START_TYPING, typingInfo);
+  }, [currentUser, roomId, socket]);
+
+  const throllingTypingUser = useMemo(() =>
+    throttle(handleChange, 75),
+    [handleChange]
+  );
+
   useEffect(() => {
     let provider;
 
@@ -77,6 +114,16 @@ function CodeEditor({
         lineNumbers: true,
         theme: "material",
         lint: true
+      });
+
+      editor.on("keypress", () => {
+        throllingTypingUser();
+
+        setTimeout(() => {
+          throllingRefreshTypingUser();
+        }, 2000);
+
+        return () => throllingRefreshTypingUser;
       });
 
       provider = new WebrtcProvider(
@@ -102,7 +149,12 @@ function CodeEditor({
 
   return (
     <CodeEditorContainer>
-      <textarea ref={ref}></textarea>
+      <textarea
+        ref={ref}
+      />
+      <article className="typing-user">
+        { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
+      </article>
     </CodeEditorContainer>
   );
 }
