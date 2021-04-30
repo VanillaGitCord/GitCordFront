@@ -55,6 +55,10 @@ const HeaderContainer = styled.div`
     }
   }
 
+  .user-icon {
+    margin-right: 1em;
+  }
+
   .logout-icon {
     border-radius: 20%;
     transition: all .5s ease;
@@ -98,7 +102,7 @@ function WelComeHeader({ currentUser, isLogin = true }) {
                 className="logout-icon"
               />
               <div className="nav-right-user">
-                <FaUserCircle size={30} />
+                <FaUserCircle className="user-icon" size={30} />
                 { currentUser && currentUser.email }
               </div>
             </div>

@@ -1,20 +1,22 @@
 import React, {
+  useCallback,
   useEffect,
-  useRef,
   useMemo,
-  useCallback
+  useState
 } from "react";
-import * as Y from "yjs";
-import { CodemirrorBinding } from "y-codemirror";
-import { WebrtcProvider } from "y-webrtc";
-import CodeMirror from "codemirror";
+import { IoIosArrowDropupCircle } from "react-icons/io";
+import {
+  Controlled as ControlledEditor
+} from "react-codemirror2";
 import styled from "styled-components";
 import { throttle } from "lodash";
+import PropTypes from "prop-types";
 
-import "codemirror/";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript";
+
+import EditCodeEditor from "./EditCodeEditor/EditCodeEditor";
 
 import {
   START_TYPING,
@@ -44,19 +46,24 @@ const CodeEditorContainer = styled.div`
     z-index: 4;
   }
 
-  .remote-caret {
+  .editor-button {
     position: absolute;
-  }
-
-  .remote-caret > div {
-    position: relative;
-    font-size: 13px;
+    width: 3em;
+    height: 3em;
+    left: 47%;
+    bottom: -12%;
     font-weight: bold;
-    line-height: normal;
-    user-select: none;
-    color: black;
-    padding: 2px;
-    z-index: 3;
+    border: none;
+    border-radius: 50%;
+    z-index: 4;
+    color: #ffffff;
+    transition: all .5s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 0, 0.6);
+      color: coral;
+    }
   }
 `;
 
@@ -67,7 +74,11 @@ function CodeEditor({
   roomId,
   contents
 }) {
-  const ref = useRef();
+  const [isShowPrivateEditor, setIsShowPrivateEditor] = useState(false);
+
+  function handlePrivateButtonClick() {
+    setIsShowPrivateEditor((isShowPrivateEditor) => !isShowPrivateEditor);
+  }
 
   const refreshTypingUser = useCallback(() => {
     const typingInfo = {
@@ -85,11 +96,11 @@ function CodeEditor({
 
   useEffect(() => {
     throllingRefreshTypingUser();
-  }, []);
+  }, [contents, throllingRefreshTypingUser]);
 
-  const handleChange = useCallback(() => {
+  const handleChange = useCallback((editor, data, value) => {
     const typingInfo = {
-      value: "",
+      value,
       typingUser: currentUser,
       roomId
     };
@@ -102,61 +113,41 @@ function CodeEditor({
     [handleChange]
   );
 
-  useEffect(() => {
-    let provider;
-
-    if (ref) {
-      const ydoc = new Y.Doc();
-      const yText = ydoc.getText("codemirror");
-      const yUndoManager = new Y.UndoManager(yText);
-      const editor = CodeMirror.fromTextArea(ref.current, {
-        mode: "javascript",
-        lineNumbers: true,
-        theme: "material",
-        lint: true
-      });
-
-      editor.on("keypress", () => {
-        throllingTypingUser();
-
-        setTimeout(() => {
-          throllingRefreshTypingUser();
-        }, 2000);
-
-        return () => throllingRefreshTypingUser;
-      });
-
-      provider = new WebrtcProvider(
-        roomId,
-        ydoc,
-        {
-          signaling: [process.env.REACT_APP_Y_SERVER_URL]
-        }
-      );
-
-      provider.awareness.setLocalState({
-        user: {
-          color: "yellow",
-          name: currentUser.name
-        }
-      });
-
-      new CodemirrorBinding(yText, editor, provider.awareness, { yUndoManager });
-    }
-
-    return () => provider.destroy();
-  }, [ref]);
-
   return (
     <CodeEditorContainer>
-      <textarea
-        ref={ref}
+      <ControlledEditor
+        onBeforeChange={throllingTypingUser}
+        value={contents}
+        options={{
+          lineWrapping: true,
+          lineNumbers: true,
+          lint: true,
+          mode: "javascript",
+          theme: "material",
+          extraKeys: { Enter: false }
+        }}
       />
       <article className="typing-user">
         { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
       </article>
+      <IoIosArrowDropupCircle
+        className="editor-button"
+        onClick={handlePrivateButtonClick}
+      />
+      { isShowPrivateEditor && <EditCodeEditor /> }
     </CodeEditorContainer>
   );
 }
+
+CodeEditor.propTypes = {
+  currentUser: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }),
+  typingUser: PropTypes.array,
+  socket: PropTypes.object.isRequired,
+  roomId: PropTypes.string.isRequired,
+  contents: PropTypes.string.isRequired
+};
 
 export default React.memo(CodeEditor);
