@@ -46,23 +46,16 @@ const CodeEditorContainer = styled.div`
 
   .remote-caret {
     position: absolute;
-    border-left: black;
-    border-left-style: solid;
-    border-left-width: 2px;
-    height: 1em;
   }
 
   .remote-caret > div {
     position: relative;
     font-size: 13px;
-    font-family: serif;
-    font-style: normal;
-    font-weight: normal;
+    font-weight: bold;
     line-height: normal;
     user-select: none;
     color: black;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding: 2px;
     z-index: 3;
   }
 `;
@@ -94,9 +87,9 @@ function CodeEditor({
     throllingRefreshTypingUser();
   }, []);
 
-  const handleChange = useCallback((editor, data, value) => {
+  const handleChange = useCallback(() => {
     const typingInfo = {
-      value,
+      value: "",
       typingUser: currentUser,
       roomId
     };
