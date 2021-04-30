@@ -36,6 +36,7 @@ const CodeEditorContainer = styled.div`
     padding: 5px;
     border-radius: 20px;
     overflow: hidden;
+    z-index: 4;
   }
 
   .typing-user {
@@ -55,13 +56,12 @@ const CodeEditorContainer = styled.div`
     font-weight: bold;
     border: none;
     border-radius: 50%;
-    z-index: 4;
     color: #ffffff;
     cursor: pointer;
 
     &:hover {
       background: rgba(255, 255, 0, 0.6);
-      color: coral;
+      color: #ff7f50;
     }
   }
 
@@ -85,9 +85,9 @@ function CodeEditor({
 }) {
   const [isShowPrivateEditor, setIsShowPrivateEditor] = useState(false);
 
-  function handlePrivateButtonClick() {
+  const handlePrivateButtonClick = useCallback(() => {
     setIsShowPrivateEditor((isShowPrivateEditor) => !isShowPrivateEditor);
-  }
+  }, []);
 
   const refreshTypingUser = useCallback(() => {
     const typingInfo = {

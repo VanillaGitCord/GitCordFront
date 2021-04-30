@@ -4,12 +4,22 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const ShareWindowContainer = styled.div`
+  @keyframes fadeOn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   width: 100%;
   height: 8%;
   padding: 10px;
   background-color: #FF6623;
   text-align: center;
   border-radius: 10px;
+  animation: fadeOn .5s ease-in-out;
 
   span {
     display: block;

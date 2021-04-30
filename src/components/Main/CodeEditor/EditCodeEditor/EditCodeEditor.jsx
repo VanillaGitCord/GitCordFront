@@ -22,7 +22,7 @@ const EditCodeEditorContainer = styled.div`
   width: 40%;
   height: 50%;
   margin: 1em;
-  animation: upSlide .5s ease-in-out;
+
 
   .CodeMirror {
     position: absolute;
@@ -33,14 +33,7 @@ const EditCodeEditorContainer = styled.div`
     border-radius: 20px;
     overflow: hidden;
     z-index: 4;
-  }
-
-  .typing-user {
-    position: absolute;
-    left: 1rem;
-    bottom: 0;
-    color: #ffffff;
-    z-index: 4;
+    animation: upSlide .5s ease-in-out;
   }
 `;
 
