@@ -23,7 +23,6 @@ const EditCodeEditorContainer = styled.div`
   height: 50%;
   margin: 1em;
 
-
   .CodeMirror {
     position: absolute;
     width: 100%;
