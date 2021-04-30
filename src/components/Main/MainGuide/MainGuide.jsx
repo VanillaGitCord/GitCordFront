@@ -58,17 +58,16 @@ const MainGuideContainer = styled.div`
   .editor-guide {
     position: fixed;
     width: 15%;
-    bottom: 5%;
+    bottom: 20%;
     left: 50%;
     border-bottom: 1px solid #ffffff;
-    border-left: 1px solid #ffffff;
     text-align: right;
   }
 
   .chat-guide {
     position: fixed;
     width: 20%;
-    bottom: 15%;
+    bottom: 40%;
     right: 17%;
     border-bottom: 1px solid #ffffff;
     text-align: left;
@@ -78,7 +77,7 @@ const MainGuideContainer = styled.div`
     position: fixed;
     width: 22%;
     bottom: 13%;
-    left: 17%;
+    left: 14%;
     border-bottom: 1px solid #ffffff;
     text-align: right;
   }
@@ -86,9 +85,18 @@ const MainGuideContainer = styled.div`
   .documents-guide {
     position: fixed;
     width: 23%;
-    bottom: 5%;
-    left: 11%;
+    bottom: 4%;
+    left: 10%;
+    border-bottom: 1px solid #ffffff;
     border-left: 1px solid #ffffff;
+    text-align: right;
+  }
+
+  .private-editor-guide {
+    position: fixed;
+    width: 28%;
+    bottom: 2%;
+    left: 53%;
     border-bottom: 1px solid #ffffff;
     text-align: right;
   }
@@ -130,6 +138,10 @@ function MainGuide() {
         <span className="documents-guide">
           내 저장 문서들을 불러오는 버튼입니다.<br />
           문서를 클릭하면 현재 에디터에 내용이 적용됩니다.
+        </span>
+        <span className="private-editor-guide">
+          나의 개인 에디터 화면을 보여주는 버튼입니다.<br />
+          해당 에디터에서 작성하는 내용은 다른 참여자들에게 보여지지 않습니다.
         </span>
       </MainGuideContainer>
     </ModalBackground>

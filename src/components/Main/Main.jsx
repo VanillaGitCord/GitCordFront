@@ -102,7 +102,7 @@ function Main({ location }) {
     });
 
     return () => {
-      socket.emit(BYE, currentUser.email, roomId);
+      socket.emit(BYE, currentUser, roomId);
       dispatch(leaveRoom());
     };
   }, []);

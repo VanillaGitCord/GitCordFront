@@ -10,6 +10,7 @@ const ShareWindowContainer = styled.div`
   background-color: #FF6623;
   text-align: center;
   border-radius: 10px;
+  animation: fadeOn .5s ease-in-out;
 
   span {
     display: block;
@@ -26,6 +27,19 @@ const ShareWindowContainer = styled.div`
     display: inline-block;
     padding-top: 10px;
     cursor: pointer;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  @keyframes fadeOn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 
@@ -54,7 +68,7 @@ function ShareWindow({
       />
       <div className="copy-icon">
         <RiFileCopyLine
-          size={15}
+          size={20}
           onClick={copyUrl}
         />
       </div>

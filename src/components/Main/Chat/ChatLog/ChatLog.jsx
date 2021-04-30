@@ -1,4 +1,5 @@
 import React from "react";
+import { RiRunLine } from "react-icons/ri";
 import { v1 as uuidv1 } from "uuid";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -61,11 +62,11 @@ function ChatLog({ chatLog, user }) {
     userEmail
   } = chatLog;
 
-  if (!chatTime) {
+  if (chatLog.systemLog) {
     return (
       <SystemLogContainer key={uuidv1()}>
         <span>
-          {userName}님이 입장하셨습니다.
+          <RiRunLine />{chatLog.systemLog}
         </span>
       </SystemLogContainer>
     );
