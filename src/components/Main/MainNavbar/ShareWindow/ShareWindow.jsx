@@ -26,6 +26,10 @@ const ShareWindowContainer = styled.div`
     display: inline-block;
     padding-top: 10px;
     cursor: pointer;
+
+    &:hover {
+      color: white;
+    }
   }
 `;
 
@@ -54,7 +58,7 @@ function ShareWindow({
       />
       <div className="copy-icon">
         <RiFileCopyLine
-          size={15}
+          size={20}
           onClick={copyUrl}
         />
       </div>

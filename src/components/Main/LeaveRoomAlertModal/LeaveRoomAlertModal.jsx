@@ -26,11 +26,11 @@ const LeaveRoomAlertModalContainer = styled.div`
 
   @keyframes slide {
     from {
-      transform: translateX(-400%);
+      transform: translateX(-500%);
     }
 
     to {
-      transform: translateX(400%);
+      transform: translateX(550%);
     }
   }
 `;

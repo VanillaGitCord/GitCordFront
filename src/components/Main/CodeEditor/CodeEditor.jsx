@@ -57,13 +57,22 @@ const CodeEditorContainer = styled.div`
     border-radius: 50%;
     z-index: 4;
     color: #ffffff;
-    transition: all .5s ease;
     cursor: pointer;
 
     &:hover {
       background: rgba(255, 255, 0, 0.6);
       color: coral;
     }
+  }
+
+  .show {
+    transform: rotate(180deg);
+    transition: transform .5s linear;
+  }
+
+  .hide {
+    transform: rotate(0deg);
+    transition: transform .5s linear;
   }
 `;
 
@@ -131,7 +140,7 @@ function CodeEditor({
         { typingUsers.length > 0 && `${typingUsers.join(", ")} is typing...` }
       </article>
       <IoIosArrowDropupCircle
-        className="editor-button"
+        className={isShowPrivateEditor ? "editor-button show" : "editor-button hide"}
         onClick={handlePrivateButtonClick}
       />
       { isShowPrivateEditor && <EditCodeEditor /> }

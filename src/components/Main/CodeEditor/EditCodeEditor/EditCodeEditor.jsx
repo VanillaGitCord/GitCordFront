@@ -9,7 +9,7 @@ import "codemirror/theme/base16-light.css";
 import "codemirror/mode/javascript/javascript";
 
 const EditCodeEditorContainer = styled.div`
-@keyframes upSlide {
+  @keyframes upSlide {
     from {
       transform: translateY(1000px);
     }
