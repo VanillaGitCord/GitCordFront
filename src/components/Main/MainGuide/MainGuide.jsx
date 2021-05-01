@@ -10,7 +10,7 @@ const MainGuideContainer = styled.div`
 
   .back-button-guide {
     position: fixed;
-    width: 15%;
+    width: 19%;
     top: 10%;
     left: 4%;
     border-bottom: 1px solid #ffffff;
@@ -30,7 +30,7 @@ const MainGuideContainer = styled.div`
 
   .toggle-guide {
     position: fixed;
-    width: 20%;
+    width: 25%;
     top: 1%;
     right: 30%;
     border-bottom: 1px solid #ffffff;
@@ -38,7 +38,7 @@ const MainGuideContainer = styled.div`
 
   .share-button-guide {
     position: fixed;
-    width: 21%;
+    width: 22%;
     top: 7%;
     right: 1%;
     border-bottom: 1px solid #ffffff;
@@ -48,7 +48,7 @@ const MainGuideContainer = styled.div`
 
   .user-list-guide {
     position: fixed;
-    width: 15%;
+    width: 20%;
     top: 20%;
     left: 17%;
     border-bottom: 1px solid #ffffff;
@@ -57,7 +57,7 @@ const MainGuideContainer = styled.div`
 
   .editor-guide {
     position: fixed;
-    width: 15%;
+    width: 20%;
     bottom: 20%;
     left: 50%;
     border-bottom: 1px solid #ffffff;
@@ -66,7 +66,7 @@ const MainGuideContainer = styled.div`
 
   .chat-guide {
     position: fixed;
-    width: 20%;
+    width: 22%;
     bottom: 40%;
     right: 17%;
     border-bottom: 1px solid #ffffff;
@@ -75,7 +75,7 @@ const MainGuideContainer = styled.div`
 
   .save-guide {
     position: fixed;
-    width: 22%;
+    width: 25%;
     bottom: 13%;
     left: 14%;
     border-bottom: 1px solid #ffffff;
@@ -84,9 +84,9 @@ const MainGuideContainer = styled.div`
 
   .documents-guide {
     position: fixed;
-    width: 23%;
-    bottom: 4%;
-    left: 10%;
+    width: 26%;
+    bottom: 2%;
+    left: 9%;
     border-bottom: 1px solid #ffffff;
     border-left: 1px solid #ffffff;
     text-align: right;
@@ -94,7 +94,7 @@ const MainGuideContainer = styled.div`
 
   .private-editor-guide {
     position: fixed;
-    width: 28%;
+    width: 35%;
     bottom: 2%;
     left: 53%;
     border-bottom: 1px solid #ffffff;

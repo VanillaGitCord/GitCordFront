@@ -10,26 +10,26 @@ const ChannelListGuideContainer = styled.div`
 
   .enter-room-guide {
     position: fixed;
-    width: 23%;
+    width: 25%;
     top: 17%;
-    left: 7%;
+    left: 4%;
     border-bottom: 1px solid #ffffff;
   }
 
   .create-room-guide {
     position: fixed;
-    width: 23%;
-    top: 17%;
-    right: 7%;
+    width: 26%;
+    top: 16%;
+    right: 3%;
     border-bottom: 1px solid #ffffff;
     text-align: right;
   }
 
   .actived-room-guide {
     position: fixed;
-    width: 23%;
+    width: 28%;
     top: 50%;
-    right: 5%;
+    right: 1%;
     border-bottom: 1px solid #ffffff;
     text-align: right;
   }
