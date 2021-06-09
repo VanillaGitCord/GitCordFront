@@ -1,5 +1,7 @@
 # GitCord
 
+<img src="./readmeAssets/images/GitCordIntro.png" />
+
 GitCord는 하나의 방에 여러 유저들이 모여 **실시간으로 음성, 화상으로 소통하며 코드를 작성할 수 있는 웹 어플리케이션입니다.**
 
 ## Motivation
