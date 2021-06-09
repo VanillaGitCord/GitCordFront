@@ -40,17 +40,9 @@ GitCord는 하나의 방에 여러 유저들이 모여 **실시간으로 음성,
 
 <img src="./readmeAssets/images/typeCodeAndChat.gif" />
 
-## Guide Modal
-
-<img src="./readmeAssets/images/guideModal.gif" />
-
 ## White Board
 
 <img src="./readmeAssets/images/whiteBoard.gif" />
-
-## Save code
-
-<img src="./readmeAssets/images/saveCode.gif" />
 
 ## Delete & Load code
 
