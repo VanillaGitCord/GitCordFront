@@ -4,6 +4,8 @@
 
 GitCord는 하나의 방에 여러 유저들이 모여 **실시간으로 음성, 화상으로 소통하며 코드를 작성할 수 있는 웹 어플리케이션입니다.**
 
+👉Backend Address: <a href="https://github.com/VanillaGitCord/GitCordBack">https://github.com/VanillaGitCord/GitCordBack</a>
+
 ## Motivation
 
 1. 웹의 장점: 앱 어플리케이션과 비교했을 때 웹 어플리케이션의 장점은 접근성과 편리함 보단 <b>"생산성"</b>이라고 생각했고,
